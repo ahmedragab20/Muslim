@@ -1,1 +1,2 @@
 [1]: Add localizations (i18n/nuxt)
+[2]: Add ZOD
