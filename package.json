@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "muslim",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -8,9 +8,14 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.11"
+  },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^18",
-    "nuxt": "^3.5.2"
+    "nuxt": "^3.5.2",
+    "@nuxthq/ui": "^2.0.4",
+    "@nuxtjs/google-fonts": "^3.0.1"
   }
 }
