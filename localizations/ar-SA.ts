@@ -11,6 +11,7 @@ export default {
     language: 'اللغة',
     rememberSettings: 'تذكر الإعدادات',
     apply: 'تطبيق',
+    updatedToast: 'تم تحديث الإعدادات',
   },
   links: {
     aboutTheDeveloper: 'عن المطور',

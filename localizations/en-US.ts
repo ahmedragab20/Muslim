@@ -10,6 +10,7 @@ export default {
     language: 'Language',
     rememberSettings: 'Remember Settings',
     apply: 'Apply',
+    updatedToast: 'Settings Updated',
   },
   links: {
     aboutTheDeveloper: 'About the Developer',

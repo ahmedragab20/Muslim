@@ -30,6 +30,7 @@
   </UModal>
 </template>
 <script setup lang="ts">
+  const { t } = useI18n();
   const { metaSymbol } = useShortcuts();
   const toast = useToast();
 
@@ -46,7 +47,7 @@
   const onSettingsClose = (haveDataChanged?: boolean) => {
     settingsModal.value = false;
 
-    if (haveDataChanged) toast.add({ title: `your settings have been saved correctly` });
+    if (haveDataChanged) toast.add({ title: t('settings.updatedToast') });
   };
 
   defineShortcuts({
