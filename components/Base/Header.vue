@@ -13,7 +13,7 @@
     </div>
     <!-- Logo -->
     <div class="sm:w-[70%] flex justify-center items-center py-1">
-      <NuxtLink to="/" class="text-2xl font-headline rtl:font-quranic">
+      <NuxtLink to="/" class="text-2xl rtl:text-3xl font-quranic">
         <span class="text-primary-500">
           {{ $t('base.appTitle') }}
         </span>

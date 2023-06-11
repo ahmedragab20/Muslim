@@ -31,13 +31,14 @@
 
         appConfig.ui.primary = settings.color?.primary || 'green';
         appConfig.ui.gray = settings.color?.secondary || 'cool';
+        locale.value = settings.language || 'en';
+        locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'ltr');
       }
     }
   };
 
   onMounted(async () => {
     initTheme();
-    locale.value.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'rtl');
     loaded.value = true;
   });
 </script>

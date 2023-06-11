@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <UButton variant="soft" icon="i-heroicons-globe-alt" @click="switchLocale">
-      {{ locale === 'en' ? 'عربى' : 'English' }}
+  <div class="flex flex-wrap gap-2">
+    <UButton :variant="locale.includes('en') ? 'solid' : 'soft'" @click="switchLocale">
+      English
+    </UButton>
+    <UButton :variant="locale.includes('ar') ? 'solid' : 'soft'" @click="switchLocale">
+      العربية
     </UButton>
   </div>
 </template>
 <script setup lang="ts">
-  const { locale } = useI18n();
+  const props = defineProps<{
+    locale: string;
+  }>();
+  const emit = defineEmits<{
+    (e: 'locale-updated', newLocale: string): void;
+  }>();
 
   const switchLocale = () => {
-    locale.value === 'en' ? (locale.value = 'ar') : (locale.value = 'en');
+    const newLocale: string = props.locale === 'en' ? 'ar' : 'en';
+    emit('locale-updated', newLocale);
   };
-
-  watch(
-    () => locale.value,
-    (val) => {
-      locale.value.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'ltr');
-    }
-  );
 </script>

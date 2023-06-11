@@ -1,8 +1,10 @@
 <template>
-  <UCard>
+  <AppCard>
     <template #header>
       <div>
-        <h3 class="text-2xl font-semibold text-primary-500">Settings</h3>
+        <h3 class="text-2xl font-semibold text-primary-500">
+          {{ $t('base.settings') }}
+        </h3>
       </div>
     </template>
 
@@ -12,7 +14,9 @@
       <div>
         <!-- primary -->
         <div>
-          <h5 class="mb-1 text-gray-500">Primary color</h5>
+          <h5 class="mb-1 text-gray-500 text-start">
+            {{ $t('settings.primaryColor') }}
+          </h5>
           <div class="flex w-full gap-2 px-1 py-2 overflow-x-auto">
             <div
               v-for="color in primaryColorsSorted"
@@ -34,7 +38,9 @@
         </div>
         <!-- secondary -->
         <div>
-          <h5 class="mb-1 text-gray-500">Secondary color</h5>
+          <h5 class="my-1 text-gray-500 text-start">
+            {{ $t('settings.secondaryColor') }}
+          </h5>
 
           <div class="flex w-full gap-2 px-1 py-2 overflow-x-auto">
             <div
@@ -58,8 +64,12 @@
       </div>
 
       <!-- Toggle languages -->
-      <!-- TODO:: Only Apply it on save -->
-      <AppLanguageToggle />
+      <div>
+        <h5 class="mb-1 text-gray-500 text-start">
+          {{ $t('settings.language') }}
+        </h5>
+        <AppLanguageToggle class="mt-3" @locale-updated="localeUpdated" :locale="componentLocale" />
+      </div>
 
       <!-- modes -->
       <div class="flex mt-4">
@@ -137,7 +147,7 @@
           </UTooltip>
 
           <div class="flex items-center gap-1 md:hidden">
-            <p class="text-sm">Remember the changes:</p>
+            <p class="text-sm text-start">Remember the changes:</p>
             <UToggle
               v-model="rememberChanges"
               icon-on="i-heroicons-check-20-solid"
@@ -147,7 +157,7 @@
         </div>
       </div>
     </template>
-  </UCard>
+  </AppCard>
 </template>
 <script setup lang="ts">
   import colors from '#tailwind-config/theme/colors';
@@ -155,8 +165,18 @@
     (e: 'close', haveDataChanged?: boolean): void;
   }>();
 
+  const { locale } = useI18n();
   const colorMode = useColorMode();
   const appConfig = useAppConfig();
+
+  const componentLocale = ref(locale.value);
+  const localeUpdated = (newLocale: string): void => {
+    componentLocale.value = newLocale;
+  };
+  const submitLocaleUpdate = (): void => {
+    locale.value = componentLocale.value;
+    locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'ltr');
+  };
 
   const primaryColorsSorted = computed<string[]>(() => {
     const blockedColors = ['black', 'white', 'transparent', 'red', 'rose', 'primary'];
@@ -250,6 +270,7 @@
 
   const haveDataChanged = computed<boolean>(() => {
     return (
+      locale.value !== componentLocale.value ||
       primaryColor.value !== appConfig.ui.primary ||
       secondaryColor.value !== appConfig.ui.gray ||
       colorModeChanged.value
@@ -260,6 +281,7 @@
 
   const appSettings = computed(() => {
     return {
+      language: componentLocale.value,
       mode: selectedTheme.value,
       color: {
         primary: primaryColor.value,
@@ -302,12 +324,13 @@
         colorMode.preference = selectedTheme.value;
       }
     }
-
+    submitLocaleUpdate();
     updateThemeLocally();
     emit('close', true);
   };
 
   onMounted(() => {
+    locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'rtl');
     primaryColor.value = appConfig.ui.primary;
     secondaryColor.value = appConfig.ui.gray;
 
