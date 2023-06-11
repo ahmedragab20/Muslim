@@ -2,6 +2,8 @@ export default {
   base: {
     appTitle: 'مُسْلِم',
     settings: 'الإعدادات',
+    me: 'أنا',
+    thisIsTheGuy: 'هو ده الراجل ياباشا',
   },
   settings: {
     primaryColor: 'اللون الأساسي',
@@ -9,6 +11,10 @@ export default {
     language: 'اللغة',
     rememberSettings: 'تذكر الإعدادات',
     apply: 'تطبيق',
+  },
+  links: {
+    aboutTheDeveloper: 'عن المطور',
+    proTips: 'اختصارات',
   },
   welcome: 'مرحبا',
   footer: {
