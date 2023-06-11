@@ -9,4 +9,8 @@ export default {
     language: 'Language',
   },
   welcome: 'Welcome to Nuxt.js!',
+  footer: {
+    madeWith: 'Made with',
+    by: 'by',
+  },
 };

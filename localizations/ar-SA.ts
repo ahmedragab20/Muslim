@@ -9,4 +9,8 @@ export default {
     language: 'اللغة',
   },
   welcome: 'مرحبا',
+  footer: {
+    madeWith: 'صُنع بواسطة',
+    by: 'بواسطة',
+  },
 };

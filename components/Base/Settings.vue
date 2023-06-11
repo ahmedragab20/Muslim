@@ -330,7 +330,7 @@
   };
 
   onMounted(() => {
-    locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'rtl');
+    // locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'rtl');
     primaryColor.value = appConfig.ui.primary;
     secondaryColor.value = appConfig.ui.gray;
 

@@ -4,9 +4,9 @@
     <NuxtLayout></NuxtLayout>
 
     <!-- Footer -->
-    <div class="py-10 px-4 flex justify-center items-center">
+    <div class="flex items-center justify-center px-4 py-10">
       Made with ❤️ by
-      <a href="https://github.com/ahmedragab20" target="_blank" class="text-primary-500 mx-1">
+      <a href="https://github.com/ahmedragab20" target="_blank" class="mx-1 text-primary-500">
         Ragab
       </a>
       <small class="text-gray-400 dark:text-gray-500">&copy; 2023</small>
