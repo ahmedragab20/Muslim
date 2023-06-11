@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-between w-full min-h-[8vh] backdrop-blur-md px-1 sm:px-0 z-[1000]">
     <!-- settings -->
-    <div class="sm:w-[15%] min-h-full flex justify-center items-center px-1 py-1 sm:px-1">
-      <UTooltip class="hidden sm:flex" text="app settings" :shortcuts="[metaSymbol, '.']">
+    <div class="w-[15%] min-h-full flex justify-center items-center px-1 py-1 sm:px-1">
+      <UTooltip text="app settings" :shortcuts="[metaSymbol, '.']">
         <UButton
           @click="settingsToggler"
           icon="i-heroicons-cog"
@@ -12,7 +12,7 @@
       </UTooltip>
     </div>
     <!-- Logo -->
-    <div class="sm:w-[70%] flex justify-center items-center py-1">
+    <div class="w-[70%] flex justify-center items-center py-1">
       <NuxtLink to="/" class="text-2xl rtl:text-3xl font-quranic">
         <span class="text-primary-500">
           {{ $t('base.appTitle') }}
@@ -20,7 +20,7 @@
       </NuxtLink>
     </div>
     <!-- menu -->
-    <div class="sm:w-[15%] flex justify-center items-center min-h-full py-1 px-1 sm:px-4">
+    <div class="w-[15%] flex justify-center items-center min-h-full py-1 px-1 sm:px-4">
       <BaseLinks />
     </div>
   </div>

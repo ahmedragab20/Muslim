@@ -1,6 +1,6 @@
 <template>
   <div
-    class="initial:w-full initial:h-px initial:bg-slate-100 initial:dark:bg-slate-800"
+    class="initial:w-full initial:h-px initial:bg-gray-50 initial:dark:bg-gray-900"
     :class="props.classes"
   ></div>
 </template>

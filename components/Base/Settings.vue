@@ -138,7 +138,7 @@
           />
         </div>
         <div class="flex items-center">
-          <UTooltip class="hidden md:flex" text="Remember the changes">
+          <UTooltip class="hidden md:flex" :text="$t('settings.rememberSettings')">
             <AppToggle v-model="rememberChanges" />
           </UTooltip>
 
