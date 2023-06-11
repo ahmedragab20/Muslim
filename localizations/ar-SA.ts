@@ -7,6 +7,8 @@ export default {
     primaryColor: 'اللون الأساسي',
     secondaryColor: 'اللون الثانوي',
     language: 'اللغة',
+    rememberSettings: 'تذكر الإعدادات',
+    apply: 'تطبيق',
   },
   welcome: 'مرحبا',
   footer: {

@@ -133,26 +133,17 @@
               rounded: 'rounded-full',
             }"
             icon="i-heroicons-check-20-solid"
-            label="Apply"
+            :label="$t('settings.apply')"
             @click="applyChanges"
           />
         </div>
         <div class="flex items-center">
           <UTooltip class="hidden md:flex" text="Remember the changes">
-            <UToggle
-              v-model="rememberChanges"
-              icon-on="i-heroicons-check-20-solid"
-              icon-off="i-heroicons-x-mark-20-solid"
-            />
+            <AppToggle v-model="rememberChanges" />
           </UTooltip>
 
-          <div class="flex items-center gap-1 md:hidden">
-            <p class="text-sm text-start">Remember the changes:</p>
-            <UToggle
-              v-model="rememberChanges"
-              icon-on="i-heroicons-check-20-solid"
-              icon-off="i-heroicons-x-mark-20-solid"
-            />
+          <div class="md:hidden">
+            <AppToggle v-model="rememberChanges" :label="$t('settings.rememberSettings')" />
           </div>
         </div>
       </div>

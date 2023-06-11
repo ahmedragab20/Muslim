@@ -7,6 +7,8 @@ export default {
     primaryColor: 'Primary Color',
     secondaryColor: 'Secondary Color',
     language: 'Language',
+    rememberSettings: 'Remember Settings',
+    apply: 'Apply',
   },
   welcome: 'Welcome to Nuxt.js!',
   footer: {
