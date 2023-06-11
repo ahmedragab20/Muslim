@@ -1,8 +1,8 @@
 <template>
-  <AppCard>
+  <UCard>
     <template #header>
       <div>
-        <h3 class="text-2xl font-semibold text-primary-500">
+        <h3 class="text-2xl font-semibold text-primary-500 text-start">
           {{ $t('base.settings') }}
         </h3>
       </div>
@@ -148,7 +148,7 @@
         </div>
       </div>
     </template>
-  </AppCard>
+  </UCard>
 </template>
 <script setup lang="ts">
   import colors from '#tailwind-config/theme/colors';
