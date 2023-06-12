@@ -1,5 +1,5 @@
-import ar from '@/localizations/ar-SA';
-import en from '@/localizations/en-US';
+import ar from '@/localizations/ar-SA.json';
+import en from '@/localizations/en-US.json';
 
 export default defineI18nConfig(() => ({
   legacy: false,
