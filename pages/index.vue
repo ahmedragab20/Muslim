@@ -27,7 +27,7 @@
       </div>
 
       <div class="mt-10">
-        <UButton :label="`${$t('explore')} ${$t('sections')}`" />
+        <UButton :label="`${$t('explore')} ${$t('sections')}`" icon="i-heroicons-rectangle-stack" />
       </div>
     </div>
   </div>
