@@ -21,6 +21,10 @@ export default defineNuxtConfig({
     langDir: 'localizations',
     defaultLocale: 'en',
   },
+  colorMode: {
+    preference: 'dark', // default value of $colorMode.preference
+    fallback: 'dark', // fallback value if not system preference found
+  },
   pinia: {
     autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
   },
