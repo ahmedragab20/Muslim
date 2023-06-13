@@ -4,8 +4,8 @@
     <NuxtLayout></NuxtLayout>
 
     <!-- Footer -->
-    <div class="flex items-center justify-center px-4 py-10">
-      Made with ❤️ by
+    <div dir="ltr" class="flex items-center justify-center px-4 py-10">
+      Made with 💚 by
       <a href="https://github.com/ahmedragab20" target="_blank" class="mx-1 text-primary-500">
         Ragab
       </a>
