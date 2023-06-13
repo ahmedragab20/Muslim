@@ -1,2 +1,4 @@
-[1]: Add localizations (i18n/nuxt)
+[1]: Add localizations (i18n/nuxt) ✅
 [2]: Add ZOD
+[3]: Add Time Hijry
+[4]: Also make the cursor affect the shades anywhere from the screen
