@@ -6,3 +6,6 @@
 [6]: islamic radio [arabic + english]
 [7]: verse of the day
 [8]: prayers time + next pray counter
+[9]: hadith
+[10]: popular youtube channels to help the muslims through the path
+[11]: islamic resources (books, articles, libraries, ...etc)
