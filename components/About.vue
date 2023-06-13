@@ -3,7 +3,7 @@
     <template #header>
       <div>
         <h3 class="font-headline text-start">
-          {{ $t('base.thisIsTheGuy') }}
+          {{ $t('links.thisIsTheGuy') }}
         </h3>
       </div>
     </template>
