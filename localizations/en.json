@@ -20,8 +20,15 @@
     "proTips": "Pro Tips",
     "thisIsTheGuy": "This is the guy"
   },
-  "tools": "Your Tools",
-  "toolsDescription": "You can use these tools to help you with your daily Awrad.",
+  "explore": "Explore",
+  "sections": "Sections",
+  "sectionsList": {
+    "quraan": "quraan",
+    "duaa": "duaa",
+    "azkaar": "azkaar",
+    "prayers": "prayers",
+    "nation": "nation"
+  },
   "footer": {
     "madeWith": "Made with",
     "by": "by"

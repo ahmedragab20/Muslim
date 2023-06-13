@@ -1,3 +1,7 @@
 .font-quranic {
   font-family: 'Al Qalam Quran', sans-serif;
 }
+
+body {
+  @apply font-sans;
+}

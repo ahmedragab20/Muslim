@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div>
-        <h3 class="text-2xl font-semibold text-primary-500 text-start">
+        <h3 class="text-2xl text-primary-500 text-start">
           {{ $t('base.settings') }}
         </h3>
       </div>

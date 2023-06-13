@@ -20,8 +20,15 @@
     "aboutTheDeveloper": "عن المطور",
     "proTips": "اختصارات"
   },
-  "tools": "أدواتك",
-  "toolsDescription": "يمكنك استخدام هذه الأدوات لمساعدتك في أورادك اليومية.",
+  "explore": "استكشف",
+  "sections": "الأقسام",
+  "sectionsList": {
+    "quraan": "ٱلْقُرْآنِ",
+    "duaa": "ٱلدُّعَاءِ",
+    "azkaar": "ٱلْأَذْكَارِ",
+    "prayers": "ٱلصَّلَوَاتِ",
+    "nation": "ٱلْأُمَّة"
+  },
   "footer": {
     "madeWith": "صُنع بواسطة",
     "by": "بواسطة"
