@@ -1,4 +1,8 @@
-[1]: Add localizations (i18n/nuxt) ✅
-[2]: Add ZOD
-[3]: Add Time Hijry
+[1]: localizations (i18n/nuxt) ✅
+[2]: ZOD
+[3]: Time Hijry
 [4]: Also make the cursor affect the shades anywhere from the screen
+[5]: authentication system
+[6]: islamic radio [arabic + english]
+[7]: verse of the day
+[8]: prayers time + next pray counter
