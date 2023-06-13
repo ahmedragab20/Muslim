@@ -21,6 +21,12 @@ export default defineNuxtConfig({
     langDir: 'localizations',
     defaultLocale: 'en',
   },
+  // app: {
+  //   pageTransition: {
+  //     name: 'fade',
+  //     mode: 'out-in', // default
+  //   },
+  // },
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
     fallback: 'dark', // fallback value if not system preference found
