@@ -15,31 +15,36 @@
   </div>
 </template>
 <script setup lang="ts">
+  import { useAuthStore } from '~/stores/auth';
+  import { AuthLand } from '~/types';
+  const authStore = useAuthStore();
   const { t } = useI18n();
 
+  const chooseAuthLand = (land: AuthLand) => {
+    authStore.chooseAuthLand(land);
+    authStore.toggleAuthLanded(true);
+  };
+
   const links = [
-    [
-      {
-        label: t('links.login'),
-        icon: 'i-heroicons-user-circle',
-        shortcuts: ['L'],
-        click: () => {
-          Debug.log({
-            message: 'Login',
-          });
-        },
-      },
-      {
-        label: t('links.register'),
-        icon: 'i-heroicons-at-symbol',
-        shortcuts: ['R'],
-        click: () => {
-          Debug.log({
-            message: 'Register',
-          });
-        },
-      },
-    ],
+    // TODO: will pause this for now
+    // [
+    //   {
+    //     label: t('links.login'),
+    //     icon: 'i-heroicons-user-circle',
+    //     shortcuts: ['L'],
+    //     click: () => {
+    //       chooseAuthLand('login');
+    //     },
+    //   },
+    //   {
+    //     label: t('links.register'),
+    //     icon: 'i-heroicons-at-symbol',
+    //     shortcuts: ['R'],
+    //     click: () => {
+    //       chooseAuthLand('register');
+    //     },
+    //   },
+    // ],
     [
       {
         label: t('links.aboutTheDeveloper'),
@@ -58,18 +63,18 @@
         },
       },
     ],
-    [
-      {
-        label: t('links.logout'),
-        icon: 'i-heroicons-arrow-left-on-rectangle',
-        shortcuts: ['O'],
-        click: () => {
-          Debug.log({
-            message: 'Logout',
-          });
-        },
-      },
-    ],
+    // [ TODO: will pause this for now
+    //   {
+    //     label: t('links.logout'),
+    //     icon: 'i-heroicons-arrow-left-on-rectangle',
+    //     shortcuts: ['O'],
+    //     click: () => {
+    //       Debug.log({
+    //         message: 'Logout',
+    //       });
+    //     },
+    //   },
+    // ],
   ];
 
   const dropdownPreset = {

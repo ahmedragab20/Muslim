@@ -106,7 +106,6 @@
         toast.add({
           title: 'Login Success',
           description: 'You have successfully logged in',
-          type: 'success',
         });
         if (process.client) window.location.reload();
       })

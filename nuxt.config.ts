@@ -21,10 +21,11 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
   },
   vuefire: {
+    /*  We're gonna pause the authentication work until we finish the important parts in the aoo  */
     auth: true,
-    admin: {
-      serviceAccount: './service-account.json',
-    },
+    // admin: {
+    //   serviceAccount: './service-account.json',
+    // },
     config: {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
       authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

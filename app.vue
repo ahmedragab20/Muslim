@@ -15,6 +15,11 @@
     <!-- 🤷🏻‍♂️ - so global -->
     <!-- Toasts -->
     <UNotifications />
+
+    <!-- Modals -->
+    <UModal v-model="authStore.authLanded">
+      <AuthLand :target="chosenAuthLand" />
+    </UModal>
   </div>
   <div v-else class="flex justify-center items-center flex-col h-screen gap-4">
     <div v-for="n in 4" :key="n">
@@ -29,10 +34,16 @@
   </div>
 </template>
 <script setup lang="ts">
+  import { useAuthStore } from '~/stores/auth';
+
+  type AuthLand = 'login' | 'register' | 'forgot' | 'reset' | 'verify'; //TODO:: search why it fails to be imported if you added it in types/index.ts
+  const authStore = useAuthStore();
   const { locale } = useI18n();
   const appConfig = useAppConfig();
   const appSettings = ref();
   const loaded = ref(false);
+
+  const chosenAuthLand = computed<AuthLand>(() => authStore.chosenAuthLand); // fallback to login
 
   const initTheme = () => {
     if (process.client) {
