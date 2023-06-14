@@ -1,4 +1,4 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import config from './config';
 export default defineNuxtConfig({
   css: ['@/assets/css/core.css', '@/assets/css/main.css'],
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n', 'nuxt-vuefire'],
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   vuefire: {
     auth: true,
     admin: {
-      serviceAccount: './service-account.json',
+      serviceAccount: config.serviceAccount,
     },
     config: {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
