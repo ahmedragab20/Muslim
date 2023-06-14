@@ -13,7 +13,7 @@ dependencies:
     version: 9.22.2
   nuxt-vuefire:
     specifier: ^0.1.6
-    version: 0.1.6(@firebase/app-types@0.9.0)(firebase-admin@11.8.0)(firebase@9.22.2)(vuefire@3.1.0)
+    version: 0.1.6(@firebase/app-types@0.9.0)(firebase-admin@11.9.0)(firebase@9.22.2)(vuefire@3.1.0)
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^20.3.1
     version: 20.3.1
   firebase-admin:
-    specifier: ^11.8.0
-    version: 11.8.0
+    specifier: ^11.9.0
+    version: 11.9.0
   nuxt:
     specifier: ^3.5.3
     version: 3.5.3(@types/node@20.3.1)
@@ -4489,8 +4489,8 @@ packages:
       path-exists: 4.0.0
     dev: true
 
-  /firebase-admin@11.8.0:
-    resolution: {integrity: sha512-RxO0wWDnuqVikXExhVjnhVaaXpziKCad4D1rOX5c1WJdk1jAu9hfE4rbrFKZQZgF1okZS04kgCBIFJro7xn8NQ==}
+  /firebase-admin@11.9.0:
+    resolution: {integrity: sha512-My7qrInVZFmImX8aTulrp9kgY6d88Wn+ie8UIXKzZ3SJqQQhDwFT7Q3pgQXK9RfdsUtcxJJ3rCK7MWBm4GGtuw==}
     engines: {node: '>=14'}
     dependencies:
       '@fastify/busboy': 1.2.1
@@ -6621,7 +6621,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /nuxt-vuefire@0.1.6(@firebase/app-types@0.9.0)(firebase-admin@11.8.0)(firebase@9.22.2)(vuefire@3.1.0):
+  /nuxt-vuefire@0.1.6(@firebase/app-types@0.9.0)(firebase-admin@11.9.0)(firebase@9.22.2)(vuefire@3.1.0):
     resolution: {integrity: sha512-jK/ci0iCEHJ46aK9tm84CwNskmp1AgR0MD8XyjNb9ICZgTQnoTPPy+yJ3hSt2bw99bklWKMbFJ2pP30aIMC8sQ==}
     peerDependencies:
       '@firebase/app-types': '>=0.8.1'
@@ -6640,7 +6640,7 @@ packages:
       '@firebase/app-types': 0.9.0
       '@nuxt/kit': 3.5.3
       firebase: 9.22.2
-      firebase-admin: 11.8.0
+      firebase-admin: 11.9.0
       lru-cache: 7.18.3
       vuefire: 3.1.0(firebase@9.22.2)(vue@3.3.4)
     transitivePeerDependencies:
