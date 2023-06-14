@@ -18,7 +18,10 @@
   },
   "links": {
     "aboutTheDeveloper": "عن المطور",
-    "proTips": "اختصارات"
+    "proTips": "اختصارات",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "register": "إنشاء حساب"
   },
   "explore": "استكشف",
   "sections": "الأقسام",

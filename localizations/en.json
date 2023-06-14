@@ -18,7 +18,10 @@
   "links": {
     "aboutTheDeveloper": "About the Developer",
     "proTips": "Pro Tips",
-    "thisIsTheGuy": "This is the guy"
+    "thisIsTheGuy": "This is the guy",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
   },
   "explore": "Explore",
   "sections": "Sections",

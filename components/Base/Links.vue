@@ -20,6 +20,28 @@
   const links = [
     [
       {
+        label: t('links.login'),
+        icon: 'i-heroicons-user-circle',
+        shortcuts: ['L'],
+        click: () => {
+          Debug.log({
+            message: 'Login',
+          });
+        },
+      },
+      {
+        label: t('links.register'),
+        icon: 'i-heroicons-at-symbol',
+        shortcuts: ['R'],
+        click: () => {
+          Debug.log({
+            message: 'Register',
+          });
+        },
+      },
+    ],
+    [
+      {
         label: t('links.aboutTheDeveloper'),
         icon: 'i-heroicons-question-mark-circle',
         shortcuts: ['I'],
@@ -33,6 +55,18 @@
         shortcuts: ['/'],
         click: () => {
           toggleProTipsDialog();
+        },
+      },
+    ],
+    [
+      {
+        label: t('links.logout'),
+        icon: 'i-heroicons-arrow-left-on-rectangle',
+        shortcuts: ['O'],
+        click: () => {
+          Debug.log({
+            message: 'Logout',
+          });
         },
       },
     ],

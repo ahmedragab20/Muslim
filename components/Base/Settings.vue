@@ -30,7 +30,7 @@
               @click="selectPrimaryColor(color)"
             >
               <ColorsPlaceholder
-                :primary-bg="`dark:bg-${color}-500 bg-${color}-600`"
+                :primary-bg="getPrimaryColor(color)"
                 :secondary-bg="getSecondaryColor(secondaryColor)"
               />
             </div>
@@ -55,7 +55,7 @@
               @click="selectSecondaryColor(color)"
             >
               <ColorsPlaceholder
-                :primary-bg="`bg-${primaryColor}-500`"
+                :primary-bg="getPrimaryColor(primaryColor)"
                 :secondary-bg="getSecondaryColor(color)"
               />
             </div>
@@ -198,6 +198,14 @@
 
   const primaryColor = ref<string>('green'); // fallback to green
   const secondaryColor = ref<string>('cool'); // fallback to cool
+
+  const getPrimaryColor = (color: string): string => {
+    if (!color) {
+      throw new Error("Color can't be empty");
+    }
+
+    return (colors as any)?.[color][colorMode.value === 'dark' ? 400 : 500];
+  };
 
   const selectPrimaryColor = (color: string) => {
     if (!color) return;

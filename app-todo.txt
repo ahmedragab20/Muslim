@@ -1,7 +1,7 @@
 [1]: localizations (i18n/nuxt) ✅
-[2]: ZOD
-[3]: Time Hijry
-[4]: Also make the cursor affect the shades anywhere from the screen
+[2]: ZOD ✅
+[3]: Time Hijry ✅
+[4]: Also make the cursor affect the circle shadow anywhere from the screen ✅
 [5]: authentication system
 [6]: islamic radio [arabic + english]
 [7]: verse of the day
