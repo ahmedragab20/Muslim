@@ -63,4 +63,8 @@
     initTheme();
     loaded.value = true;
   });
+
+  useHead({
+    title: 'Muslim - مُسْلِم',
+  });
 </script>
