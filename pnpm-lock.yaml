@@ -35,7 +35,7 @@ devDependencies:
     specifier: ^20.3.1
     version: 20.3.1
   firebase-admin:
-    specifier: ^11.9.0
+    specifier: ^11.8.0
     version: 11.9.0
   nuxt:
     specifier: ^3.5.3

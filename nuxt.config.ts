@@ -1,4 +1,9 @@
-import config from './config';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// we need the root node modules where packages are hoisted
+const nodeModules = fileURLToPath(new URL('../../../node_modules', import.meta.url));
+
 export default defineNuxtConfig({
   css: ['@/assets/css/core.css', '@/assets/css/main.css'],
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n', 'nuxt-vuefire'],
@@ -24,7 +29,7 @@ export default defineNuxtConfig({
   vuefire: {
     auth: true,
     admin: {
-      serviceAccount: config.serviceAccount,
+      serviceAccount: resolve(fileURLToPath(new URL('service-account.json', import.meta.url))),
     },
     config: {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
