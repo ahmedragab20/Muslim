@@ -1,5 +1,10 @@
 <template>
   <div>
+    <!-- TODOs: -->
+    <!-- 1. add next pray info -->
+    <!-- 2. add Date in Hijry -->
+    <!-- 3. add today's allah name -->
+
     <!-- app story -->
     <div class="flex h-[75dvh] flex-col items-center justify-center">
       <div
