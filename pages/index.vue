@@ -7,11 +7,13 @@
 
     <!-- app story -->
     <div class="flex h-[75dvh] flex-col items-center justify-center">
-      <div>
-        <pre>
-          {{ hijriDate }}
-        </pre>
+      <!-- Hijri time -->
+      <div class="mb-10">
+        <div class="text-gray-600 dark:text-gray-400 font-mono">
+          {{ hijriDateFormatted }}
+        </div>
       </div>
+
       <div
         dir="rtl"
         class="relative flex h-32 w-32 rounded-full bg-gray-100 dark:bg-gray-900 shadow shadow-red-200 duration-300 hover:blur-lg"
@@ -58,25 +60,44 @@
   </UModal>
 </template>
 <script setup lang="ts">
+  type lang = 'en' | 'ar';
   const { locale } = useI18n();
   const sectionsModal = ref(false);
 
   const toggleSectionsModal = () => {
     sectionsModal.value = !sectionsModal.value;
   };
-  const hijriDate = ref();
+
   const getHijriDate = async () => {
+    const { fetchHijriDate } = useFetchApis();
+
     try {
-      hijriDate.value = await useHijriDate().then((res) => res?.hijri);
+      const hijriDate = await fetchHijriDate();
+
+      return hijriDate;
     } catch (error) {
+      Debug.error({
+        message: 'Error while fetching hijri date',
+        data: error,
+      });
+
       throw createError({
-        message: 'Error getting surah',
-        statusCode: 400,
+        statusCode: 500,
+        statusMessage: 'Error while fetching hijri date',
       });
     }
   };
 
-  getHijriDate();
+  const hijriDateFormatted = computed(() => {
+    if (hijriDate.value) {
+      const { day, month, year } = hijriDate.value;
+      const lng = locale.value as lang;
+
+      return `${day[lng]}, ${month[lng]} ${year}`;
+    }
+
+    return '';
+  });
 
   onMounted(() => {
     // Get the target circle element
@@ -104,4 +125,7 @@
       });
     }
   });
+
+  // get page data
+  const [hijriDate] = await Promise.all([getHijriDate()]);
 </script>

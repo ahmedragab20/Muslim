@@ -8,12 +8,7 @@ export const dateSchema = z.object({
   month: z.object({
     number: z.number(),
     en: z.string(),
+    ar: z.string(),
   }),
   year: z.string(),
-});
-
-export const hijriSchema = dateSchema;
-
-export const rootSchema = z.object({
-  hijri: hijriSchema,
 });
