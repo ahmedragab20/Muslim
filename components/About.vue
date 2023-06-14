@@ -32,7 +32,6 @@
             </UButton>
             <UButton
               to="https://www.linkedin.com/in/ahmed-ragab-bb75541b3/"
-              color="blue"
               size="sm"
               target="_blank"
               :ui="{
@@ -48,5 +47,5 @@
   </UCard>
 </template>
 <script setup lang="ts">
-  //
+  const appConfig = useAppConfig();
 </script>
