@@ -7,6 +7,11 @@
 
     <!-- app story -->
     <div class="flex h-[75dvh] flex-col items-center justify-center">
+      <div>
+        <pre>
+          {{ hijriDate }}
+        </pre>
+      </div>
       <div
         dir="rtl"
         class="relative flex h-32 w-32 rounded-full bg-gray-100 dark:bg-gray-900 shadow shadow-red-200 duration-300 hover:blur-lg"
@@ -59,8 +64,19 @@
   const toggleSectionsModal = () => {
     sectionsModal.value = !sectionsModal.value;
   };
+  const hijriDate = ref();
+  const getHijriDate = async () => {
+    try {
+      hijriDate.value = await useHijriDate().then((res) => res?.hijri);
+    } catch (error) {
+      throw createError({
+        message: 'Error getting surah',
+        statusCode: 400,
+      });
+    }
+  };
 
-  // Get the target circle element
+  getHijriDate();
 
   onMounted(() => {
     // Get the target circle element
