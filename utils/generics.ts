@@ -251,4 +251,21 @@ export class Generics {
 
     return originalDateA.getTime() - originalDateB.getTime();
   };
+  static formateDate = (date: Date): string => {
+    if (!date || typeof date !== 'object') {
+      return '';
+    }
+
+    const currentDate = new Date();
+
+    // Extract day, month, and year
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = currentDate.getFullYear();
+
+    // Create the formatted date string
+    const formattedDate = day + '-' + month + '-' + year;
+
+    return formattedDate ? formattedDate : date?.toLocaleDateString();
+  };
 }
