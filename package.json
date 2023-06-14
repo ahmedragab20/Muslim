@@ -9,6 +9,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "firebase": "^9.22.0",
+    "nuxt-vuefire": "^0.1.6",
     "@pinia/nuxt": "^0.4.11"
   },
   "devDependencies": {
@@ -17,6 +19,7 @@
     "@nuxtjs/google-fonts": "^3.0.1",
     "@nuxtjs/i18n": "8.0.0-beta.12",
     "@types/node": "^20.3.1",
+    "firebase-admin": "^11.8.0",
     "nuxt": "^3.5.3"
   }
 }
