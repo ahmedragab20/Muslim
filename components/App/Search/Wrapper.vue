@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!pending">
+  <div>
     <AppSearchInput @clicked="toggleSearchModal" />
 
     <UModal
@@ -20,7 +20,7 @@
               />
             </div>
             <input
-              v-model.trim="searchQuery"
+              v-model.trim.lazy="searchQuery"
               type="text"
               class="bg-transparent w-full text-gray-800 font-mono dark:text-gray-400 sm:text-lg rounded-xl h-full focus:ring-none focus:outline-none px-3"
               :placeholder="$t('quraanSearch.search')"
@@ -45,14 +45,11 @@
       </div>
     </UModal>
   </div>
-  <div v-else>
-    <div class="flex justify-center items-center h-10">
-      <AppSpinner />
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
+  // import { searchQuranSchema } from '@/schemas/search-quran';
+
   const searchInputR = ref();
   const searchModal = ref(false);
 
@@ -67,6 +64,23 @@
   };
 
   const searchQuery = ref('');
+  // const results = ref();
+  // const totalResults = ref(0);
+  // const currentPage = ref(1);
+  // const totalPages = ref(0);
 
-  const { data: results, pending } = await useFetch('/api/quran/الله');
+  const searchQuran = async () => {
+    //     const { data } = await useFetch(`/api/quran/${searchQuery.value}`, {
+    //       transform: searchQuranSchema.parse(data),
+    //     });
+    //
+    //     results.value = data.value;
+    //     totalResults.value = data;
+  };
+
+  watch(searchQuery, () => {
+    if (searchQuery.value.length > 2) {
+      searchQuran();
+    }
+  });
 </script>
