@@ -25,8 +25,6 @@
   }>();
 
   const ayah = (words: any[]) => {
-    console.log('words ran 🎉');
-
     return words
       .map((word) => {
         if (word.highlight) {

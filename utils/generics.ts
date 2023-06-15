@@ -166,14 +166,10 @@ export class Generics {
       const value = obj[key];
 
       if (Array.isArray(value) && value.length === 0) {
-        console.log('array', value);
-
         return false;
       }
 
       if (typeof value === 'string' && !value.trim()) {
-        console.log('string', value);
-
         return false;
       }
 

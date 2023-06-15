@@ -17,12 +17,6 @@ export default () => {
   };
   const fetchQuranByTerm = async (term: string, page?: number, size?: number) => {
     try {
-      console.log({
-        term,
-        page,
-        size,
-      });
-
       const results = await $fetch(`/api/search-quran`, {
         params: {
           query: term,
