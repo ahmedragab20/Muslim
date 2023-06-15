@@ -268,4 +268,21 @@ export class Generics {
 
     return formattedDate ? formattedDate : date?.toLocaleDateString();
   };
+  /**
+   * Encodes Arabic text if it contains Arabic characters, otherwise returns the text as it is.
+   * @param {string} text - The text to be encoded if it contains Arabic characters.
+   * @returns {string} The encoded Arabic text, or the original text if it's in English.
+   */
+  static encodeArabicText(text: string): string {
+    // Regular expression to check if the text contains Arabic characters
+    var arabicRegex = /[\u0600-\u06FF]/;
+
+    if (arabicRegex.test(text)) {
+      // Text contains Arabic characters, so encode it
+      return encodeURIComponent(text);
+    } else {
+      // Text is in English, so send it as it is
+      return text;
+    }
+  }
 }

@@ -52,7 +52,7 @@
 
   defineShortcuts({
     'meta_.': {
-      usingInput: false,
+      usingInput: true,
       handler: () => settingsToggler(),
     },
   });

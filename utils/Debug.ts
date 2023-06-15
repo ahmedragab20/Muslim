@@ -7,16 +7,28 @@ interface Payload {
 }
 
 export default class Debug {
-  static log(payload: Partial<Payload>) {
-    if (process.env.NODE_ENV !== 'development' && !payload.useOnProduction) return;
+  static log(payload?: Partial<Payload>, ...args: any[]) {
+    if (process.env.NODE_ENV !== 'development' && !payload?.useOnProduction) return;
+
+    if (!payload?.message && args.length) {
+      console.log(
+        `%c${args[0]}`,
+        `${
+          payload?.style ||
+          'padding: 2px; font-weight: bold; color: brown; border-radius: 2px; background-color: #f5f5f5;'
+        }`
+      );
+
+      return;
+    }
 
     console.log(
-      `%c${payload.message || '🎉'} ${payload.source ? `(${payload.source})` : ''}`,
+      `%c${payload?.message || '🎉'} ${payload?.source ? `(${payload?.source})` : ''}`,
       `${
-        payload.style ||
+        payload?.style ||
         'padding: 2px; font-weight: bold; color: brown; border-radius: 2px; background-color: #f5f5f5;'
       }`,
-      payload.data
+      payload?.data
     );
   }
   static warn(payload: Partial<Payload>) {

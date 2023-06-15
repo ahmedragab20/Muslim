@@ -32,6 +32,9 @@
     "prayers": "prayers",
     "nation": "nation"
   },
+  "quraanSearch": {
+    "search": "search"
+  },
   "footer": {
     "madeWith": "Made with",
     "by": "by"

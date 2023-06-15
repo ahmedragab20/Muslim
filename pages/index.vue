@@ -6,7 +6,7 @@
     <!-- 3. add today's allah name -->
 
     <!-- app story -->
-    <div class="flex h-[75dvh] flex-col items-center justify-center">
+    <div class="flex min-h-[75dvh] flex-col items-center justify-center">
       <!-- Hijri time -->
       <div class="mb-10">
         <div class="text-gray-600 dark:text-gray-400 font-mono">
