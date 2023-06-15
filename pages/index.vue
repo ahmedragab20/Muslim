@@ -68,11 +68,11 @@
     sectionsModal.value = !sectionsModal.value;
   };
 
-  const getHijriDate = async () => {
+  const getHijriDate = () => {
     const { fetchHijriDate } = useFetchApis();
 
     try {
-      const hijriDate = await fetchHijriDate();
+      const hijriDate = fetchHijriDate();
 
       return hijriDate;
     } catch (error) {

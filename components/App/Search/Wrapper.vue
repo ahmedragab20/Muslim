@@ -33,14 +33,49 @@
                 variant="link"
                 icon="i-heroicons-x-mark-20-solid"
                 :padded="false"
-                @click="searchQuery = ''"
+                @click="clearSearch"
               />
             </div>
           </div>
         </div>
 
-        <div class="pt-10">
-          <AppSearchResults />
+        <div
+          class="px-4 max-h-96 overflow-auto relative"
+          :class="results?.length ? 'pt-2' : 'pt-10'"
+        >
+          <template v-if="!!results?.length && !loading">
+            <div class="mb-2 border-b dark:border-gray-700 flex gap-1 pb-2">
+              <div
+                class="text-xs bg-gray-50 dark:bg-gray-800 text-gray-500 py-1 px-2 rounded-full pointer-events-none"
+              >
+                {{ results.length }} {{ results.length > 1 ? $t('base.ayat') : $t('base.ayah') }}
+                {{ $t('base.from') }} {{ totalResults }}
+                {{ totalResults > 1 ? $t('base.ayat') : $t('base.ayah') }}
+              </div>
+            </div>
+            <AppSearchResults
+              :results="results"
+              :total_pages="totalPages"
+              :current_page="currentPage"
+              :total_results="totalResults"
+            />
+            <!-- load more -->
+            <div class="flex justify-center mt-2 pb-2">
+              <UButton
+                v-if="currentPage < totalPages"
+                color="gray"
+                variant="soft"
+                :loading="loading"
+              >
+                {{ $t('base.loadMore') }}...
+              </UButton>
+            </div>
+          </template>
+          <template v-else-if="loading">
+            <div class="flex justify-center pb-7 absolute inset-0 backdrop-blur-md">
+              <AppSpinner />
+            </div>
+          </template>
         </div>
       </div>
     </UModal>
@@ -64,23 +99,52 @@
   };
 
   const searchQuery = ref('');
-  // const results = ref();
-  // const totalResults = ref(0);
-  // const currentPage = ref(1);
-  // const totalPages = ref(0);
+  const results = ref();
+  const totalResults = ref(0);
+  const currentPage = ref(1);
+  const totalPages = ref(0);
+  const loading = ref(false);
+  const getQuranByTerm = async () => {
+    try {
+      loading.value = true;
+      const { fetchQuranByTerm } = useFetchApis();
 
-  const searchQuran = async () => {
-    //     const { data } = await useFetch(`/api/quran/${searchQuery.value}`, {
-    //       transform: searchQuranSchema.parse(data),
-    //     });
-    //
-    //     results.value = data.value;
-    //     totalResults.value = data;
+      const res = await fetchQuranByTerm(searchQuery.value);
+
+      return res;
+    } catch (error) {
+      Debug.error({
+        message: 'Error while fetching hijri date',
+        data: error,
+      });
+
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Error while fetching hijri date',
+      });
+    } finally {
+      loading.value = false;
+    }
+  };
+  const loadingMore = ref(false);
+  const loadMoreAyat = async () => {};
+
+  const clearSearch = () => {
+    searchQuery.value = '';
+    results.value = [];
+    totalResults.value = 0;
+    currentPage.value = 1;
+    totalPages.value = 0;
   };
 
-  watch(searchQuery, () => {
-    if (searchQuery.value.length > 2) {
-      searchQuran();
+  watch(searchQuery, async (newVal, oldVal) => {
+    if (!!newVal && newVal !== oldVal) {
+      const res = await getQuranByTerm();
+
+      results.value = res.results;
+      totalResults.value = res.total_results;
+      currentPage.value = res.current_page;
+      totalPages.value = res.total_pages;
     }
   });
 </script>

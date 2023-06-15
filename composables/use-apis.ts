@@ -12,7 +12,7 @@ export default () => {
 
     https: return `https://api.quran.com/api/v4/search?q=${
       query || Generics.encodeArabicText(query)
-    }&size=${100}&page=0`;
+    }&size=${10}&page=0`;
   };
 
   return {
