@@ -71,7 +71,7 @@
             <!-- load more -->
             <div class="flex justify-center mt-2 pb-2">
               <UButton
-                v-if="currentPage < totalPages"
+                v-if="results.length < totalResults"
                 color="gray"
                 variant="soft"
                 :loading="loadingMore"
@@ -93,8 +93,6 @@
 </template>
 
 <script setup lang="ts">
-  // import { searchQuranSchema } from '@/schemas/search-quran';
-
   const searchInputR = ref();
   const searchModal = ref(false);
 
@@ -142,12 +140,18 @@
   const loadMoreAyat = async () => {
     try {
       loadingMore.value = true;
+
+      if (pageSize.value + 5 >= totalResults.value) {
+        pageSize.value = totalResults.value - results.value?.length;
+      }
+
       currentPage.value + 1 >= totalPages.value
         ? currentPage.value + (totalPages.value - currentPage.value)
         : (currentPage.value += 1);
-      pageSize.value + 5 >= totalResults.value
-        ? pageSize.value + (totalResults.value - pageSize.value)
-        : (pageSize.value += 5);
+
+      // pageSize.value + 5 >= totalResults.value
+      //   ? pageSize.value + (totalResults.value - pageSize.value)
+      //   : (pageSize.value += 5);
       const res = await getQuranByTerm();
 
       results.value = [...results.value, ...res.results];
@@ -175,9 +179,10 @@
 
   watch(searchQuery, async (newVal, oldVal) => {
     if (!!newVal && newVal !== oldVal) {
-      const res = await getQuranByTerm();
-      console.log(res);
+      currentPage.value = 0;
+      pageSize.value = 5;
 
+      const res = await getQuranByTerm();
       results.value = res.results;
       totalResults.value = res.total_results;
       currentPage.value = res.current_page ? res.current_page : 1;
