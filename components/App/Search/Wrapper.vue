@@ -2,6 +2,14 @@
   <div>
     <AppSearchInput @clicked="toggleSearchModal" />
 
+    <div>
+      <pre>
+        <code>
+          {{results}}
+        </code>
+      </pre>
+    </div>
+
     <UModal
       dir="auto"
       v-model="searchModal"
@@ -43,7 +51,7 @@
           class="px-4 max-h-96 overflow-auto relative"
           :class="results?.length ? 'pt-2' : 'pt-10'"
         >
-          <template v-if="!!results?.length && !loading">
+          <template v-if="(!!results?.length && !loading) || loadingMore">
             <div class="mb-2 border-b dark:border-gray-700 flex gap-1 pb-2">
               <div
                 class="text-xs bg-gray-50 dark:bg-gray-800 text-gray-500 py-1 px-2 rounded-full pointer-events-none"
@@ -54,6 +62,7 @@
               </div>
             </div>
             <AppSearchResults
+              :key="currentPage"
               :results="results"
               :total_pages="totalPages"
               :current_page="currentPage"
@@ -65,13 +74,14 @@
                 v-if="currentPage < totalPages"
                 color="gray"
                 variant="soft"
-                :loading="loading"
+                :loading="loadingMore"
+                @click="loadMoreAyat"
               >
                 {{ $t('base.loadMore') }}...
               </UButton>
             </div>
           </template>
-          <template v-else-if="loading">
+          <template v-else-if="loading && !loadingMore">
             <div class="flex justify-center pb-7 absolute inset-0 backdrop-blur-md">
               <AppSpinner />
             </div>
@@ -103,13 +113,15 @@
   const totalResults = ref(0);
   const currentPage = ref(1);
   const totalPages = ref(0);
+  const pageSize = ref(5);
   const loading = ref(false);
+
   const getQuranByTerm = async () => {
     try {
       loading.value = true;
       const { fetchQuranByTerm } = useFetchApis();
 
-      const res = await fetchQuranByTerm(searchQuery.value);
+      const res = await fetchQuranByTerm(searchQuery.value, currentPage.value, pageSize.value);
 
       return res;
     } catch (error) {
@@ -127,23 +139,48 @@
     }
   };
   const loadingMore = ref(false);
-  const loadMoreAyat = async () => {};
+  const loadMoreAyat = async () => {
+    try {
+      loadingMore.value = true;
+      currentPage.value + 1 >= totalPages.value
+        ? currentPage.value + (totalPages.value - currentPage.value)
+        : (currentPage.value += 1);
+      pageSize.value + 5 >= totalResults.value
+        ? pageSize.value + (totalResults.value - pageSize.value)
+        : (pageSize.value += 5);
+      const res = await getQuranByTerm();
+
+      results.value = [...results.value, ...res.results];
+      totalResults.value = res.total_results;
+      currentPage.value = res.current_page ? res.current_page : 1;
+      totalPages.value = res.total_pages;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Something went wrong while loading more ayat',
+      });
+    } finally {
+      loadingMore.value = false;
+    }
+  };
 
   const clearSearch = () => {
     searchQuery.value = '';
     results.value = [];
     totalResults.value = 0;
-    currentPage.value = 1;
+    currentPage.value = 0;
     totalPages.value = 0;
+    pageSize.value = 5;
   };
 
   watch(searchQuery, async (newVal, oldVal) => {
     if (!!newVal && newVal !== oldVal) {
       const res = await getQuranByTerm();
+      console.log(res);
 
       results.value = res.results;
       totalResults.value = res.total_results;
-      currentPage.value = res.current_page;
+      currentPage.value = res.current_page ? res.current_page : 1;
       totalPages.value = res.total_pages;
     }
   });

@@ -15,9 +15,21 @@ export default () => {
       });
     }
   };
-  const fetchQuranByTerm = async (term: string) => {
+  const fetchQuranByTerm = async (term: string, page?: number, size?: number) => {
     try {
-      const results = await $fetch(`/api/quran/${term}`);
+      console.log({
+        term,
+        page,
+        size,
+      });
+
+      const results = await $fetch(`/api/search-quran`, {
+        params: {
+          query: term,
+          page: page! || 0,
+          size: size! || 5,
+        },
+      });
 
       return searchQuranSchema.parse(results);
     } catch (error) {

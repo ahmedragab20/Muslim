@@ -2,8 +2,8 @@
   <div class="text-sm text-gray-700 dark:text-gray-200">
     <template v-if="results?.length">
       <div
-        v-for="(result, i) in results"
-        :key="i"
+        v-for="result in results"
+        :key="result.verse_id"
         class="flex justify-between select-none items-center hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-transparent p-1 hover:rounded-md duration-300 py-1.5 gap-2 relative cursor-pointer border-b dark:border-gray-800 text-start"
       >
         {{ result?.text }}

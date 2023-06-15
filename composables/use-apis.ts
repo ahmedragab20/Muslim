@@ -7,12 +7,10 @@ export default () => {
 
     return `http://api.aladhan.com/v1/gToH/${date}`;
   };
-  const SEARCH_QURAN_BY_TERM_API = (query: string) => {
-    // query example: surah, ayah, juz, page
-
-    https: return `https://api.quran.com/api/v4/search?q=${
-      query || Generics.encodeArabicText(query)
-    }&size=${10}&page=0`;
+  const SEARCH_QURAN_BY_TERM_API = (query: string, page?: number, size?: number) => {
+    return `https://api.quran.com/api/v4/search?q=${Generics.encodeArabicText(query)}&page=${
+      page! || 0
+    }&size=${size! || 5}`;
   };
 
   return {
