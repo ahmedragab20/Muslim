@@ -1,4 +1,5 @@
 @font-face {
-  font-family: 'Al Qalam Quran';
-  src: url('../fonts/Al-Qalam-Quran.ttf') format('truetype');
+  font-family: 'KFGQPC Uthman Taha Naskh';
+  src: url(../fonts/UthmanTN1_Ver10.otf);
+  font-weight: bold;
 }

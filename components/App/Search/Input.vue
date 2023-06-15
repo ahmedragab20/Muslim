@@ -10,8 +10,10 @@
       disabled
     >
       <template #trailing>
-        <UKbd>{{ metaSymbol }}</UKbd>
-        <UKbd>K</UKbd>
+        <div class="hidden md:flex">
+          <UKbd>{{ metaSymbol }}</UKbd>
+          <UKbd>K</UKbd>
+        </div>
       </template>
     </UInput>
   </div>

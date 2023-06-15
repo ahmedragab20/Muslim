@@ -1,15 +1,6 @@
 <template>
   <div>
     <AppSearchInput @clicked="toggleSearchModal" />
-
-    <div>
-      <pre>
-        <code>
-          {{results}}
-        </code>
-      </pre>
-    </div>
-
     <UModal
       dir="auto"
       v-model="searchModal"
@@ -18,19 +9,19 @@
         width: 'w-11/12 sm:w-3/4 lg:w-1/2',
       }"
     >
-      <div class="rounded-xl overflow-hidden border dark:border-gray-800">
+      <div class="overflow-hidden border rounded-xl dark:border-gray-800">
         <!-- Header -->
         <div class="p-1 sm:p-2">
-          <div class="h-10 justify-between flex">
-            <div class="flex items-center pointer-events-none justify-center w-10">
+          <div class="flex justify-between h-10">
+            <div class="flex items-center justify-center w-10 pointer-events-none">
               <div
-                class="i-heroicons-magnifying-glass-20-solid text-xl text-gray-800 dark:text-gray-400"
+                class="text-xl text-gray-800 i-heroicons-magnifying-glass-20-solid dark:text-gray-400"
               />
             </div>
             <input
               v-model.trim.lazy="searchQuery"
               type="text"
-              class="bg-transparent w-full text-gray-800 font-mono dark:text-gray-400 sm:text-lg rounded-xl h-full focus:ring-none focus:outline-none px-3"
+              class="w-full h-full px-3 font-mono text-gray-800 bg-transparent dark:text-gray-400 sm:text-lg rounded-xl focus:ring-none focus:outline-none"
               :placeholder="$t('quraanSearch.search')"
               ref="searchInputR"
             />
@@ -48,17 +39,17 @@
         </div>
 
         <div
-          class="px-4 max-h-96 overflow-auto relative"
+          class="relative px-4 overflow-auto max-h-96"
           :class="results?.length ? 'pt-2' : 'pt-10'"
         >
           <template v-if="(!!results?.length && !loading) || loadingMore">
-            <div class="mb-2 border-b dark:border-gray-700 flex gap-1 pb-2">
+            <div class="flex gap-1 pb-2 mb-2 border-b dark:border-gray-700">
               <div
-                class="text-xs bg-gray-50 dark:bg-gray-800 text-gray-500 py-1 px-2 rounded-full pointer-events-none"
+                class="px-2 py-1 text-xs text-gray-500 rounded-full pointer-events-none bg-gray-50 dark:bg-gray-800"
               >
                 {{ results.length }} {{ results.length > 1 ? $t('base.ayat') : $t('base.ayah') }}
                 {{ $t('base.from') }} {{ totalResults }}
-                {{ totalResults > 1 ? $t('base.ayat') : $t('base.ayah') }}
+                {{ $t('base.ayah') }}
               </div>
             </div>
             <AppSearchResults
@@ -69,12 +60,13 @@
               :total_results="totalResults"
             />
             <!-- load more -->
-            <div class="flex justify-center mt-2 pb-2">
+            <div class="flex justify-center pb-2 mt-2">
               <UButton
                 v-if="results.length < totalResults"
                 color="gray"
                 variant="soft"
                 :loading="loadingMore"
+                class="!font-mono"
                 @click="loadMoreAyat"
               >
                 {{ $t('base.loadMore') }}...
@@ -82,7 +74,7 @@
             </div>
           </template>
           <template v-else-if="loading && !loadingMore">
-            <div class="flex justify-center pb-7 absolute inset-0 backdrop-blur-md">
+            <div class="flex justify-center pb-7 backdrop-blur-md">
               <AppSpinner />
             </div>
           </template>

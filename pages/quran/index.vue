@@ -1,10 +1,13 @@
 <template>
   <div class="min-h-[75dvh]">
-    <div class="text-center capitalize font-mono text-2xl mb-10 text-gray-800 dark:text-gray-400">
+    <div class="mb-10 font-mono text-2xl text-center text-gray-800 capitalize dark:text-gray-400">
       {{ $t('sectionsList.quraan') }}
     </div>
     <div>
       <AppSearchWrapper />
+    </div>
+    <div>
+      <h3 class="font-mono text-xl text-center mt-36 sm:text-2xl">🌪️ Still in progress...</h3>
     </div>
   </div>
 
