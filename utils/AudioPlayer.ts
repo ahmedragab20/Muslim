@@ -1,10 +1,12 @@
 export default class AudioPlayer {
   public readonly audio: HTMLAudioElement;
   private isPlaying: boolean;
+  public readonly verseKey: string;
 
-  constructor(url: string) {
+  constructor(url: string, verseKey: string) {
     this.audio = new Audio(url);
     this.isPlaying = false;
+    this.verseKey = verseKey;
   }
 
   public toggle(): void {

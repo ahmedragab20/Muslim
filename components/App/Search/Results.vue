@@ -18,23 +18,39 @@
             @click.self="setClickedAyah(result?.verse_key)"
             class="flex justify-between items-center flex-wrap gap-1"
           >
-            <div>
-              <UButton
-                @click="copyToClipboard(result?.text || '')"
-                variant="link"
-                icon="i-heroicons-clipboard"
-              />
+            <div class="flex gap-2">
+              <div>
+                <UButton
+                  @click="copyToClipboard(result?.text || '')"
+                  variant="link"
+                  icon="i-heroicons-clipboard"
+                />
+              </div>
+              <div>
+                <UButton
+                  @click="recite(result)"
+                  :loading="loadingRecitation"
+                  variant="link"
+                  :color="audioPlayer?.isPlaying ? 'red' : 'primary'"
+                  :icon="
+                    audioPlayer?.isPlaying ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'
+                  "
+                />
+              </div>
             </div>
             <div>
               <UButton
-                @click="recite(result?.verse_key)"
-                :loading="loadingRecitation"
-                variant="link"
-                :color="audioPlayer?.isPlaying ? 'red' : 'primary'"
-                :icon="
-                  audioPlayer?.isPlaying ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'
-                "
-              />
+                v-if="result.verse_id"
+                :to="`quran/verse/${result.verse_id}`"
+                variant="soft"
+                class="px-4 font-mono"
+                :ui="{
+                  rounded: 'rounded-full',
+                }"
+                size="xs"
+              >
+                {{ $t('quraanSearch.more') }}
+              </UButton>
             </div>
           </div>
         </div>
@@ -72,6 +88,11 @@
     clickedAyah.value = ayah;
   };
 
+  watch(clickedAyah, () => {
+    audioPlayer.value?.stop();
+    // audioPlayer.value = null;
+  });
+
   const ayah = (words: any[]) => {
     return words
       .map((word) => {
@@ -102,44 +123,57 @@
   const loadingRecitation = ref(false);
 
   const playedAyat = ref<PlayedAyah[]>([]);
-  const recite = async (ayah_key: string) => {
-    const isAlreadyPlayed = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
-    if (!!isAlreadyPlayed) {
+  const recite = async (verse: any) => {
+    const ayah_key = verse?.verse_key;
+    const storedAyah = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
+
+    // Check if the storedAyah exists and verse_key matches clickedAyah.value
+    if (!!storedAyah && verse?.verse_key === clickedAyah.value) {
       if (audioPlayer.value.isPlaying) {
+        // Pause the audio player if it's already playing
         audioPlayer.value.pause();
-      } else {
+      } else if (!audioPlayer.value.isPlaying && audioPlayer.value.verseKey === ayah_key) {
+        // Resume playing if audio player is not playing and verseKey matches
+        audioPlayer.value.play();
+      } else if (!audioPlayer.value.isPlaying && audioPlayer.value.verseKey !== ayah_key) {
+        // Re-initialize the audio player and play if verseKey doesn't match
+        audioPlayer.value = new AudioPlayer(storedAyah.audioUrl, ayah_key);
         audioPlayer.value.play();
       }
 
-      // has a bug when you move around the ayat
-
-      return;
+      return; // Exit the function
     }
+
     loadingRecitation.value = true;
+
     const baseURL = 'https://verses.quran.com/';
     const { AYAH_RECITATION_API } = useApis();
     let audioUrl: string;
 
     try {
+      // Fetch the audio URL for the given ayah_key
       const ayah: any = await $fetch(AYAH_RECITATION_API(ayah_key));
       if (ayah) {
         const key = ayah?.audio_files?.[0]?.url;
         audioUrl = `${baseURL}${key}`;
 
-        audioPlayer.value = new AudioPlayer(audioUrl);
+        // Initialize the audio player with the audio URL and verseKey
+        audioPlayer.value = new AudioPlayer(audioUrl, ayah_key);
 
+        // Add the played ayah to the playedAyat array
         playedAyat.value.push({
           ayah_key,
           audioUrl,
         });
 
+        // Play the audio
         audioPlayer.value.play();
 
+        // Trigger the onEnded event of the audio player to update the UI
         audioPlayer.value.onEnded();
-
-        // TODO: cache the ones you played in an array and check if it's already played before you call the api again
       }
     } catch (error) {
+      // Throw an error if there's an issue getting the audio URL
       throw createError({
         statusCode: 500,
         statusMessage: 'error to get audio url',
