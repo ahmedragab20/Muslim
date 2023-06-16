@@ -6,19 +6,28 @@
     <div>
       <AppSearchWrapper />
     </div>
-    <div class="flex justify-center gap-2 flex-wrap mt-6">
-      <div
-        v-for="juz in juzs"
-        :key="juz.id"
-        class="flex items-center justify-center w-24 h-24 rounded-xl bg-gray-100 dark:bg-gray-900 shadow shadow-red-200 duration-300 hover:blur-lg"
-      >
-        Juz {{ juz.juz_number }}
+    <div class="flex justify-center flex-wrap mt-6 w-full">
+      <div v-for="juz in juzs" :key="juz.id" class="lg:w-1/4 md:w-1/3 sm:1/2 w-full p-1 h-20">
+        <A3DCard class="cursor-pointer sm:hover:scale-110 w-full h-full duration-300">
+          <div class="flex items-center justify-center w-full h-full">
+            <div
+              class="flex gap-1 opacity-70"
+              :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
+            >
+              <div>
+                {{ $t('juz') }}
+              </div>
+              <div class="text-sm">[{{ juz.id }}]</div>
+            </div>
+          </div>
+        </A3DCard>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  const { locale } = useI18n();
   const getJuzs = () => {
     const { fetchJuzs } = useFetchApis();
 
