@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n'],
   i18n: {
     detectBrowserLanguage: {
-      useCookie: false,
+      // useCookie: true,
       fallbackLocale: 'en',
     },
     strategy: 'no_prefix',
