@@ -6,27 +6,39 @@
     <div>
       <AppSearchWrapper />
     </div>
-    <div>
-      <h3 class="font-mono text-xl text-center mt-36 sm:text-2xl">🌪️ Still in progress...</h3>
+    <div class="flex justify-center gap-2 flex-wrap mt-6">
+      <div
+        v-for="juz in juzs"
+        :key="juz.id"
+        class="flex items-center justify-center w-24 h-24 rounded-xl bg-gray-100 dark:bg-gray-900 shadow shadow-red-200 duration-300 hover:blur-lg"
+      >
+        Juz {{ juz.juz_number }}
+      </div>
     </div>
   </div>
-
-  <!-- TODOs:: -->
-  <!-- 1. search for a specific verse -->
-  <!-- 2. select a specific surah -->
-  <!-- 3. select a specific page -->
-  <!-- 4. select a specific juz -->
-  <!-- 5. read quraan only in english -->
-  <!-- 6. read quraan only in arabic -->
-  <!-- 7. read quraan in english and arabic -->
-  <!-- 9. add tafseer in arabic and english -->
-  <!-- 10. highlight a verse -->
-  <!-- 11. add a note to a verse -->
-  <!-- 12. add a bookmark to pages -->
-  <!-- 13. play quraan with list of reciters -->
-  <!-- 14. customize the size of the text -->
 </template>
 
 <script setup lang="ts">
-  //
+  const getJuzs = () => {
+    const { fetchJuzs } = useFetchApis();
+
+    try {
+      const juzs = fetchJuzs();
+
+      return juzs;
+    } catch (error) {
+      Debug.error({
+        message: 'Error while fetching Juzs',
+        data: error,
+      });
+
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Error while fetching Juzs',
+      });
+    }
+  };
+
+  // get page data
+  const [juzs] = await Promise.all([getJuzs()]);
 </script>

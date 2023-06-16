@@ -1,4 +1,5 @@
 import { dateSchema } from '@/schemas/hijir-date';
+import { juzsSchema } from '~/schemas/juzs';
 import { searchQuranSchema } from '~/schemas/search-quran';
 export default () => {
   const fetchHijriDate = () => {
@@ -34,8 +35,24 @@ export default () => {
     }
   };
 
+  const fetchJuzs = async () => {
+    try {
+      const { data } = await useFetch('/api/quran/juzs', {
+        transform: (data) => juzsSchema.parse(data),
+      });
+
+      return data.value;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Count not fetch Juz data',
+      });
+    }
+  };
+
   return {
     fetchHijriDate,
     fetchQuranByTerm,
+    fetchJuzs,
   };
 };
