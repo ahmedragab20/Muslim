@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
     primary: 'green',
-    gray: 'cool',
+    gray: 'stone',
     grayColors: ['slate', 'cool', 'zinc', 'neutral', 'stone'],
 
     dropdown: {

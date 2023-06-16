@@ -64,7 +64,7 @@
               <UButton
                 v-if="results.length < totalResults"
                 color="gray"
-                variant="soft"
+                variant="outline"
                 :loading="loadingMore"
                 class="!font-mono"
                 @click="loadMoreAyat"

@@ -42,14 +42,14 @@
               <UButton
                 v-if="result.verse_id"
                 :to="`quran/verse/${result.verse_id}`"
-                variant="soft"
-                class="px-4 font-mono"
+                variant="outline"
+                class="px-4 font-mono capitalize"
                 :ui="{
                   rounded: 'rounded-full',
                 }"
                 size="xs"
               >
-                {{ $t('quraanSearch.more') }}
+                {{ $t('quraanSearch.more') }}...
               </UButton>
             </div>
           </div>
