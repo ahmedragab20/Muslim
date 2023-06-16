@@ -26,7 +26,15 @@
               />
             </div>
             <div>
-              <UButton variant="link" icon="i-heroicons-play" />
+              <UButton
+                @click="recite(result?.verse_key)"
+                :loading="loadingRecitation"
+                variant="link"
+                :color="audioPlayer?.isPlaying ? 'red' : 'primary'"
+                :icon="
+                  audioPlayer?.isPlaying ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'
+                "
+              />
             </div>
           </div>
         </div>
@@ -41,6 +49,7 @@
   // 2. recite play+pause
   // 3. see more
   const toast = useToast();
+  const { t } = useI18n();
 
   const {} = defineProps<{
     results: any[];
@@ -73,8 +82,8 @@
     try {
       await Generics.copyToClipboard(text).then(() => {
         toast.add({
-          title: 'Ayah has been copied to your clipboard!',
-          description: 'You can paste it anywhere you want.🎉',
+          title: t('quraanSearch.copiedAya'),
+          description: t('quraanSearch.copiedAyaDesc'),
         });
       });
     } catch (error) {
@@ -82,6 +91,37 @@
         statusCode: 500,
         statusMessage: 'error to copy text',
       });
+    }
+  };
+  const audioPlayer = ref();
+  const loadingRecitation = ref(false);
+  const recite = async (ayah_key: string) => {
+    loadingRecitation.value = true;
+    const baseURL = 'https://verses.quran.com/';
+    const { AYAH_RECITATION_API } = useApis();
+    let audioUrl: string;
+
+    try {
+      const ayah: any = await $fetch(AYAH_RECITATION_API(ayah_key));
+      if (ayah) {
+        const key = ayah?.audio_files?.[0]?.url;
+        audioUrl = `${baseURL}${key}`;
+
+        audioPlayer.value = new AudioPlayer(audioUrl);
+
+        audioPlayer.value.toggle();
+
+        audioPlayer.value.onEnded();
+
+        // TODO: cache the ones you played in an array and check if it's already played before you call the api again
+      }
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'error to get audio url',
+      });
+    } finally {
+      loadingRecitation.value = false;
     }
   };
 </script>

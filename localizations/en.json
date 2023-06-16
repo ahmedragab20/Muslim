@@ -40,7 +40,9 @@
     "search": "search",
     "copy": "copy",
     "recite": "recite",
-    "more": "more"
+    "more": "more",
+    "copiedAya": "Ayah has been copied to your clipboard!",
+    "copiedAyaDesc": "You can paste it anywhere you want now.🎉"
   },
   "footer": {
     "madeWith": "Made with",
