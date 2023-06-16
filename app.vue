@@ -1,6 +1,5 @@
 <template>
   <div v-if="loaded" id="ragab-app">
-    <div class="mt-20">{{ count }}</div>
     <!-- 🚧 - App Layouts -->
     <NuxtLayout></NuxtLayout>
 
@@ -43,7 +42,6 @@
   const appConfig = useAppConfig();
   const appSettings = ref();
   const loaded = ref(false);
-  const count = ref(0);
 
   const chosenAuthLand = computed<AuthLand>(() => authStore.chosenAuthLand); // fallback to login
 
@@ -57,8 +55,6 @@
         appConfig.ui.gray = settings.color?.secondary || 'cool';
         locale.value = settings.language || 'en';
         locale.value?.includes('ar') ? (document.dir = 'rtl') : (document.dir = 'ltr');
-
-        count.value++;
       }
     }
   };
