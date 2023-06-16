@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  css: ['@/assets/css/core.css', '@/assets/css/main.css'],
+  css: ['@/assets/css/core.css', '@/assets/css/main.css', '@/assets/css/animation.css'],
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n'],
   i18n: {
     detectBrowserLanguage: {

@@ -59,7 +59,6 @@
       toast.add({
         title: 'Login Success',
         description: 'You have successfully logged in!',
-        type: 'success',
       });
     }
   };

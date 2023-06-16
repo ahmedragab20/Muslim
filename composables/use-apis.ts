@@ -12,9 +12,14 @@ export default () => {
       page! || 0
     }&size=${size! || 5}`;
   };
+  const AYAH_RECITATION_API = (ayah_key: string) => {
+    //TODO: in the future, give the user ability to pick from list of reciters.
+    return `https://api.quran.com/api/v4/recitations/2/by_ayah/${ayah_key}`;
+  };
 
   return {
     HIJRI_DATE_API,
     SEARCH_QURAN_BY_TERM_API,
+    AYAH_RECITATION_API,
   };
 };

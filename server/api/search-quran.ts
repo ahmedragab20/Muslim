@@ -26,13 +26,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  console.log({
-    url: event.req.url,
-    qValue,
-    pageNumber,
-    pageSize,
-  });
-
   const { SEARCH_QURAN_BY_TERM_API } = useApis();
 
   const url = SEARCH_QURAN_BY_TERM_API(qValue!, +pageNumber!, +pageSize!);

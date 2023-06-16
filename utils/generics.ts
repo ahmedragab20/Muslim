@@ -284,4 +284,31 @@ export class Generics {
       return text;
     }
   }
+  static copyToClipboard = (text: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      if (!text) {
+        Debug.error({
+          message: '🚨 Error copying text to clipboard',
+          source: 'utils/generics.ts',
+          data: text,
+        });
+
+        reject(
+          createError({
+            message: '🚨 Error copying text to clipboard',
+            statusCode: 500,
+          })
+        );
+      }
+
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
 }

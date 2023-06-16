@@ -37,7 +37,10 @@
     "nation": "nation"
   },
   "quraanSearch": {
-    "search": "search"
+    "search": "search",
+    "copy": "copy",
+    "recite": "recite",
+    "more": "more"
   },
   "footer": {
     "madeWith": "Made with",

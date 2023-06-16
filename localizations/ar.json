@@ -37,7 +37,10 @@
     "nation": "ٱلْأُمَّة"
   },
   "quraanSearch": {
-    "search": "ابحث"
+    "search": "ابحث",
+    "copy": "نسخ",
+    "recite": "تلاوة",
+    "more": "مزيد"
   },
   "footer": {
     "madeWith": "صُنع بواسطة",
