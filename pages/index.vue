@@ -42,11 +42,9 @@
 
       <div class="mt-10">
         <div class="shadow-2xl shadow-primary-500 duration-300 hover:scale-105">
-          <UButton
-            @click="toggleSectionsModal"
-            :label="`${$t('explore')} ${$t('sections')}`"
-            icon="i-heroicons-rectangle-stack"
-          />
+          <UButton @click="toggleSectionsModal" icon="i-heroicons-rectangle-stack">
+            {{ `${$t('explore')} ${$t('sections')}` }}
+          </UButton>
         </div>
       </div>
     </div>
@@ -128,4 +126,12 @@
 
   // get page data
   const [hijriDate] = await Promise.all([getHijriDate()]);
+
+  // shortcuts
+  defineShortcuts({
+    s: {
+      usingInput: true,
+      handler: () => toggleSectionsModal(),
+    },
+  });
 </script>

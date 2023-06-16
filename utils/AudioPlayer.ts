@@ -1,5 +1,5 @@
 export default class AudioPlayer {
-  private audio: HTMLAudioElement;
+  public readonly audio: HTMLAudioElement;
   private isPlaying: boolean;
 
   constructor(url: string) {
@@ -25,6 +25,11 @@ export default class AudioPlayer {
   public stop(): void {
     this.audio.pause();
     this.audio.currentTime = 0;
+    this.isPlaying = false;
+  }
+
+  public pause(): void {
+    this.audio.pause();
     this.isPlaying = false;
   }
 

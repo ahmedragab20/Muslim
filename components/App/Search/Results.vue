@@ -44,6 +44,11 @@
 </template>
 
 <script setup lang="ts">
+  interface PlayedAyah {
+    ayah_key: string;
+    audioUrl: string;
+  }
+
   // TODOs:
   // 1. copy ✅
   // 2. recite play+pause
@@ -95,7 +100,21 @@
   };
   const audioPlayer = ref();
   const loadingRecitation = ref(false);
+
+  const playedAyat = ref<PlayedAyah[]>([]);
   const recite = async (ayah_key: string) => {
+    const isAlreadyPlayed = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
+    if (!!isAlreadyPlayed) {
+      if (audioPlayer.value.isPlaying) {
+        audioPlayer.value.pause();
+      } else {
+        audioPlayer.value.play();
+      }
+
+      // has a bug when you move around the ayat
+
+      return;
+    }
     loadingRecitation.value = true;
     const baseURL = 'https://verses.quran.com/';
     const { AYAH_RECITATION_API } = useApis();
@@ -109,7 +128,12 @@
 
         audioPlayer.value = new AudioPlayer(audioUrl);
 
-        audioPlayer.value.toggle();
+        playedAyat.value.push({
+          ayah_key,
+          audioUrl,
+        });
+
+        audioPlayer.value.play();
 
         audioPlayer.value.onEnded();
 
