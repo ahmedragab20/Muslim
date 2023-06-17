@@ -2,23 +2,7 @@ export default defineNuxtConfig({
   css: ['@/assets/css/core.css', '@/assets/css/main.css', '@/assets/css/animation.css'],
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n'],
   i18n: {
-    detectBrowserLanguage: {
-      // useCookie: true,
-      fallbackLocale: 'en',
-    },
-    strategy: 'no_prefix',
-    locales: [
-      {
-        code: 'en',
-        file: 'en.json',
-      },
-      {
-        code: 'ar',
-        file: 'ar.json',
-      },
-    ],
-    langDir: 'localizations',
-    defaultLocale: 'en',
+    vueI18n: './i18n.config.ts',
   },
   // vuefire: {
   //   /*  We're gonna pause the authentication work until we finish the important parts in the aoo  */
