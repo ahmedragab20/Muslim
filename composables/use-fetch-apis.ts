@@ -1,4 +1,5 @@
-import { dateSchema } from '@/schemas/hijir-date';
+import { QuranSurahsSchema } from '~/schemas/chapters';
+import { dateSchema } from '~/schemas/hijir-date';
 import { juzsSchema } from '~/schemas/juzs';
 import { searchQuranSchema } from '~/schemas/search-quran';
 export default () => {
@@ -50,9 +51,25 @@ export default () => {
     }
   };
 
+  const fetchChapters = async () => {
+    try {
+      const { data } = await useFetch('/api/quran/chapters', {
+        transform: (data) => QuranSurahsSchema.parse(data),
+      });
+
+      return data.value;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Count not fetch Chapter data',
+      });
+    }
+  };
+
   return {
     fetchHijriDate,
     fetchQuranByTerm,
     fetchJuzs,
+    fetchChapters,
   };
 };

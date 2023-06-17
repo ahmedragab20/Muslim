@@ -1,7 +1,7 @@
 <template>
   <!-- Credit goes to: https://www.youtube.com/watch?v=gvO3JTCevKc ❤️ - the inspire of the idea -->
 
-  <div :id="wrapperId" class="cardWrapper">
+  <div @click="goTo" :id="wrapperId" class="cardWrapper">
     <div :id="cardId" class="card">
       <slot />
       <div :id="highlightId" class="highlight"></div>
@@ -10,16 +10,27 @@
 </template>
 
 <script setup lang="ts">
+  const { to } = defineProps<{
+    to?: string;
+  }>();
+  const router = useRouter();
+
   const wrapperId = Generics.uuid();
   const cardId = Generics.uuid();
   const highlightId = Generics.uuid();
+
+  const goTo = () => {
+    if (!to) {
+      return;
+    }
+    router.push(to);
+  };
 
   onMounted(() => {
     // DOM Element selections
     const cardWrapper = document.getElementById(wrapperId!) as HTMLElement;
     const card = document.getElementById(cardId!) as HTMLElement;
     const highlight = document.getElementById(highlightId!) as HTMLElement;
-
     // highest values for angle
     const mostX = 10; // 10 or -10
     const mostY = 10; // 10 or -10

@@ -19,11 +19,15 @@ export default () => {
   const JUZS_API = () => {
     return `https://api.quran.com/api/v4/juzs`;
   };
+  const CHAPTERS_API = () => {
+    return `https://api.quran.com/api/v4/chapters`;
+  };
 
   return {
     HIJRI_DATE_API,
     SEARCH_QURAN_BY_TERM_API,
     AYAH_RECITATION_API,
     JUZS_API,
+    CHAPTERS_API,
   };
 };
