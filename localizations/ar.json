@@ -48,6 +48,9 @@
   "juzs": "أجزاء",
   "chapter": "سورة",
   "chapters": "سور",
+  "playSurah": "تلاوة ",
+  "tafsir": "تفسير",
+  "pause": "إيقاف",
   "footer": {
     "madeWith": "صُنع بواسطة",
     "by": "بواسطة"

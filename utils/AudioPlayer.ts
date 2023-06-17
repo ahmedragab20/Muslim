@@ -3,10 +3,10 @@ export default class AudioPlayer {
   private isPlaying: boolean;
   public readonly verseKey: string;
 
-  constructor(url: string, verseKey: string) {
+  constructor(url: string, verseKey?: string) {
     this.audio = new Audio(url);
     this.isPlaying = false;
-    this.verseKey = verseKey;
+    this.verseKey = verseKey || '';
   }
 
   public toggle(): void {

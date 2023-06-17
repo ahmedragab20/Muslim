@@ -9,6 +9,9 @@
       <AppSearchWrapper />
     </div>
     <div>
+      <UBadge color="orange"> BUG:: play ayah and close the search </UBadge>
+    </div>
+    <div>
       <div v-if="chapters?.length" class="w-full flex justify-center flex-wrap mt-6">
         <div
           v-for="chapter in chapters"
@@ -115,7 +118,15 @@
 
   <!-- Modals -->
   <UModal v-model="quickActionsModal">
-    <ChapterQuickActions v-if="!!clickedChapter" :chapter="clickedChapter!" />
+    <ChapterQuickActions
+      v-if="!!clickedChapter"
+      :chapter="clickedChapter!"
+      :loading-chapter-recitation="loadingChapterRecitation"
+      :reciting="recitingChapter"
+      v-model:playing="playingChapter"
+      @clicked-more="clickedMore"
+      @clicked-tafsir="clickedTafsir"
+    />
   </UModal>
 </template>
 
@@ -177,7 +188,6 @@
     if (!chapter) return;
 
     clickedChapter.value = chapter;
-
     quickActionsModal.value = !quickActionsModal.value;
   };
 
@@ -185,10 +195,91 @@
     () => quickActionsModal.value,
     (value) => {
       if (!value) {
+        chapterRecitationAudio.value?.pause();
         clickedChapter.value = null;
+        loadingChapterRecitation.value = false;
+        chapterRecitationAudio.value = null;
+        playingChapter.value = false;
       }
     }
   );
+
+  const playingChapter = ref(false);
+  const loadingChapterRecitation = ref(false);
+  const chapterRecitationAudio = ref();
+
+  watch(chapterRecitationAudio, (value) => {
+    Debug.log({}, "chapterRecitationAudio's value changed");
+  });
+
+  const reciteChapter = async () => {
+    try {
+      if (!clickedChapter.value) return;
+      loadingChapterRecitation.value = true;
+      const { CHAPTER_RECITATION_API } = useApis();
+
+      const chapterAudio: any = await $fetch(CHAPTER_RECITATION_API(clickedChapter.value.id));
+      if (chapterAudio?.audio_files?.length) {
+        const chapterRecitation = chapterAudio.audio_files?.find(
+          (audio: any) => audio.chapter_id === clickedChapter.value?.id
+        )?.audio_url;
+        const audio = new AudioPlayer(chapterRecitation);
+        chapterRecitationAudio.value = audio;
+        console.log(chapterRecitationAudio.value.isPlaying);
+
+        chapterRecitationAudio.value.play();
+        console.log(chapterRecitationAudio.value.isPlaying);
+        chapterRecitationAudio.value.onEnded();
+      }
+    } catch (error) {
+      createError({
+        statusCode: 500,
+        statusMessage: 'Error while reciting Chapter',
+      });
+    } finally {
+      loadingChapterRecitation.value = false;
+    }
+  };
+
+  const recitingChapter = computed(() => {
+    return chapterRecitationAudio.value?.isPlaying;
+  });
+
+  watch(
+    () => playingChapter.value,
+    (value, oldV) => {
+      if (value && !oldV) {
+        console.log('playing');
+        if (!chapterRecitationAudio.value) {
+          reciteChapter();
+        } else {
+          chapterRecitationAudio.value?.play?.();
+        }
+      } else {
+        console.log('not playing (paused)');
+        chapterRecitationAudio.value?.pause?.();
+      }
+    }
+  );
+
+  const clickedMore = (state: boolean) => {
+    Debug.log({
+      message: 'Clicked More🚀',
+      data: state,
+    });
+  };
+  const clickedPlay = (state: boolean) => {
+    Debug.log({
+      message: 'Clicked Play🚀',
+      data: state,
+    });
+  };
+  const clickedTafsir = (state: boolean) => {
+    Debug.log({
+      message: 'Clicked Tafsir🚀',
+      data: state,
+    });
+  };
 
   // get page data
   const [chapters] = await Promise.all([getChapters()]);

@@ -48,6 +48,9 @@
   "juzs": "Juz's",
   "chapter": "Chapter",
   "chapters": "Chapters",
+  "playSurah": "Play Surah",
+  "tafsir": "Tafsir (explanation)",
+  "pause": "Pause",
   "footer": {
     "madeWith": "Made with",
     "by": "by"

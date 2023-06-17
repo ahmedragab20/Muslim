@@ -22,6 +22,10 @@ export default () => {
   const CHAPTERS_API = () => {
     return `https://api.quran.com/api/v4/chapters`;
   };
+  const CHAPTER_RECITATION_API = (chapter: number) => {
+    //TODO: in the future, give the user ability to pick from list of reciters.
+    return `https://api.quran.com/api/v4/chapter_recitations/${chapter}`;
+  };
 
   return {
     HIJRI_DATE_API,
@@ -29,5 +33,6 @@ export default () => {
     AYAH_RECITATION_API,
     JUZS_API,
     CHAPTERS_API,
+    CHAPTER_RECITATION_API,
   };
 };
