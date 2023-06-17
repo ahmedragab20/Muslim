@@ -11,12 +11,12 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "firebase": "^9.22.2",
-    "nuxt-vuefire": "^0.1.6",
     "gsap": "^3.11.5",
+    "nuxt-vuefire": "^0.1.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^0.6.0",
+    "@nuxt/devtools": "^0.6.1",
     "@nuxthq/ui": "^2.4.0",
     "@nuxtjs/google-fonts": "^3.0.1",
     "@nuxtjs/i18n": "8.0.0-beta.12",
