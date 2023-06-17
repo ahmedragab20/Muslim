@@ -11,6 +11,9 @@ dependencies:
   firebase:
     specifier: ^9.22.2
     version: 9.22.2
+  gsap:
+    specifier: ^3.11.5
+    version: 3.11.5
   nuxt-vuefire:
     specifier: ^0.1.6
     version: 0.1.6(@firebase/app-types@0.9.0)(firebase-admin@11.9.0)(firebase@9.22.2)(vuefire@3.1.0)
@@ -4936,6 +4939,10 @@ packages:
 
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  /gsap@3.11.5:
+    resolution: {integrity: sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==}
+    dev: false
 
   /gtoken@6.1.2:
     resolution: {integrity: sha512-4ccGpzz7YAr7lxrT2neugmXQ3hP9ho2gcaityLVkiUecAiwiy60Ii8gRbZeOsXV19fYaRjgBSshs8kXw+NKCPQ==}

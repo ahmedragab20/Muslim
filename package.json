@@ -12,6 +12,7 @@
     "@pinia/nuxt": "^0.4.11",
     "firebase": "^9.22.2",
     "nuxt-vuefire": "^0.1.6",
+    "gsap": "^3.11.5",
     "zod": "^3.21.4"
   },
   "devDependencies": {

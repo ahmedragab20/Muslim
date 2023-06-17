@@ -15,72 +15,76 @@
           v-for="(btn, i) in buttons"
           :key="btn"
           :variant="i === activeButton ? 'solid' : 'soft'"
-          class="px-5"
+          class="px-5 font-mono font-semibold"
           @click="setActiveButton(i)"
         >
-          {{ btn }}
-          <!-- TODO: Add Gsap -->
+          {{ $t(btn) }}
         </UButton>
       </div>
       <div class="w-full">
+        <Transition name="slide-fade">
+          <div
+            v-if="juzs?.length && activeButton === 0"
+            class="w-full flex justify-center flex-wrap mt-6"
+          >
+            <div v-for="juz in juzs" :key="juz.id" class="lg:w-1/4 md:w-1/3 sm:1/2 w-full p-1 h-20">
+              <A3DCard
+                :to="`quran/juz/${juz.id}`"
+                class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300"
+              >
+                <div class="flex items-center justify-center w-full h-full">
+                  <div
+                    class="flex gap-1 opacity-70"
+                    :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
+                  >
+                    <div>
+                      {{ $t('juz') }}
+                    </div>
+                    <div class="text-sm">[{{ juz.id }}]</div>
+                  </div>
+                </div>
+              </A3DCard>
+            </div>
+          </div>
+        </Transition>
+      </div>
+      <Transition name="slideIn-fade">
         <div
-          v-if="juzs?.length && activeButton === 0"
+          v-if="chapters?.length && activeButton === 1"
           class="w-full flex justify-center flex-wrap mt-6"
         >
-          <div v-for="juz in juzs" :key="juz.id" class="lg:w-1/4 md:w-1/3 sm:1/2 w-full p-1 h-20">
+          <div
+            v-for="chapter in chapters"
+            :key="chapter.id"
+            class="lg:w-1/4 md:w-1/3 sm:1/2 w-full p-1 h-20"
+          >
             <A3DCard
-              :to="`quran/juz/${juz.id}`"
+              :to="`quran/chapter/${chapter.id}`"
               class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300"
             >
               <div class="flex items-center justify-center w-full h-full">
                 <div
-                  class="flex gap-1 opacity-70"
+                  class="flex gap-1 opacity-70 line-clamp-2 items-center justify-center flex-col"
                   :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
                 >
-                  <div>
-                    {{ $t('juz') }}
+                  <div class="text-center" v-if="locale === 'ar'">{{ chapter?.name_arabic }}</div>
+                  <div class="text-center" v-else-if="locale === 'en'">
+                    {{ chapter?.translated_name?.name }}
                   </div>
-                  <div class="text-sm">[{{ juz.id }}]</div>
+                  <div class="text-sm">[{{ chapter.id }}]</div>
                 </div>
               </div>
             </A3DCard>
           </div>
         </div>
-      </div>
-      <div
-        v-if="chapters?.length && activeButton === 1"
-        class="w-full flex justify-center flex-wrap mt-6"
-      >
-        <div
-          v-for="chapter in chapters"
-          :key="chapter.id"
-          class="lg:w-1/4 md:w-1/3 sm:1/2 w-full p-1 h-20"
-        >
-          <A3DCard
-            :to="`quran/chapter/${chapter.id}`"
-            class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300"
-          >
-            <div class="flex items-center justify-center w-full h-full">
-              <div
-                class="flex gap-1 opacity-70 line-clamp-2 items-center justify-center flex-col"
-                :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
-              >
-                <div class="text-center" v-if="locale === 'ar'">{{ chapter?.name_arabic }}</div>
-                <div class="text-center" v-else-if="locale === 'en'">
-                  {{ chapter?.translated_name?.name }}
-                </div>
-                <div class="text-sm">[{{ chapter.id }}]</div>
-              </div>
-            </div>
-          </A3DCard>
-        </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   const { locale } = useI18n();
+
   const getJuzs = () => {
     const { fetchJuzs } = useFetchApis();
 
@@ -121,7 +125,7 @@
     }
   };
 
-  const buttons = ['Juzs', 'Chapters'];
+  const buttons = ['juzs', 'chapters'];
   const activeButton = ref(0);
   const setActiveButton = (index: number) => {
     activeButton.value = index;

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- TODO: Add Gsap -->
     {{ route.params.id }}
   </div>
 </template>
