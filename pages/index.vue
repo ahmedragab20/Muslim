@@ -91,7 +91,7 @@
       const { day, month, year } = hijriDate.value;
       const lng = locale.value as lang;
 
-      return `${day[lng]}, ${month.number} ${month[lng]} ${year}`;
+      return `${day[lng]}, ${day.dayNumber} ${month[lng]} ${year}`;
     }
 
     return '';

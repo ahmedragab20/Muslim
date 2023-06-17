@@ -17,7 +17,10 @@ export default defineEventHandler(async () => {
     const year = response.data.hijri.year;
 
     return {
-      day,
+      day: {
+        dayNumber: response.data.hijri.day,
+        ...day,
+      },
       month,
       year,
     };
