@@ -9,8 +9,39 @@
       <AppSearchWrapper />
     </div>
     <div>
-      <div class="flex justify-center gap-2 mt-6">
-        <!-- Juzs or chapters -->
+      <div v-if="chapters?.length" class="w-full flex justify-center flex-wrap mt-6">
+        <div
+          v-for="chapter in chapters"
+          :key="chapter.id"
+          class="lg:w-1/5 md:w-1/3 sm:w-1/2 w-full p-1 h-20"
+        >
+          <A3DCard
+            @click="toggleQuickActionsModal(chapter)"
+            class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300 active:!scale-95"
+          >
+            <div class="flex items-center justify-center w-full h-full">
+              <div
+                class="flex gap-1 opacity-70 line-clamp-2 items-center justify-center flex-col"
+                :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
+              >
+                <div class="text-center" v-if="locale === 'ar'">{{ chapter?.name_arabic }}</div>
+                <div class="text-center" v-else-if="locale === 'en'">
+                  {{ chapter?.translated_name?.name }}
+                </div>
+                <div class="text-sm">[{{ chapter.id }}]</div>
+              </div>
+            </div>
+          </A3DCard>
+        </div>
+      </div>
+      <div v-else>
+        <div class="flex justify-center items-center h-24">
+          <AppSpinner />
+        </div>
+      </div>
+
+      <!-- We will not use Juzs for now, until we find a better api to get the chapters for specific juz'
+       <div class="flex justify-center gap-2 mt-6">
         <UButton
           v-for="(btn, i) in buttons"
           :key="btn"
@@ -20,8 +51,9 @@
         >
           {{ $t(btn) }}
         </UButton>
-      </div>
-      <div class="w-full">
+        </div>
+
+        <div class="w-full">
         <Transition name="slide-fade">
           <div
             v-if="juzs?.length && activeButton === 0"
@@ -60,7 +92,7 @@
           >
             <A3DCard
               :to="`quran/chapter/${chapter.id}`"
-              class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300"
+              class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300 active:!scale-95"
             >
               <div class="flex items-center justify-center w-full h-full">
                 <div
@@ -78,32 +110,40 @@
           </div>
         </div>
       </Transition>
-    </div>
+    --></div>
   </div>
+
+  <!-- Modals -->
+  <UModal v-model="quickActionsModal">
+    <ChapterQuickActions v-if="!!clickedChapter" :chapter="clickedChapter!" />
+  </UModal>
 </template>
 
 <script setup lang="ts">
+  import { Chapter } from '~/types/server-schemas/Chapter';
+
   const { locale } = useI18n();
 
-  const getJuzs = () => {
-    const { fetchJuzs } = useFetchApis();
-
-    try {
-      const juzs = fetchJuzs();
-
-      return juzs;
-    } catch (error) {
-      Debug.error({
-        message: 'Error while fetching Juzs',
-        data: error,
-      });
-
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'Error while fetching Juzs',
-      });
-    }
-  };
+  // we will not use Juzs for now, until we find a better api to get the chapters for specific juz'
+  //   const getJuzs = () => {
+  //     const { fetchJuzs } = useFetchApis();
+  //
+  //     try {
+  //       const juzs = fetchJuzs();
+  //
+  //       return juzs;
+  //     } catch (error) {
+  //       Debug.error({
+  //         message: 'Error while fetching Juzs',
+  //         data: error,
+  //       });
+  //
+  //       throw createError({
+  //         statusCode: 500,
+  //         statusMessage: 'Error while fetching Juzs',
+  //       });
+  //     }
+  //   };
 
   const getChapters = () => {
     const { fetchChapters } = useFetchApis();
@@ -125,12 +165,31 @@
     }
   };
 
-  const buttons = ['juzs', 'chapters'];
-  const activeButton = ref(0);
-  const setActiveButton = (index: number) => {
-    activeButton.value = index;
+  // const buttons = ['juzs', 'chapters'];
+  // const activeButton = useState('active-button', () => 0);
+  // const setActiveButton = (index: number) => {
+  //   activeButton.value = index;
+  // };
+
+  const quickActionsModal = ref(false);
+  const clickedChapter = ref<Chapter | null>();
+  const toggleQuickActionsModal = (chapter: Chapter) => {
+    if (!chapter) return;
+
+    clickedChapter.value = chapter;
+
+    quickActionsModal.value = !quickActionsModal.value;
   };
 
+  watch(
+    () => quickActionsModal.value,
+    (value) => {
+      if (!value) {
+        clickedChapter.value = null;
+      }
+    }
+  );
+
   // get page data
-  const [juzs, chapters] = await Promise.all([getJuzs(), getChapters()]);
+  const [chapters] = await Promise.all([getChapters()]);
 </script>
