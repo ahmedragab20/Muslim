@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   css: ['@/assets/css/core.css', '@/assets/css/main.css', '@/assets/css/animation.css'],
   modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n'],
   i18n: {
-    vueI18n: './i18n.config.ts',
+    vueI18n: './i18n.config',
   },
   // vuefire: {
   //   /*  We're gonna pause the authentication work until we finish the important parts in the aoo  */
