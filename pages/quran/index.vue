@@ -136,7 +136,7 @@
   import { Chapter } from '~/types/server-schemas/Chapter';
 
   const { locale } = useI18n();
-
+  const router = useRouter();
   // we will not use Juzs for now, until we find a better api to get the chapters for specific juz'
   //   const getJuzs = () => {
   //     const { fetchJuzs } = useFetchApis();
@@ -259,10 +259,17 @@
   );
 
   const clickedMore = (state: boolean) => {
+    if (!clickedChapter.value) return;
+
     Debug.log({
       message: 'Clicked More🚀',
-      data: state,
+      data: {
+        state,
+        chapter: clickedChapter.value,
+      },
     });
+
+    router.push(`/quran/chapter/${clickedChapter.value.id}`);
   };
   const downloadingChapter = ref(false);
   const downloadedChapter = ref(false);
