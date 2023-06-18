@@ -264,19 +264,9 @@
       data: state,
     });
   };
-  const clickedTafsir = (state: boolean) => {
-    Debug.log({
-      message: 'Clicked Tafsir🚀',
-      data: state,
-    });
-  };
   const downloadingChapter = ref(false);
   const downloadedChapter = ref(false);
   const clickedDownload = async () => {
-    Debug.log({
-      message: 'Clicked Download🚀',
-    });
-
     try {
       downloadingChapter.value = true;
       if (!chapterRecitation.value) {
