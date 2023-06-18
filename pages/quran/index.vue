@@ -13,7 +13,7 @@
         <div
           v-for="chapter in chapters"
           :key="chapter.id"
-          class="lg:w-1/5 md:w-1/3 sm:w-1/2 w-full p-1 h-20"
+          class="lg:w-1/5 md:w-1/3 sm:w-1/2 w-full p-1 h-24"
         >
           <A3DCard
             @click="toggleQuickActionsModal(chapter)"
@@ -21,12 +21,15 @@
           >
             <div class="flex items-center justify-center w-full h-full">
               <div
-                class="flex gap-1 opacity-70 line-clamp-2 items-center justify-center flex-col"
+                class="flex gap-1 opacity-70 max-w-full truncate items-center justify-center flex-col"
                 :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
               >
                 <div class="text-center" v-if="locale === 'ar'">{{ chapter?.name_arabic }}</div>
                 <div class="text-center" v-else-if="locale === 'en'">
                   {{ chapter?.translated_name?.name }}
+                </div>
+                <div class="text-sm">
+                  {{ chapter.name_simple }}
                 </div>
                 <div class="text-sm">[{{ chapter.id }}]</div>
               </div>
