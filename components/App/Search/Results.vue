@@ -65,10 +65,6 @@
     audioUrl: string;
   }
 
-  // TODOs:
-  // 1. copy ✅
-  // 2. recite play+pause
-  // 3. see more
   const toast = useToast();
   const { t } = useI18n();
 
@@ -182,6 +178,12 @@
       loadingRecitation.value = false;
     }
   };
+
+  onUnmounted(() => {
+    audioPlayer.value?.stop();
+    audioPlayer.value = null;
+    clickedAyah.value = '';
+  });
 </script>
 
 <style>

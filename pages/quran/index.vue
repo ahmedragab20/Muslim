@@ -9,9 +9,6 @@
       <AppSearchWrapper />
     </div>
     <div>
-      <UBadge color="orange"> BUG:: play ayah and close the search </UBadge>
-    </div>
-    <div>
       <div v-if="chapters?.length" class="w-full flex justify-center flex-wrap mt-6">
         <div
           v-for="chapter in chapters"
