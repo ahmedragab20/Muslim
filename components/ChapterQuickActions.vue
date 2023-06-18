@@ -34,13 +34,15 @@
           tabindex="-1"
           variant="soft"
           class="px-5"
-          icon="i-heroicons-book-open"
+          :icon="downloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'"
           :ui="{
             rounded: 'rounded-full',
           }"
-          @click="emit('clicked-tafsir', true)"
+          :loading="downloading"
+          :disabled="downloaded"
+          @click="emit('clicked-download', true)"
         >
-          {{ $t('tafsir') }}
+          {{ downloaded ? $t('downloaded') : $t('download') }}
         </UButton>
       </div>
 
@@ -66,11 +68,13 @@
   const { chapter } = defineProps<{
     chapter: Chapter;
     playing: boolean;
+    downloading: boolean;
+    downloaded: boolean;
     reciting?: boolean;
     loadingChapterRecitation: boolean;
   }>();
   const emit = defineEmits<{
-    'clicked-tafsir': [state: boolean];
+    'clicked-download': [state: boolean];
     'clicked-play': [state: boolean];
     'clicked-more': [state: boolean];
     'update:playing': [state: boolean];

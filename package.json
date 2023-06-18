@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "axios": "^1.4.0",
     "firebase": "^9.22.2",
     "gsap": "^3.11.5",
     "nuxt-vuefire": "^0.1.6",

@@ -123,9 +123,11 @@
       :chapter="clickedChapter!"
       :loading-chapter-recitation="loadingChapterRecitation"
       :reciting="recitingChapter"
+      :downloading="downloadingChapter"
+      :downloaded="downloadedChapter"
       v-model:playing="playingChapter"
       @clicked-more="clickedMore"
-      @clicked-tafsir="clickedTafsir"
+      @clicked-download="clickedDownload"
     />
   </UModal>
 </template>
@@ -203,23 +205,25 @@
       }
     }
   );
-
+  const { CHAPTER_RECITATION_API } = useApis();
   const playingChapter = ref(false);
   const loadingChapterRecitation = ref(false);
   const chapterRecitationAudio = ref();
-
+  const chapterAudios = ref<any>([]);
+  const chapterRecitation = computed<string>(
+    () =>
+      chapterAudios.value?.audio_files?.find(
+        (audio: any) => audio.chapter_id === clickedChapter.value?.id
+      )?.audio_url
+  );
   const reciteChapter = async () => {
     try {
       if (!clickedChapter.value) return;
       loadingChapterRecitation.value = true;
-      const { CHAPTER_RECITATION_API } = useApis();
 
-      const chapterAudio: any = await $fetch(CHAPTER_RECITATION_API(clickedChapter.value.id));
-      if (chapterAudio?.audio_files?.length) {
-        const chapterRecitation = chapterAudio.audio_files?.find(
-          (audio: any) => audio.chapter_id === clickedChapter.value?.id
-        )?.audio_url;
-        const audio = new AudioPlayer(chapterRecitation);
+      chapterAudios.value = await $fetch(CHAPTER_RECITATION_API(clickedChapter.value.id));
+      if (chapterAudios.value?.audio_files?.length) {
+        const audio = new AudioPlayer(chapterRecitation.value);
         chapterRecitationAudio.value = audio;
 
         chapterRecitationAudio.value.play();
@@ -265,6 +269,41 @@
       message: 'Clicked Tafsir🚀',
       data: state,
     });
+  };
+  const downloadingChapter = ref(false);
+  const downloadedChapter = ref(false);
+  const clickedDownload = async () => {
+    Debug.log({
+      message: 'Clicked Download🚀',
+    });
+
+    try {
+      downloadingChapter.value = true;
+      if (!chapterRecitation.value) {
+        chapterAudios.value = await $fetch(CHAPTER_RECITATION_API(clickedChapter.value!.id));
+      }
+
+      await Generics.downloadFile(chapterRecitation.value)
+        .then(() => {
+          downloadedChapter.value = true;
+        })
+        .catch((error) => console.error('Error downloading file:', error));
+    } catch (error) {
+      Debug.error({
+        message: 'Error while downloading Chapter',
+        data: error,
+      });
+
+      createError({
+        statusCode: 500,
+        statusMessage: 'Error while downloading Chapter',
+      });
+    } finally {
+      downloadingChapter.value = false;
+      setTimeout(() => {
+        downloadedChapter.value = false;
+      }, 5000);
+    }
   };
 
   // get page data

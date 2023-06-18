@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export class Generics {
   static uuid(): string | undefined {
     try {
@@ -311,4 +313,18 @@ export class Generics {
         });
     });
   };
+  static async downloadFile(url: string): Promise<void> {
+    const response = await axios({
+      method: 'GET',
+      url,
+      responseType: 'blob',
+    });
+    const fileName = url.split('/').pop();
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a')! as HTMLAnchorElement;
+    link.href = downloadUrl;
+    link.download = fileName!;
+    link.click();
+    window.URL.revokeObjectURL(downloadUrl);
+  }
 }
