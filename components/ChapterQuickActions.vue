@@ -66,7 +66,7 @@
   const { chapter } = defineProps<{
     chapter: Chapter;
     playing: boolean;
-    reciting: boolean;
+    reciting?: boolean;
     loadingChapterRecitation: boolean;
   }>();
   const emit = defineEmits<{

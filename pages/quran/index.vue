@@ -205,10 +205,6 @@
   const loadingChapterRecitation = ref(false);
   const chapterRecitationAudio = ref();
 
-  watch(chapterRecitationAudio, (value) => {
-    Debug.log({}, "chapterRecitationAudio's value changed");
-  });
-
   const reciteChapter = async () => {
     try {
       if (!clickedChapter.value) return;
@@ -222,10 +218,8 @@
         )?.audio_url;
         const audio = new AudioPlayer(chapterRecitation);
         chapterRecitationAudio.value = audio;
-        console.log(chapterRecitationAudio.value.isPlaying);
 
         chapterRecitationAudio.value.play();
-        console.log(chapterRecitationAudio.value.isPlaying);
         chapterRecitationAudio.value.onEnded();
       }
     } catch (error) {
@@ -246,14 +240,12 @@
     () => playingChapter.value,
     (value, oldV) => {
       if (value && !oldV) {
-        console.log('playing');
         if (!chapterRecitationAudio.value) {
           reciteChapter();
         } else {
           chapterRecitationAudio.value?.play?.();
         }
       } else {
-        console.log('not playing (paused)');
         chapterRecitationAudio.value?.pause?.();
       }
     }
@@ -262,12 +254,6 @@
   const clickedMore = (state: boolean) => {
     Debug.log({
       message: 'Clicked More🚀',
-      data: state,
-    });
-  };
-  const clickedPlay = (state: boolean) => {
-    Debug.log({
-      message: 'Clicked Play🚀',
       data: state,
     });
   };
