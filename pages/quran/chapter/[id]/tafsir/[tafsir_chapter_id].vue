@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- TODO: don't forget to add option to download the surah -->
-    {{ route.params.id }}
+    tafsir page for the chapter:
+    {{ route.params.tafsir_chapter_id }}
   </div>
 </template>
 

@@ -13,3 +13,5 @@
 
 //-> i18n:extend-messages is deprecated. That hook will be removed feature at the time of the v8 official release.                                                                                                                                 @nuxtjs/i18n 8:06:31 PM
 If you're using it, please use i18n:registerModule instead.
+
+// https://alquran.cloud/tajweed-guide

@@ -261,14 +261,6 @@
   const clickedMore = (state: boolean) => {
     if (!clickedChapter.value) return;
 
-    Debug.log({
-      message: 'Clicked More🚀',
-      data: {
-        state,
-        chapter: clickedChapter.value,
-      },
-    });
-
     router.push(`/quran/chapter/${clickedChapter.value.id}`);
   };
   const downloadingChapter = ref(false);
