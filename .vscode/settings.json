@@ -2,5 +2,8 @@
   "i18n-ally.localesPaths": [
     "localizations"
   ],
-  "i18n-ally.sourceLanguage": "en"
+  "i18n-ally.sourceLanguage": "en",
+  "cSpell.words": [
+    "containerheight"
+  ]
 }

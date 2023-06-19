@@ -327,4 +327,28 @@ export class Generics {
     link.click();
     window.URL.revokeObjectURL(downloadUrl);
   }
+  static formatTimeProgress(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+  static calculatePercentage(number: number, reference: number): number {
+    if (reference === 0) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Reference number cannot be zero.',
+      });
+    }
+
+    return (number / reference) * 100;
+  }
+  static convertToMinutes(number: number): number {
+    return Math.floor(number / 60);
+  }
+  static convertPercentageToSeconds(percentage: number, totalDuration: number): number {
+    const totalSeconds = totalDuration * 60; // Convert total duration to seconds
+    return Math.floor((percentage / 100) * totalSeconds);
+  }
 }

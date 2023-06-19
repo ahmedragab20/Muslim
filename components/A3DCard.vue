@@ -2,16 +2,23 @@
   <!-- Credit goes to: https://www.youtube.com/watch?v=gvO3JTCevKc ❤️ - the inspire of the idea -->
 
   <div @click="goTo" :id="wrapperId" class="cardWrapper">
-    <div :id="cardId" class="card">
+    <div :id="cardId" class="card" :class="cardClass">
       <slot />
-      <div :id="highlightId" class="highlight"></div>
+      <div :id="highlightId" class="highlight" :class="{ 'pointer-events-none': !animation }"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  const { to } = defineProps<{
+  const {
+    to,
+    animation = true,
+    noVoidedWrapper = true,
+  } = defineProps<{
     to?: string;
+    cardClass?: string;
+    animation?: boolean;
+    noVoidedWrapper?: boolean;
   }>();
   const router = useRouter();
 
@@ -27,6 +34,9 @@
   };
 
   onMounted(() => {
+    // if (!animation) {
+    //   return;
+    // }
     // DOM Element selections
     const cardWrapper = document.getElementById(wrapperId!) as HTMLElement;
     const card = document.getElementById(cardId!) as HTMLElement;
@@ -50,8 +60,16 @@
       const rotationY = ((x - halfWidth) / halfWidth) * mostX;
       const rotationX = ((y - halfHeight) / halfHeight) * mostY;
 
-      // set rotation
-      card.style.transform = `rotateY(${rotationY}deg) rotateX(${rotationX}deg)`;
+      if (animation && noVoidedWrapper && cardWrapper) {
+        const wrapperChildren = Array.from(cardWrapper.querySelectorAll('*')) as HTMLElement[];
+        wrapperChildren.forEach((child) => {
+          child.style.pointerEvents = 'none';
+        });
+      }
+      if (animation) {
+        // set rotation
+        card.style.transform = `rotateY(${rotationY}deg) rotateX(${rotationX}deg)`;
+      }
       highlight.style.left = `${(rotationY / mostX) * 30 * -1}%`;
       highlight.style.top = `${(rotationX / mostY) * 30 * -1}%`;
     });
@@ -73,13 +91,13 @@
     perspective: 1000px;
     @apply max-w-full;
   }
+  .cardWrapper * {
+    @apply select-none duration-300;
+  }
   .card {
-    @apply w-full h-full rounded-lg border border-gray-50 dark:border-gray-800;
+    @apply w-full h-full initial:rounded-lg initial:border initial:border-gray-50 dark:initial:border-gray-800;
     position: relative;
     overflow: hidden;
-  }
-  .cardWrapper * {
-    pointer-events: none;
   }
   .highlight {
     position: absolute;
@@ -90,5 +108,6 @@
     filter: brightness(50%) blur(80px);
     left: -20%;
     top: -13%;
+    overflow: hidden;
   }
 </style>

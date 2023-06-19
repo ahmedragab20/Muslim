@@ -4,7 +4,7 @@
 }
 
 .slideIn-fade-enter-from {
-  transform: translateY(-5px) scale(0.9);
+  transform: translateY(-5px) scale(0.6);
   opacity: 0;
 }
 

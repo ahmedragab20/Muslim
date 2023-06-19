@@ -41,6 +41,12 @@ export default class AudioPlayer {
       callback?.();
     });
   }
+  // on time update
+  public onTimeUpdate(callback?: (time: number) => void): void {
+    this.audio.addEventListener('timeupdate', () => {
+      callback?.(this.audio.currentTime);
+    });
+  }
 
   public setVolume(volume: number): void {
     this.audio.volume = volume;
