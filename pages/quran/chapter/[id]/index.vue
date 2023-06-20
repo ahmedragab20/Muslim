@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-  const { locale } = useI18n();
   const route = useRoute();
   const { alqatami } = useQuranReciters();
   const alqatamiRecitation = alqatami(+route.params.id);

@@ -327,16 +327,6 @@ export class Generics {
     link.click();
     window.URL.revokeObjectURL(downloadUrl);
   }
-  static formatTimeProgress(seconds: number): string {
-    if (!seconds) {
-      return '00:00';
-    }
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    const formattedMinutes = minutes.toString().padStart(2, '0');
-    const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
-    return `${formattedMinutes.slice(0, 2)}:${formattedSeconds.slice(0, 2)}`;
-  }
   static calculatePercentage(number: number, reference: number): number {
     if (reference === 0) {
       throw createError({
@@ -351,9 +341,17 @@ export class Generics {
     return Math.floor(number / 60);
   }
   static convertPercentageToSeconds(percentage: number, totalDuration: number): number {
-    console.log('percentage', percentage, 'totalDuration', totalDuration);
-
     const timeInSeconds = (percentage / 100) * totalDuration;
     return timeInSeconds;
+  }
+  static formatTimeProgress(seconds: number, totalDuration: number): string {
+    const currentMinutes = Generics.convertToMinutes(seconds);
+    const totalMinutes = Generics.convertToMinutes(totalDuration);
+    const currentSeconds = seconds % 60;
+    const totalSeconds = totalDuration % 60;
+
+    return `${currentMinutes}:${currentSeconds.toFixed(0)} / ${totalMinutes}:${totalSeconds.toFixed(
+      0
+    )}`;
   }
 }

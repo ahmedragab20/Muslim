@@ -221,9 +221,10 @@
         audio.value?.duration
       );
       mediaProgressInMinutes.value = Generics.convertToMinutes(currentTime);
-      mediaProgressFormatted.value = `${Generics.formatTimeProgress(
-        currentTime
-      )}/${Generics.formatTimeProgress(audio.value?.duration)}`;
+      mediaProgressFormatted.value = Generics.formatTimeProgress(
+        currentTime,
+        audio.value?.duration
+      );
     });
   };
   const audioDownloaded = ref(false);
