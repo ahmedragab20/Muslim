@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="h-[80svh] flex justify-center items-center">
     <AudioPlayer
       :audio-name="`Surah ${route.params.id}`"
       :reciter-name="alqatamiRecitation.name.en"
+      :full-name="`Surah ${route.params.id} - ${alqatamiRecitation.name.en}`"
       expandable
       :audio-url="audioUrl"
     />

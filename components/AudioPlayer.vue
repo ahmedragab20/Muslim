@@ -100,7 +100,7 @@
           <div class="w-[calc(100%-40px)]">
             <div class="flex justify-between">
               <div class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold">
-                1. Surah Al-Fatihah
+                {{ fullName }}
               </div>
               <UButton
                 v-if="!isCdnUrl"
@@ -129,13 +129,14 @@
 </template>
 
 <script setup lang="ts">
-  const { audioUrl, expandable } = defineProps<{
+  const { audioUrl, expandable, playOnTheBackground } = defineProps<{
     audioUrl: string;
     audioName?: string;
     fullName?: string;
     reciterName?: string;
     expandable?: boolean;
     btnOnly?: boolean; // will handle it when needed later
+    playOnTheBackground?: boolean; // will handle it when needed later
   }>();
 
   const isCdnUrl = computed(() => {
@@ -273,6 +274,11 @@
         containerheight.value = 43;
       }
     });
+  });
+  onBeforeRouteLeave(() => {
+    if (audio.value && !playOnTheBackground) {
+      audio.value?.pause();
+    }
   });
 </script>
 <style scoped>
