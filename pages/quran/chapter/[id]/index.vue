@@ -4,8 +4,8 @@
       :audio-name="`Surah ${route.params.id}`"
       :reciter-name="alqatamiRecitation.name.en"
       :full-name="`Surah ${route.params.id} - ${alqatamiRecitation.name.en}`"
-      expandable
       :audio-url="audioUrl"
+      btn-only
     />
   </div>
 </template>

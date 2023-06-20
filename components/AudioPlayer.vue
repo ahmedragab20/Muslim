@@ -1,8 +1,15 @@
 <template>
-  <div :style="`height: ${containerheight}px`" class="w-[280px] relative initial:h-10">
+  <div
+    :style="!btnOnly ? `height: ${containerheight}px` : ''"
+    class="relative initial:h-10"
+    :class="btnOnly ? 'initial:w-10' : 'initial:w-[280px]'"
+  >
     <div
-      class="w-full h-10 absolute z-20 duration-300 initial:rounded-full"
-      :class="showList ? ' -translate-y-5 rounded-t-full' : 'rounded-full'"
+      class="w-full absolute z-20 duration-300 initial:rounded-full"
+      :class="[
+        showList ? ' -translate-y-5 rounded-t-full' : 'rounded-full',
+        btnOnly ? 'h-full' : 'h-10',
+      ]"
     >
       <A3DCard
         @click.self="!showList ? toggleList() : () => {}"
@@ -17,16 +24,17 @@
         <div class="w-full h-full flex items-center duration-300 gap-1 rounded-full">
           <!-- toggle btn -->
           <div
-            :class="
+            :class="[
               showList
                 ? `${
                     audio?.isPlaying
                       ? 'bg-primary-500 dark:bg-primary-600'
                       : 'bg-gray-200 dark:bg-gray-800'
                   }`
-                : 'rounded-full bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800'
-            "
-            class="w-10 flex items-center justify-center h-10 flex-shrink-0 duration-300"
+                : 'rounded-full bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800',
+              btnOnly ? 'w-full h-full' : 'w-10 h-10',
+            ]"
+            class="flex items-center justify-center flex-shrink-0 duration-300"
           >
             <UButton
               :loading="loadingAudio"
@@ -44,6 +52,7 @@
 
           <!-- info -->
           <div
+            v-if="!btnOnly"
             @click="toggleList"
             class="w-[calc(100%-40px)] h-full flex items-center justify-between"
           >
@@ -68,7 +77,7 @@
             </div>
           </div>
         </div>
-        <div v-if="audio?.duration" class="absolute z-30 bottom-0 w-full shadow-inner">
+        <div v-if="audio?.duration && !btnOnly" class="absolute z-30 bottom-0 w-full shadow-inner">
           <div
             :style="`width: ${mediaProgressPercentage}%`"
             class="dark:bg-primary-900 bg-primary-700 h-0.5"
@@ -86,14 +95,12 @@
     </div>
     <Transition name="slideIn-fade">
       <div
-        v-if="showList"
+        v-if="showList && expandable && !btnOnly"
         :id="listDivID"
         class="w-full min-h-[55px] overflow-hidden delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
         :class="{ ' translate-y-5': showList }"
       >
-        <div
-          class="my-1 bg-gray-200 w-full flex px-2 items-center gap-1 dark:bg-gray-800 min-h-[40px]"
-        >
+        <div class="my-1 w-full flex px-2 items-center gap-1 min-h-[40px]">
           <div class="text-2xl w-8 flex-shrink-0 text-gray-600">
             <i class="i-heroicons-microphone"></i>
           </div>
@@ -105,14 +112,12 @@
               <UButton
                 v-if="!isCdnUrl"
                 variant="link"
+                size="xs"
+                :padded="false"
                 :loading="downloading"
+                :icon="audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'"
                 @click="downloadAudio"
               >
-                <i
-                  :class="
-                    audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'
-                  "
-                ></i>
               </UButton>
             </div>
             <div class="flex justify-between w-full text-gray-500 dark:text-gray-400 font-normal">
@@ -129,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-  const { audioUrl, expandable, playOnTheBackground } = defineProps<{
+  const { audioUrl, expandable, playOnTheBackground, btnOnly } = defineProps<{
     audioUrl: string;
     audioName?: string;
     fullName?: string;
@@ -145,7 +150,7 @@
 
   const showList = ref(false);
   const toggleList = () => {
-    if (!expandable) return;
+    if (!expandable || btnOnly) return;
 
     showList.value = !showList.value;
   };
@@ -156,7 +161,7 @@
   const mediaProgressPercentage = ref(0);
   const mediaProgressInSeconds = ref(0);
   const mediaProgressInMinutes = ref(0);
-  const mediaProgressFormatted = ref('00:00');
+  const mediaProgressFormatted = ref('00:00/00:00'); // default value
   const audio = ref();
   const loadingAudio = ref(false);
   const getAudio = async () => {

@@ -70,8 +70,6 @@ export default class AudioPlayer {
   }
 
   public setCurrentTime(time: number): void {
-    console.log('time', time);
-
     if (!time || time === Infinity) return;
     if (time < 0) {
       time = 0;
