@@ -172,7 +172,7 @@
     btnOnly?: boolean; // will handle it when needed later
     playOnTheBackground?: boolean; // will handle it when needed later
     loading?: boolean;
-    metaLogic: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
+    metaLogic?: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
   }
   const props = withDefaults(defineProps<Props>(), {
     audioUrl: '',
