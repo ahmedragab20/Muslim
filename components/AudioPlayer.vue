@@ -1,9 +1,12 @@
 <template>
   <div
-    :style="!btnOnly ? `height: ${containerheight}px` : ''"
-    class="relative initial:h-10"
-    :class="btnOnly ? 'initial:w-10' : 'initial:w-[280px]'"
-    @click="hasSlot ? toggleAudio() : () => {}"
+    :style="!btnOnly ? `${hasSlot ? '' : `height: ${containerheight}px`}` : ''"
+    class="relative"
+    :class="[
+      btnOnly ? `${hasSlot ? '' : 'initial:w-10'}` : `${hasSlot ? '' : 'initial:w-[280px]'}`,
+      { 'initial:h-10': !hasSlot },
+    ]"
+    @click="hasSlot && !loading ? toggleAudio() : () => {}"
   >
     <slot />
     <template v-if="!hasSlot">
@@ -156,8 +159,11 @@
     percentage: number;
     formatted: string;
   }
-
-  const { audioUrl, expandable, playOnTheBackground, btnOnly } = defineProps<{
+  interface MetaLogic {
+    fn: Function;
+    args: any[];
+  }
+  interface Props {
     audioUrl: string;
     audioName?: string;
     fullName?: string;
@@ -165,7 +171,19 @@
     expandable?: boolean;
     btnOnly?: boolean; // will handle it when needed later
     playOnTheBackground?: boolean; // will handle it when needed later
-  }>();
+    loading?: boolean;
+    metaLogic: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
+  }
+  const props = withDefaults(defineProps<Props>(), {
+    audioUrl: '',
+    audioName: '',
+    fullName: '',
+    reciterName: '',
+    expandable: false,
+    btnOnly: false,
+    playOnTheBackground: false,
+    loading: false,
+  });
   const emit = defineEmits<{
     'audio-found': [audio: AudioProp];
     'audio-toggled': [status: boolean];
@@ -179,14 +197,14 @@
   const slots = useSlots();
 
   const isCdnUrl = computed(() => {
-    return isCDNUrl(audioUrl);
+    return isCDNUrl(props.audioUrl);
   });
   const hasSlot = computed(() => {
     return !!slots.default;
   });
   const showList = ref(false);
   const toggleList = () => {
-    if (!expandable || btnOnly) return;
+    if (!props.expandable || props.btnOnly) return;
 
     showList.value = !showList.value;
   };
@@ -201,7 +219,9 @@
   const audio = ref();
   const loadingAudio = ref(false);
   const getAudio = async () => {
-    if (!audioUrl) {
+    if (!props.audioUrl) {
+      console.log('audio: ', props.audioUrl, props.loading);
+
       throw createError({
         statusCode: 500,
         statusMessage: 'Audio url is required',
@@ -210,7 +230,7 @@
 
     try {
       loadingAudio.value = true;
-      audio.value = new AudioPlayer(audioUrl);
+      audio.value = new AudioPlayer(props.audioUrl);
       audio.value?.play();
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
@@ -242,9 +262,18 @@
     }
   };
 
-  const toggleAudio = () => {
+  const toggleAudio = async () => {
+    if (props.loading) return;
+
     if (!audio.value) {
-      getAudio();
+      // this code will run only once
+      if (props.metaLogic?.length) {
+        props.metaLogic.forEach(async (logic: MetaLogic) => {
+          await logic?.fn(...logic.args);
+        });
+      }
+
+      await getAudio();
       audioProgressHandler();
       emit('audio-toggled', true);
       return;
@@ -293,7 +322,9 @@
   const audioDownloaded = ref(false);
   const downloading = ref(false);
   const downloadAudio = async () => {
-    if (!audioUrl) {
+    if (!props.audioUrl) {
+      console.log('audioUrl: ', props.audioUrl);
+
       throw createError({
         statusCode: 500,
         statusMessage: 'Audio url is required',
@@ -309,7 +340,7 @@
       downloading.value = true;
       emit('audio-downloading', true);
 
-      await Generics.downloadFile(audioUrl)
+      await Generics.downloadFile(props.audioUrl)
         .then(() => {
           setTimeout(() => {
             audioDownloaded.value = false;
@@ -342,7 +373,7 @@
     });
   });
   onBeforeRouteLeave(() => {
-    if (audio.value && !playOnTheBackground) {
+    if (audio.value && !props.playOnTheBackground) {
       audio.value?.pause();
     }
   });

@@ -27,15 +27,26 @@
                 />
               </div>
               <div>
-                <UButton
-                  @click="recite(result)"
+                {{ loadingRecitation }}
+                <AudioPlayer
+                  :audio-url="audioUrl"
+                  @audio-found="foundAudio"
+                  @audio-toggled="togglePlaying"
                   :loading="loadingRecitation"
-                  variant="link"
-                  :color="audioPlayer?.isPlaying ? 'red' : 'primary'"
-                  :icon="
-                    audioPlayer?.isPlaying ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'
-                  "
-                />
+                  :meta-logic="[
+                    {
+                      fn: recite,
+                      args: [result],
+                    },
+                  ]"
+                >
+                  <UButton
+                    variant="link"
+                    :loading="loadingRecitation"
+                    :color="playingAyah ? 'red' : 'primary'"
+                    :icon="playingAyah ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'"
+                  />
+                </AudioPlayer>
               </div>
             </div>
             <div>
@@ -117,56 +128,50 @@
   };
   const audioPlayer = ref();
   const loadingRecitation = ref(false);
-
+  const audioUrl = ref('');
   const playedAyat = ref<PlayedAyah[]>([]);
+  const playingAyah = ref(false);
+  const foundAudio = (audio: any) => {
+    console.log('found audio', audio);
+
+    audioPlayer.value = audio;
+  };
+  const togglePlaying = (state: boolean) => {
+    console.log('toggle playing', state);
+
+    playingAyah.value = state;
+  };
+
   const recite = async (verse: any) => {
+    console.log('recite', verse);
+    loadingRecitation.value = true;
+    console.log('loadingRecitation', loadingRecitation.value);
+
     const ayah_key = verse?.verse_key;
     const storedAyah = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
-
-    // Check if the storedAyah exists and verse_key matches clickedAyah.value
-    if (!!storedAyah && verse?.verse_key === clickedAyah.value) {
-      if (audioPlayer.value.isPlaying) {
-        // Pause the audio player if it's already playing
-        audioPlayer.value.pause();
-      } else if (!audioPlayer.value.isPlaying && audioPlayer.value.verseKey === ayah_key) {
-        // Resume playing if audio player is not playing and verseKey matches
-        audioPlayer.value.play();
-      } else if (!audioPlayer.value.isPlaying && audioPlayer.value.verseKey !== ayah_key) {
-        // Re-initialize the audio player and play if verseKey doesn't match
-        audioPlayer.value = new AudioPlayer(storedAyah.audioUrl, ayah_key);
-        audioPlayer.value.play();
-      }
-
-      return; // Exit the function
+    if (storedAyah) {
+      audioUrl.value = storedAyah.audioUrl;
+      return;
     }
-
-    loadingRecitation.value = true;
 
     const baseURL = 'https://verses.quran.com/';
     const { AYAH_RECITATION_API } = useApis();
-    let audioUrl: string;
 
     try {
       // Fetch the audio URL for the given ayah_key
       const ayah: any = await $fetch(AYAH_RECITATION_API(ayah_key));
+
       if (ayah) {
         const key = ayah?.audio_files?.[0]?.url;
-        audioUrl = `${baseURL}${key}`;
-
-        // Initialize the audio player with the audio URL and verseKey
-        audioPlayer.value = new AudioPlayer(audioUrl, ayah_key);
-
-        // Add the played ayah to the playedAyat array
+        audioUrl.value = `${baseURL}${key}`;
         playedAyat.value.push({
           ayah_key,
-          audioUrl,
+          audioUrl: `${baseURL}${key}`,
         });
-
-        // Play the audio
-        audioPlayer.value.play();
-
-        // Trigger the onEnded event of the audio player to update the UI
-        audioPlayer.value.onEnded();
+        console.log({
+          ayah_key,
+          audioUrl: `${baseURL}${key}`,
+        });
       }
     } catch (error) {
       // Throw an error if there's an issue getting the audio URL
@@ -176,6 +181,7 @@
       });
     } finally {
       loadingRecitation.value = false;
+      console.log('loadingRecitation', loadingRecitation.value);
     }
   };
 

@@ -85,11 +85,6 @@
 </template>
 
 <script setup lang="ts">
-  interface ExposedResultsComponent {
-    setClickedAyah: (ayah: any) => void;
-    audioPlayer: any;
-  }
-
   const searchInputR = ref();
   const searchModal = ref(false);
 
