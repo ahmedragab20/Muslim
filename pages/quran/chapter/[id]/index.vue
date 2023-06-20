@@ -1,20 +1,104 @@
 <template>
-  <div class="h-[80svh] flex justify-center items-center">
-    <AudioPlayer
-      :audio-name="`Surah ${route.params.id}`"
-      :reciter-name="alqatamiRecitation.name.en"
-      :full-name="`Surah ${route.params.id} - ${alqatamiRecitation.name.en}`"
-      :audio-url="audioUrl"
-      btn-only
-    />
+  <div class="min-h-[80svh] flex justify-center flex-col gap-3">
+    <div class="flex items-center gap-2">
+      <div class="mb-1">Theme 1.</div>
+      <!-- only toggler -->
+      <AudioPlayer
+        :audio-url="audioUrl"
+        btn-only
+        @audio-toggled="togglePlaying"
+        @audio-found="foundAudio"
+      >
+      </AudioPlayer>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="mb-1">Theme 2.</div>
+      <!-- one line audio player -->
+      <AudioPlayer
+        :audio-name="`Surah ${route.params.id}`"
+        :reciter-name="alqatamiRecitation.name.en"
+        :audio-url="audioUrl"
+        @audio-toggled="togglePlaying"
+        @audio-found="foundAudio"
+      >
+      </AudioPlayer>
+    </div>
+    <div class="flex items-center gap-2 mt-4">
+      <div class="mb-1">Theme 3.</div>
+      <!-- one line audio player -->
+      <AudioPlayer
+        :audio-name="`Surah ${route.params.id}`"
+        :reciter-name="alqatamiRecitation.name.en"
+        :full-name="`Surah ${route.params.id} - ${alqatamiRecitation.name.en}`"
+        :audio-url="audioUrl"
+        expandable
+        @audio-toggled="togglePlaying"
+        @audio-found="foundAudio"
+      >
+      </AudioPlayer>
+    </div>
+    <div class="flex justify-center flex-col gap-2 mb-10">
+      <div class="mb-1">Theme 4.</div>
+      <!-- fully customizable -->
+      <AudioPlayer
+        :audio-url="audioUrl"
+        @audio-found="foundAudio"
+        @audio-toggled="togglePlaying"
+        @audio-progress="() => {}"
+        @audio-ended="() => {}"
+        @audio-downloaded="() => {}"
+        @audio-downloading="() => {}"
+        @audio-error="() => {}"
+        @audio-buffering="() => {}"
+      >
+        <UButton :icon="playing ? 'i-heroicons-pause' : 'i-heroicons-play'"></UButton>
+      </AudioPlayer>
+
+      <!-- <div class="text-start">
+        <pre class="bg-gray-50 dark:bg-gray-700 rounded-xl shadow overflow-auto flex justify-start">
+          <code>
+            {{
+              `
+              <AudioPlayer
+                :audio-url="audioUrl"
+                @audio-found="foundAudio"
+                @audio-toggled="togglePlaying"
+                @audio-progress="() => {}"
+                @audio-ended="() => {}"
+                @audio-downloaded="() => {}"
+                @audio-downloading="() => {}"
+                @audio-error="() => {}"
+                @audio-buffering="() => {}"
+              >
+                <UButton :icon="playing ? 'i-heroicons-pause' : 'i-heroicons-play'" />
+              </AudioPlayer>
+              `
+            }}
+          </code>
+        </pre>
+      </div> -->
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
   const route = useRoute();
   const { alqatami } = useQuranReciters();
-  const alqatamiRecitation = alqatami(+route.params.id);
+  const chapterNumber = ref(+route.params.id);
+  const alqatamiRecitation = alqatami(chapterNumber.value);
   const audioUrl = alqatamiRecitation.url;
+  const playing = ref(false);
+  const togglePlaying = (status: boolean) => {
+    console.log(status);
+
+    playing.value = status;
+  };
+  const foundAudio = (audio: any) => {
+    console.log(audio);
+  };
+  /**
+   * TODO: apply that in the quran index page
+   */
 
   // TODO: make the timer with with minus sign (-12m)
 

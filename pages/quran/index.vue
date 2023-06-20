@@ -17,9 +17,10 @@
         >
           <A3DCard
             @click="toggleQuickActionsModal(chapter)"
+            class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300 active:!scale-95"
             card-class="rounded-lg"
             animation
-            class="cursor-pointer select-none sm:hover:scale-110 w-full h-full duration-300 active:!scale-95"
+            no-voided-wrapper
           >
             <div class="flex items-center justify-center w-full h-full">
               <div
