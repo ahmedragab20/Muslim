@@ -105,13 +105,13 @@
           <div
             class="my-1 bg-gray-200 w-full flex px-2 items-center gap-1 dark:bg-gray-800 min-h-[40px]"
           >
-            <div class="text-2xl w-10 flex-shrink-0 text-gray-600">
+            <div class="text-2xl w-8 flex-shrink-0 text-gray-600">
               <i class="i-heroicons-microphone"></i>
             </div>
             <div class="w-[calc(100%-40px)]">
               <div class="flex justify-between">
                 <div class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold">
-                  Surah Al-Fatihah
+                  1. Surah Al-Fatihah
                 </div>
                 <UButton @click="downloadAudio" variant="link" :loading="downloading">
                   <i
