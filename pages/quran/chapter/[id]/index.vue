@@ -17,6 +17,8 @@
   const alqatamiRecitation = alqatami(+route.params.id);
   const audioUrl = alqatamiRecitation.url;
 
+  // TODO: make the timer with with minus sign (-12m)
+
   // TODO: Settings for the reading mode [text-size, list of reciters, tafsir, translation [list of languages], etc.]
   // TODO: Listen the whole chapter or download it [build an audio player for that]
   // TODO: Share button for each ayah

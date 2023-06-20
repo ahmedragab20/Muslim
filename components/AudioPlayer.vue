@@ -104,9 +104,9 @@
               </div>
               <UButton
                 v-if="!isCdnUrl"
-                @click="downloadAudio"
                 variant="link"
                 :loading="downloading"
+                @click="downloadAudio"
               >
                 <i
                   :class="

@@ -1,3 +1,5 @@
+// Credits: https://quranicaudio.com/
+
 export default () => {
   const abdulbasit = (surah: number) => {
     if (!surah || surah < 1 || surah > 114)
