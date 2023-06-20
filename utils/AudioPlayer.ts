@@ -57,6 +57,12 @@ export default class AudioPlayer {
   }
 
   public setCurrentTime(time: number): void {
+    console.log('setting current time', time);
+    if (!time) return;
+    if (time < 0) {
+      time = 0;
+    }
+
     this.audio.currentTime = time;
   }
 }

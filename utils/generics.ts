@@ -328,11 +328,14 @@ export class Generics {
     window.URL.revokeObjectURL(downloadUrl);
   }
   static formatTimeProgress(seconds: number): string {
+    if (!seconds) {
+      return '00:00';
+    }
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     const formattedMinutes = minutes.toString().padStart(2, '0');
     const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
-    return `${formattedMinutes}:${formattedSeconds}`;
+    return `${formattedMinutes.slice(0, 2)}:${formattedSeconds.slice(0, 2)}`;
   }
   static calculatePercentage(number: number, reference: number): number {
     if (reference === 0) {
@@ -348,7 +351,7 @@ export class Generics {
     return Math.floor(number / 60);
   }
   static convertPercentageToSeconds(percentage: number, totalDuration: number): number {
-    const totalSeconds = totalDuration * 60; // Convert total duration to seconds
-    return Math.floor((percentage / 100) * totalSeconds);
+    const timeInSeconds = (percentage / 100) * totalDuration;
+    return timeInSeconds;
   }
 }

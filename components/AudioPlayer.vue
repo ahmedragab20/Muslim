@@ -1,5 +1,5 @@
 <template>
-  <pre v-if="audio">
+  <pre v-if="audio" class="text-start">
     {{
       `{
         "audioUrl": "${audioUrl}",
@@ -8,6 +8,7 @@
         "mediaProgressPercentage": "${mediaProgressPercentage}",
         "mediaProgressInMinutes": "${mediaProgressInMinutes}",
         "mediaProgressInSeconds": "${mediaProgressInSeconds}",
+        "mediaProgressFormatted": "${mediaProgressFormatted}",
         "showList": "${showList}",
         "audio": "${audio}"
       }`
@@ -26,7 +27,7 @@
             showList ? 'rounded-t-xl' : 'rounded-full'
           } bg-gray-50 dark:bg-gray-900 relative duration-300`"
           class="w-full h-full cursor-pointer duration-300"
-          :animation="!showList"
+          :animation="false"
           :no-voided-wrapper="!showList"
           :key="showList ? 'show-animation' : 'hide-animation'"
         >
@@ -42,7 +43,7 @@
                           ? 'bg-primary-500 dark:bg-primary-600'
                           : 'bg-gray-200 dark:bg-gray-800'
                       }`
-                    : 'rounded-full bg-gray-50 dark:bg-gray-900'
+                    : 'rounded-full bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800'
                 "
               >
                 <i
@@ -50,7 +51,7 @@
                     audio?.isPlaying
                       ? `i-heroicons-pause ${
                           showList ? 'text-white' : 'text-gray-700 dark:text-gray-300'
-                        }}`
+                        }`
                       : 'i-heroicons-play text-gray-500 dark:text-gray-400',
                   ]"
                 ></i>
@@ -79,12 +80,16 @@
             </div>
           </div>
           <div class="absolute z-30 bottom-0 w-full shadow-inner">
-            <div :style="`width: ${mediaProgressPercentage}%`" class="bg-primary-900 h-0.5"></div>
+            <div
+              :style="`width: ${mediaProgressPercentage}%`"
+              class="dark:bg-primary-900 bg-primary-700 h-0.5"
+            ></div>
             <input
               v-if="showList"
               :id="mediaProgressId"
               type="range"
               v-model="mediaProgressPercentage"
+              @input="audioProgressHandler($event)"
               class="w-full bg-transparent h-0.5 opacity-0 hover:opacity-100 duration-300 rounded-lg appearance-none cursor-pointer range-xs z-30 absolute bottom-0 left-0 right-0"
             />
           </div>
@@ -104,12 +109,23 @@
               <i class="i-heroicons-microphone"></i>
             </div>
             <div class="w-[calc(100%-40px)]">
-              <div class="text-sm text-gray-700 dark:text-gray-300 w-full truncate font-semibold">
-                Surah Al-Fatihah
+              <div class="flex justify-between">
+                <div class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold">
+                  Surah Al-Fatihah
+                </div>
+                <UButton @click="downloadAudio" variant="link" :loading="downloading">
+                  <i
+                    :class="
+                      audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'
+                    "
+                  ></i>
+                </UButton>
               </div>
               <div class="flex justify-between w-full text-gray-500 dark:text-gray-400 font-normal">
                 <small class="w-[50%] truncate">Abdul Basit </small>
-                <small class="w-[50%] flex justify-end truncate">12:23 / 102:41</small>
+                <small class="w-[50%] flex justify-end truncate">
+                  {{ mediaProgressFormatted }}
+                </small>
               </div>
             </div>
           </div>
@@ -156,8 +172,6 @@
   };
 
   const toggleAudio = () => {
-    console.log('toggle audio');
-
     if (!audio.value) {
       getAudio();
       audioProgressHandler();
@@ -172,14 +186,19 @@
     }
   };
 
-  const audioProgressHandler = () => {
+  const audioProgressHandler = (e?: any) => {
     if (!audio.value) {
       return;
     }
 
     const audioPlayer = audio.value?.audio; // the audio object inside the audio player
 
-    // const playerAudio = audio.value?.audio; // the audio object inside the audio player
+    if (!!mediaProgressPercentage.value && e) {
+      audio.value.setCurrentTime(
+        Generics.convertPercentageToSeconds(mediaProgressPercentage.value, audioPlayer?.duration)
+      );
+    }
+
     audio.value?.onTimeUpdate((currentTime: number) => {
       mediaProgressInSeconds.value = currentTime;
       mediaProgressPercentage.value = Generics.calculatePercentage(
@@ -187,18 +206,39 @@
         audioPlayer?.duration
       );
       mediaProgressInMinutes.value = Generics.convertToMinutes(currentTime);
-      mediaProgressFormatted.value = Generics.formatTimeProgress(currentTime);
+      mediaProgressFormatted.value = `${Generics.formatTimeProgress(
+        currentTime
+      )}/${Generics.formatTimeProgress(audioPlayer?.duration)}`;
     });
   };
-
-  const updateCurrentTime = () => {
-    if (!audio.value) {
-      return;
+  const audioDownloaded = ref(false);
+  const downloading = ref(false);
+  const downloadAudio = async () => {
+    if (!audioUrl) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Audio url is required',
+      });
     }
-    const audioPlayer = audio.value?.audio;
-    // const newTime = Generics.convertPercentageToSeconds(newValue, audioPlayer?.duration);
+    try {
+      downloading.value = true;
+      await Generics.downloadFile(audioUrl)
+        .then(() => {
+          audioDownloaded.value = true;
+        })
+        .catch((error) => console.error('Error downloading file:', error));
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Error while downloading audio',
+      });
+    } finally {
+      downloading.value = false;
 
-    // audio.value.setCurrentTime(newTime);
+      setTimeout(() => {
+        audioDownloaded.value = false;
+      }, 5000);
+    }
   };
 
   watch(showList, () => {
