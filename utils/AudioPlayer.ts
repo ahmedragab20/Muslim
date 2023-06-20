@@ -48,6 +48,19 @@ export default class AudioPlayer {
     });
   }
 
+  //onBuffering
+  public onBuffering(callback?: () => void): void {
+    this.audio.addEventListener('waiting', () => {
+      callback?.();
+    });
+  }
+  // on buffering end
+  public onPlaying(callback?: () => void): void {
+    this.audio.addEventListener('playing', () => {
+      callback?.();
+    });
+  }
+
   public setVolume(volume: number): void {
     this.audio.volume = volume;
   }
@@ -57,12 +70,16 @@ export default class AudioPlayer {
   }
 
   public setCurrentTime(time: number): void {
-    console.log('setting current time', time);
-    if (!time) return;
+    console.log('time', time);
+
+    if (!time || time === Infinity) return;
     if (time < 0) {
       time = 0;
     }
 
     this.audio.currentTime = time;
+  }
+  get duration(): number {
+    return this.audio.duration;
   }
 }

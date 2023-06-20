@@ -17,3 +17,8 @@ export const validateUrl = (url: string): boolean => {
   const re = /^(ftp|http|https):\/\/[^ "]+$/;
   return re.test(url);
 };
+
+export const isCDNUrl = (url: string): boolean => {
+  const cdnRegex = /^(https?:\/\/)?(?:[a-z]+\.)?(?:cdn\.)[^\s/$.?#].[^\s]*$/i;
+  return cdnRegex.test(url);
+};

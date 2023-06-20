@@ -351,6 +351,8 @@ export class Generics {
     return Math.floor(number / 60);
   }
   static convertPercentageToSeconds(percentage: number, totalDuration: number): number {
+    console.log('percentage', percentage, 'totalDuration', totalDuration);
+
     const timeInSeconds = (percentage / 100) * totalDuration;
     return timeInSeconds;
   }

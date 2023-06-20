@@ -1,13 +1,20 @@
 <template>
   <div>
-    <AudioPlayer :audio-url="audioUrl" />
+    <AudioPlayer
+      :audio-name="`Surah ${route.params.id}`"
+      :reciter-name="alqatamiRecitation.name.en"
+      expandable
+      :audio-url="audioUrl"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+  const { locale } = useI18n();
   const route = useRoute();
-  const audioUrl = 'https://download.quranicaudio.com/qdc/abdul_baset/murattal/1.mp3';
-  // 🛑!!!MAJOR!!! Change the api of the chapter reciter and use `https://cdn.islamic.network/quran/audio-surah/128/ar.abdulbasitmujawwad/1.mp3` in the quran index page
+  const { alqatami } = useQuranReciters();
+  const alqatamiRecitation = alqatami(+route.params.id);
+  const audioUrl = alqatamiRecitation.url;
 
   // TODO: Settings for the reading mode [text-size, list of reciters, tafsir, translation [list of languages], etc.]
   // TODO: Listen the whole chapter or download it [build an audio player for that]
