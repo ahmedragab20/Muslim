@@ -25,7 +25,7 @@
     </div>
     <div class="flex items-center gap-2 mt-4">
       <div class="mb-1">Theme 3.</div>
-      <!-- one line audio player -->
+      <!-- expandable audio player -->
       <AudioPlayer
         :audio-name="`Surah ${route.params.id}`"
         :reciter-name="alqatamiRecitation.name.en"
@@ -53,30 +53,6 @@
       >
         <UButton :icon="playing ? 'i-heroicons-pause' : 'i-heroicons-play'"></UButton>
       </AudioPlayer>
-
-      <!-- <div class="text-start">
-        <pre class="bg-gray-50 dark:bg-gray-700 rounded-xl shadow overflow-auto flex justify-start">
-          <code>
-            {{
-              `
-              <AudioPlayer
-                :audio-url="audioUrl"
-                @audio-found="foundAudio"
-                @audio-toggled="togglePlaying"
-                @audio-progress="() => {}"
-                @audio-ended="() => {}"
-                @audio-downloaded="() => {}"
-                @audio-downloading="() => {}"
-                @audio-error="() => {}"
-                @audio-buffering="() => {}"
-              >
-                <UButton :icon="playing ? 'i-heroicons-pause' : 'i-heroicons-play'" />
-              </AudioPlayer>
-              `
-            }}
-          </code>
-        </pre>
-      </div> -->
     </div>
   </div>
 </template>
