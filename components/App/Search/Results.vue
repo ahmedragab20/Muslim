@@ -137,28 +137,19 @@
   const playedAyat = ref<PlayedAyah[]>([]);
   const playingAyah = ref(false);
   const foundAudio = (audio: any) => {
-    console.log('found audio', audio);
-
     audioPlayer.value = audio;
   };
   //watch audioPlayer
-  watch(audioPlayer, (newValue) => {
-    console.log('audioPlayer', newValue);
-  });
   const playerInfo = computed(() => {
     return audioPlayer.value?.info?.[0];
   });
 
   const togglePlaying = (state: boolean) => {
-    console.log('toggle playing', state);
-
     playingAyah.value = state;
   };
 
   const recite = async (verse: any) => {
-    console.log('recite', verse);
     loadingRecitation.value = true;
-    console.log('loadingRecitation', loadingRecitation.value);
 
     const ayah_key = verse?.verse_key;
     const storedAyah = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
@@ -181,10 +172,6 @@
           ayah_key,
           audioUrl: `${baseURL}${key}`,
         });
-        console.log({
-          ayah_key,
-          audioUrl: `${baseURL}${key}`,
-        });
       }
     } catch (error) {
       // Throw an error if there's an issue getting the audio URL
@@ -194,21 +181,10 @@
       });
     } finally {
       loadingRecitation.value = false;
-      console.log('loadingRecitation', loadingRecitation.value);
     }
   };
 
-  watch(clickedAyah, (newValue, oldValue) => {
-    console.log({
-      audioPlayer: audioPlayer.value,
-      audioPlayerInfo: audioPlayer.value?.info,
-      newValue,
-      oldValue,
-    });
-  });
-
   onUnmounted(() => {
-    audioPlayer.value.pause();
     audioPlayer.value = null;
     clickedAyah.value = '';
   });

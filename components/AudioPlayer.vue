@@ -260,16 +260,19 @@
       audio.value?.play();
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
+        emit('audio-toggled', false);
       });
       audio.value?.onBuffering(() => {
         loadingAudio.value = true;
 
         emit('audio-buffering', true);
+        emit('audio-toggled', false);
       });
       audio.value?.onPlaying(() => {
         loadingAudio.value = false;
 
         emit('audio-buffering', false);
+        emit('audio-toggled', true);
       });
       let audioInherited = new AudioPlayer(playerInfo.value.url, playerInfo.value.info);
       console.log('audio inherited: ', audioInherited);
@@ -347,8 +350,6 @@
   const downloading = ref(false);
   const downloadAudio = async () => {
     if (!props.audioUrl) {
-      console.log('audioUrl: ', props.audioUrl);
-
       throw createError({
         statusCode: 500,
         statusMessage: 'Audio url is required',
@@ -396,10 +397,30 @@
       }
     });
   });
+  watch(
+    () => props.audioUrl,
+    () => {
+      if (audio.value) {
+        audio.value?.pause();
+        audio.value = undefined;
+      }
+    }
+  );
+
+  onUnmounted(() => {
+    if (!props.playOnTheBackground) {
+      audio.value?.pause();
+      audio.value = undefined;
+    }
+  });
   onBeforeRouteLeave(() => {
     if (audio.value && !props.playOnTheBackground) {
       audio.value?.pause();
     }
+  });
+
+  defineExpose({
+    toggleAudio,
   });
 </script>
 <style>
