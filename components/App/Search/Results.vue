@@ -27,7 +27,6 @@
                 />
               </div>
               <div>
-                {{ loadingRecitation }}
                 <AudioPlayer
                   :audio-url="audioUrl"
                   @audio-found="foundAudio"
@@ -39,12 +38,23 @@
                       args: [result],
                     },
                   ]"
+                  :player-info="[
+                    {
+                      verse_key: result?.verse_key,
+                    },
+                  ]"
                 >
                   <UButton
                     variant="link"
                     :loading="loadingRecitation"
-                    :color="playingAyah ? 'red' : 'primary'"
-                    :icon="playingAyah ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'"
+                    :color="
+                      playingAyah && playerInfo?.verse_key === result?.verse_key ? 'red' : 'primary'
+                    "
+                    :icon="
+                      playingAyah && playerInfo?.verse_key === result?.verse_key
+                        ? 'i-heroicons-pause-circle'
+                        : 'i-heroicons-play-circle'
+                    "
                   />
                 </AudioPlayer>
               </div>
@@ -95,11 +105,6 @@
     clickedAyah.value = ayah;
   };
 
-  watch(clickedAyah, () => {
-    audioPlayer.value?.stop();
-    // audioPlayer.value = null;
-  });
-
   const ayah = (words: any[]) => {
     return words
       .map((word) => {
@@ -136,6 +141,14 @@
 
     audioPlayer.value = audio;
   };
+  //watch audioPlayer
+  watch(audioPlayer, (newValue) => {
+    console.log('audioPlayer', newValue);
+  });
+  const playerInfo = computed(() => {
+    return audioPlayer.value?.info?.[0];
+  });
+
   const togglePlaying = (state: boolean) => {
     console.log('toggle playing', state);
 
@@ -185,8 +198,17 @@
     }
   };
 
+  watch(clickedAyah, (newValue, oldValue) => {
+    console.log({
+      audioPlayer: audioPlayer.value,
+      audioPlayerInfo: audioPlayer.value?.info,
+      newValue,
+      oldValue,
+    });
+  });
+
   onUnmounted(() => {
-    audioPlayer.value?.stop();
+    audioPlayer.value.pause();
     audioPlayer.value = null;
     clickedAyah.value = '';
   });

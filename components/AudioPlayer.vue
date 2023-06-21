@@ -149,9 +149,7 @@
 
 <script setup lang="ts">
   interface AudioProp {
-    isPlaying: boolean;
-    duration: number;
-    audio: HTMLAudioElement;
+    [key: string]: any;
   }
   interface AudioProgressProp {
     duration: number;
@@ -163,6 +161,11 @@
     fn: Function;
     args: any[];
   }
+  interface LocalPlayerInfo {
+    url: string;
+    info: any[];
+  }
+
   interface Props {
     audioUrl: string;
     audioName?: string;
@@ -173,7 +176,9 @@
     playOnTheBackground?: boolean; // will handle it when needed later
     loading?: boolean;
     metaLogic?: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
+    playerInfo?: any;
   }
+
   const props = withDefaults(defineProps<Props>(), {
     audioUrl: '',
     audioName: '',
@@ -218,6 +223,25 @@
   const mediaProgressFormatted = ref('00:00/00:00'); // default value
   const audio = ref();
   const loadingAudio = ref(false);
+
+  const playerInfo = computed<LocalPlayerInfo>(() => {
+    let playerInfo: LocalPlayerInfo = {
+      url: props.audioUrl,
+      info: [],
+    };
+
+    if (!props.playerInfo) {
+      return playerInfo;
+    }
+
+    if (Array.isArray(props.playerInfo)) {
+      playerInfo.info = [...props.playerInfo];
+    } else {
+      playerInfo.info = [props.playerInfo];
+    }
+    return playerInfo;
+  });
+
   const getAudio = async () => {
     if (!props.audioUrl) {
       console.log('audio: ', props.audioUrl, props.loading);
@@ -230,7 +254,9 @@
 
     try {
       loadingAudio.value = true;
-      audio.value = new AudioPlayer(props.audioUrl);
+
+      // check if the player info prop is with type of array
+      audio.value = new AudioPlayer(playerInfo.value.url, playerInfo.value.info);
       audio.value?.play();
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
@@ -245,12 +271,10 @@
 
         emit('audio-buffering', false);
       });
+      let audioInherited = new AudioPlayer(playerInfo.value.url, playerInfo.value.info);
+      console.log('audio inherited: ', audioInherited);
 
-      emit('audio-found', {
-        isPlaying: audio.value?.isPlaying,
-        duration: audio.value?.duration || 0,
-        audio: audio.value?.audio,
-      });
+      emit('audio-found', audioInherited);
     } catch (error) {
       emit('audio-error', error);
       throw createError({
@@ -263,14 +287,14 @@
   };
 
   const toggleAudio = async () => {
-    if (props.loading) return;
-
     if (!audio.value) {
       // this code will run only once
       if (props.metaLogic?.length) {
-        props.metaLogic.forEach(async (logic: MetaLogic) => {
-          await logic?.fn(...logic.args);
-        });
+        await Promise.all(
+          props.metaLogic.map(async (logic: MetaLogic) => {
+            await logic?.fn?.(...logic.args);
+          })
+        );
       }
 
       await getAudio();

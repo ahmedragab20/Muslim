@@ -1,12 +1,12 @@
 export default class AudioPlayer {
   public readonly audio: HTMLAudioElement;
   private isPlaying: boolean;
-  public readonly verseKey: string;
+  public readonly info: any[]; // some data you might need to store in the audio player instance to use later for any purpose
 
-  constructor(url: string, verseKey?: string) {
+  constructor(url: string, info?: any[]) {
     this.audio = new Audio(url);
     this.isPlaying = false;
-    this.verseKey = verseKey || '';
+    this.info = info || [];
   }
 
   public toggle(): void {
@@ -26,7 +26,7 @@ export default class AudioPlayer {
 
   public stop(): void {
     this.audio.pause();
-    this.audio.currentTime = 0;
+    this.setCurrentTime(0);
     this.isPlaying = false;
   }
 
