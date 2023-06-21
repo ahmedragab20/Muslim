@@ -52,6 +52,7 @@
                 }"
                 :icon="audio?.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
                 @click="toggleAudio"
+                class="rtl:rotate-180"
               >
               </UButton>
             </div>
@@ -60,7 +61,7 @@
             <div
               v-if="!btnOnly"
               @click="toggleList"
-              class="w-[calc(100%-40px)] h-full flex items-center justify-between"
+              class="w-[calc(100%-40px)] ltr:pl-2 rtl:pr-2 h-full flex items-center justify-between"
             >
               <div
                 class="text-gray-700 dark:text-gray-300 flex flex-col text-sm font-semibold max-w-[calc(100%-50px)]"
@@ -108,38 +109,62 @@
         <div
           v-if="showList && expandable && !btnOnly"
           :id="listDivID"
-          class="w-full min-h-[55px] overflow-hidden delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
+          class="w-full min-h-[55px] overflow-auto delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
           :class="{ ' translate-y-5': showList }"
         >
-          <div class="my-1 w-full flex px-2 items-center gap-1 min-h-[40px]">
-            <div class="text-2xl w-8 flex-shrink-0 text-gray-600">
-              <i class="i-heroicons-microphone"></i>
-            </div>
-            <div class="w-[calc(100%-40px)]">
-              <div class="flex justify-between">
-                <div class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold">
-                  {{ fullName }}
+          <div class="w-full absolute inset-0 z-10 min-h-[40px]">
+            <div class="flex items-center gap-1 w-full h-full">
+              <div
+                class="text-2xl w-10 h-full flex justify-center items-center flex-shrink-0 text-gray-600"
+              >
+                <img
+                  v-if="reciterPoster"
+                  :src="reciterPoster"
+                  :alt="`${reciterName} Poster`"
+                  class="w-full h-full object-cover"
+                />
+                <i v-else class="i-heroicons-microphone"></i>
+              </div>
+              <div class="w-[calc(100%-40px)] px-2">
+                <div class="flex justify-between">
+                  <div
+                    class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold"
+                  >
+                    {{ fullName }}
+                  </div>
+                  <UButton
+                    v-if="!isCdnUrl"
+                    class="px-0.5"
+                    variant="link"
+                    size="xs"
+                    :padded="false"
+                    :loading="downloading"
+                    :icon="
+                      audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'
+                    "
+                    @click="downloadAudio"
+                  >
+                  </UButton>
                 </div>
-                <UButton
-                  v-if="!isCdnUrl"
-                  variant="link"
-                  size="xs"
-                  :padded="false"
-                  :loading="downloading"
-                  :icon="
-                    audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'
-                  "
-                  @click="downloadAudio"
+                <div
+                  class="flex justify-between w-full text-gray-500 dark:text-gray-400 font-normal"
                 >
-                </UButton>
-              </div>
-              <div class="flex justify-between w-full text-gray-500 dark:text-gray-400 font-normal">
-                <small class="w-[50%] truncate"> {{ reciterName }} </small>
-                <small class="w-[50%] flex justify-end truncate">
-                  {{ mediaProgressFormatted }}
-                </small>
+                  <small class="w-[50%] truncate"> {{ reciterName }} </small>
+                  <small class="w-[50%] flex justify-end truncate">
+                    {{ mediaProgressFormatted }}
+                  </small>
+                </div>
               </div>
             </div>
+          </div>
+          <div
+            class="absolute inset-0 bg-red-50 z-0 blur-3xl opacity-50 pointer-events-none select-none"
+          >
+            <img
+              :src="reciterPoster"
+              :alt="`${reciterName} poster`"
+              class="pointer-events-none select-none"
+            />
           </div>
         </div>
       </Transition>
@@ -173,10 +198,11 @@
     reciterName?: string;
     expandable?: boolean;
     btnOnly?: boolean; // will handle it when needed later
-    playOnTheBackground?: boolean; // will handle it when needed later
+    playInTheBackground?: boolean; // will handle it when needed later
     loading?: boolean;
     metaLogic?: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
     playerInfo?: any;
+    reciterPoster?: string;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -186,7 +212,7 @@
     reciterName: '',
     expandable: false,
     btnOnly: false,
-    playOnTheBackground: false,
+    playInTheBackground: false,
     loading: false,
   });
   const emit = defineEmits<{
@@ -407,14 +433,19 @@
     }
   );
 
+  onMounted(() => {
+    if (props.expandable) {
+      toggleList();
+    }
+  });
   onUnmounted(() => {
-    if (!props.playOnTheBackground) {
+    if (!props.playInTheBackground) {
       audio.value?.pause();
       audio.value = undefined;
     }
   });
   onBeforeRouteLeave(() => {
-    if (audio.value && !props.playOnTheBackground) {
+    if (audio.value && !props.playInTheBackground) {
       audio.value?.pause();
     }
   });

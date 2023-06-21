@@ -20,6 +20,7 @@ export default () => {
           ar: 'مرتل',
         },
         url: `https://download.quranicaudio.com/qdc/abdul_baset/murattal/${surah}.mp3`,
+        poster: '/reciters/Abdelbasset-abdessamad.jpeg',
       },
       mujawwad: {
         name: {
@@ -31,6 +32,7 @@ export default () => {
           ar: 'مجود',
         },
         url: `https://download.quranicaudio.com/qdc/abdul_baset/mujawwad/${surah}.mp3`,
+        poster: '/reciters/Abdelbasset-abdessamad.jpeg',
       },
     };
   };
@@ -49,6 +51,7 @@ export default () => {
         ar: 'محمود خليل الحصري',
       },
       url: `https://download.quranicaudio.com/quran/mahmood_khaleel_al-husaree_iza3a/${surahNumber}.mp3`,
+      poster: '/reciters/al-hosari.jpeg',
     };
   };
   const minshawi = (surah: number) => {
@@ -71,6 +74,7 @@ export default () => {
           ar: 'مرتل',
         },
         url: `https://download.quranicaudio.com/quran/muhammad_siddeeq_al-minshaawee/${surahNumber}.mp3`,
+        poster: '/reciters/minshawi.jpeg',
       },
       mujawwad: {
         name: {
@@ -82,6 +86,7 @@ export default () => {
           ar: 'مجود',
         },
         url: `https://download.quranicaudio.com/quran/minshawi_mujawwad/${surahNumber}.mp3`,
+        poster: '/reciters/minshawi.jpeg',
       },
     };
   };
@@ -100,6 +105,7 @@ export default () => {
         ar: 'ناصر القطامي',
       },
       url: `https://download.quranicaudio.com/quran/nasser_bin_ali_alqatami/${surahNumber}.mp3`,
+      poster: '/reciters/alqatami.jpeg',
     };
   };
   const afasy = (surah: number) => {
@@ -117,6 +123,7 @@ export default () => {
         ar: 'مشاري العفاسي',
       },
       url: `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${surahNumber}.mp3`,
+      poster: '/reciters/afasy.jpeg',
     };
   };
 

@@ -16,7 +16,7 @@
       <!-- one line audio player -->
       <AudioPlayer
         :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="alqatamiRecitation.name.en"
+        :reciter-name="recitation.name.en"
         :audio-url="audioUrl"
         @audio-toggled="togglePlaying"
         @audio-found="foundAudio"
@@ -28,8 +28,8 @@
       <!-- expandable audio player -->
       <AudioPlayer
         :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="alqatamiRecitation.name.en"
-        :full-name="`Surah ${route.params.id} - ${alqatamiRecitation.name.en}`"
+        :reciter-name="recitation.name.en"
+        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
         :audio-url="audioUrl"
         expandable
         @audio-toggled="togglePlaying"
@@ -37,8 +37,24 @@
       >
       </AudioPlayer>
     </div>
-    <div class="flex justify-center flex-col gap-2 mb-10">
+    <div class="flex items-center gap-2 mt-4">
       <div class="mb-1">Theme 4.</div>
+      <!-- expandable audio player -->
+      <AudioPlayer
+        :audio-name="`Surah ${route.params.id}`"
+        :reciter-name="recitation.name.en"
+        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
+        :audio-url="audioUrl"
+        :reciter-poster="recitation.poster"
+        play-in-the-background
+        expandable
+        @audio-toggled="togglePlaying"
+        @audio-found="foundAudio"
+      >
+      </AudioPlayer>
+    </div>
+    <div class="flex justify-center flex-col gap-2 mb-10">
+      <div class="mb-1">Theme 5.</div>
       <!-- fully customizable -->
       <AudioPlayer
         :audio-url="audioUrl"
@@ -59,10 +75,10 @@
 
 <script setup lang="ts">
   const route = useRoute();
-  const { alqatami } = useQuranReciters();
+  const { afasy } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
-  const alqatamiRecitation = alqatami(chapterNumber.value);
-  const audioUrl = alqatamiRecitation.url;
+  const recitation = afasy(chapterNumber.value);
+  const audioUrl = recitation.url;
   const playing = ref(false);
   const togglePlaying = (status: boolean) => {
     console.log(status);
