@@ -1,4 +1,18 @@
 <template>
+  <div>
+    <pre>
+    {{
+        // print the time progress
+        {
+          mediaProgressFormatted,
+          mediaProgressInMinutes,
+          mediaProgressInSeconds,
+        }
+      }}
+  </pre
+    >
+  </div>
+
   <div
     :style="!btnOnly ? `${hasSlot ? '' : `height: ${containerheight}px`}` : ''"
     class="relative"
@@ -11,7 +25,7 @@
     <slot />
     <template v-if="!hasSlot">
       <div
-        class="w-full absolute z-20 duration-300 initial:rounded-full"
+        class="absolute z-20 w-full duration-300 initial:rounded-full"
         :class="[
           showList ? ' -translate-y-5 rounded-t-full' : 'rounded-full',
           btnOnly ? 'h-full' : 'h-10',
@@ -22,12 +36,12 @@
           :card-class="`${
             showList ? 'rounded-t-xl' : 'rounded-full'
           } bg-gray-50 dark:bg-gray-900 relative duration-300`"
-          class="w-full h-full cursor-pointer duration-300"
+          class="w-full h-full duration-300 cursor-pointer"
           :animation="false"
           :no-voided-wrapper="!showList"
           :key="showList ? 'show-animation' : 'hide-animation'"
         >
-          <div class="w-full h-full flex items-center duration-300 gap-1 rounded-full">
+          <div class="flex items-center w-full h-full gap-1 duration-300 rounded-full">
             <!-- toggle btn -->
             <div
               :class="[
@@ -66,11 +80,11 @@
               <div
                 class="text-gray-700 dark:text-gray-300 flex flex-col text-sm font-semibold max-w-[calc(100%-50px)]"
               >
-                <div class="-mb-1 max-w-full truncate">
+                <div class="max-w-full -mb-1 truncate">
                   {{ audioName }}
                 </div>
                 <div
-                  class="text-xs text-gray-500 dark:text-gray-400 font-normal max-w-full truncate"
+                  class="max-w-full text-xs font-normal text-gray-500 truncate dark:text-gray-400"
                 >
                   {{ reciterName }}
                 </div>
@@ -80,15 +94,15 @@
               <div
                 v-if="expandable"
                 @click.self="toggleList"
-                class="w-10 h-10 flex justify-center items-center"
+                class="flex items-center justify-center w-10 h-10"
               >
-                <i class="i-heroicons-queue-list text-lg text-gray-500 dark:text-gray-700"></i>
+                <i class="text-lg text-gray-500 i-heroicons-queue-list dark:text-gray-700"></i>
               </div>
             </div>
           </div>
           <div
             v-if="audio?.duration && !btnOnly"
-            class="absolute z-30 bottom-0 w-full shadow-inner"
+            class="absolute bottom-0 z-30 w-full shadow-inner"
           >
             <div
               :style="`width: ${mediaProgressPercentage}%`"
@@ -113,22 +127,22 @@
           :class="{ ' translate-y-5': showList }"
         >
           <div class="w-full absolute inset-0 z-10 min-h-[40px]">
-            <div class="flex items-center gap-1 w-full h-full">
+            <div class="flex items-center w-full h-full gap-1">
               <div
-                class="text-2xl w-10 h-full flex justify-center items-center flex-shrink-0 text-gray-600"
+                class="flex items-center justify-center flex-shrink-0 w-10 h-full text-2xl text-gray-600"
               >
                 <img
                   v-if="reciterPoster"
                   :src="reciterPoster"
                   :alt="`${reciterName} Poster`"
-                  class="w-full h-full object-cover"
+                  class="object-cover w-full h-full"
                 />
                 <i v-else class="i-heroicons-microphone"></i>
               </div>
               <div class="w-[calc(100%-40px)] px-2">
                 <div class="flex justify-between">
                   <div
-                    class="text-sm text-gray-700 dark:text-gray-300 w-3/4 truncate font-semibold"
+                    class="w-3/4 text-sm font-semibold text-gray-700 truncate dark:text-gray-300"
                   >
                     {{ fullName }}
                   </div>
@@ -147,7 +161,7 @@
                   </UButton>
                 </div>
                 <div
-                  class="flex justify-between w-full text-gray-500 dark:text-gray-400 font-normal"
+                  class="flex justify-between w-full font-normal text-gray-500 dark:text-gray-400"
                 >
                   <small class="w-[50%] truncate"> {{ reciterName }} </small>
                   <small class="w-[50%] flex justify-end truncate">
@@ -158,7 +172,7 @@
             </div>
           </div>
           <div
-            class="absolute inset-0 max-h-full overflow-hidden bg-red-50 z-0 blur-2xl opacity-50 pointer-events-none select-none"
+            class="absolute inset-0 z-0 max-h-full overflow-hidden opacity-50 pointer-events-none select-none bg-red-50 blur-2xl"
           >
             <img
               :src="reciterPoster"
@@ -307,7 +321,6 @@
       );
 
       audio.value?.play();
-      broadcastChannel.value = new BroadcastChannel('audio-player');
       // listeners
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
@@ -389,6 +402,12 @@
 
   const audioProgressHandler = (e?: any) => {
     if (!audio.value) {
+      Debug.error({
+        message: 'Audio is not found',
+        data: {
+          audio: audio.value,
+        },
+      });
       return;
     }
 
@@ -397,11 +416,6 @@
         Generics.convertPercentageToSeconds(+mediaProgressPercentage.value, audio.value?.duration)
       );
     }
-
-    if (typeof e === 'number') {
-      audio.value.setCurrentTime(e);
-    }
-
     audio.value?.onTimeUpdate((currentTime: number) => {
       mediaProgressInSeconds.value = currentTime;
       mediaProgressPercentage.value = Generics.calculatePercentage(
@@ -415,6 +429,11 @@
       );
 
       if (props.playInTheBackground) {
+        useAudioPlayer.setPlayerProgress({
+          mediaProgressInSeconds: mediaProgressInSeconds.value,
+          mediaProgressPercentage: mediaProgressPercentage.value,
+          mediaProgressFormatted: mediaProgressFormatted.value,
+        });
         useAudioPlayer.setCurrentTime(currentTime);
       }
     });
@@ -466,16 +485,9 @@
 
   const reInitiateTheAudio = async () => {
     if (!props.playInTheBackground || !props.reinitPlayer) return;
-    console.log('reinitiating the audio', useAudioPlayer);
-    localAudioUrl.value = useAudioPlayer.audio?.info?.url || '';
-    audio.value = new AudioPlayer(localAudioUrl.value, localPlayerInfo.value);
 
-    audioProgressHandler(useAudioPlayer.currentTime);
-    audio.value?.setIsPlaying(true);
-    /**
-     * TODO: use the old way
-     * TODO: look for a better way to do this not matter effort or time it takes
-     */
+    audio.value = useAudioPlayer.audio;
+    audioProgressHandler();
   };
 
   watch(showList, () => {
@@ -495,49 +507,19 @@
     () => props.audioUrl,
     () => {
       if (audio.value) {
+        if (props.playInTheBackground) {
+          return;
+        }
         audio.value?.pause();
         audio.value = undefined;
       }
     }
   );
-
-  function stopAudioInAllWindows() {
-    if (process.client) {
-      const windows = Array.from(window.top!.frames);
-      windows.forEach((frame: Window) => {
-        console.log('🎉frame', frame);
-
-        frame.postMessage({ action: 'stopAudio' }, '*');
-      });
-    }
-  }
-
-  function stopAllAudio() {
-    const audioElements = document.querySelectorAll('audio');
-    console.log('🎉audioElements', audioElements);
-
-    for (let i = 0; i < audioElements.length; i++) {
-      console.log('🎉audioElements[i]', audioElements[i]);
-
-      const audio = audioElements[i] as HTMLAudioElement;
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  }
-
   onMounted(() => {
     reInitiateTheAudio();
+
     if (props.expandable) {
       toggleList();
-    }
-
-    if (process.client) {
-      // Listen for messages from other windows
-      window.addEventListener('message', (event) => {
-        if (event.data.action === 'stopAudio') {
-          stopAllAudio();
-        }
-      });
     }
   });
   onUnmounted(() => {

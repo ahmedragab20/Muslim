@@ -2,8 +2,10 @@ export default class AudioPlayer {
   public readonly audio: HTMLAudioElement;
   private isPlaying: boolean;
   public readonly info: any[]; // some data you might need to store in the audio player instance to use later for any purpose
+  public readonly url: string;
 
   constructor(url: string, info?: any[]) {
+    this.url = url;
     this.audio = new Audio(url);
     this.isPlaying = false;
     this.info = info || [];

@@ -40,24 +40,27 @@
     <div class="flex items-center gap-2 mt-4">
       <div class="mb-1">Theme 4.</div>
       <!-- expandable audio player -->
-      <AudioPlayer
-        :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="recitation.name.en"
-        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
-        :audio-url="audioUrl"
-        :reciter-poster="recitation.poster"
-        :player-info="{
-          id: audioUrl,
-        }"
-        :reinit-player="reinitPlayer"
-        play-in-the-background
-        expandable
-        @audio-toggled="togglePlaying"
-        @audio-found="foundAudio"
-      >
-      </AudioPlayer>
+      <KeepAlive>
+        <AudioPlayer
+          :key="audioUrl"
+          :audio-name="`Surah ${route.params.id}`"
+          :reciter-name="recitation.name.en"
+          :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
+          :audio-url="audioUrl"
+          :reciter-poster="recitation.poster"
+          :player-info="{
+            id: audioUrl,
+          }"
+          :reinit-player="reinitPlayer"
+          play-in-the-background
+          expandable
+          @audio-toggled="togglePlaying"
+          @audio-found="foundAudio"
+        >
+        </AudioPlayer>
+      </KeepAlive>
     </div>
-    <div class="flex justify-center flex-col gap-2 mb-10">
+    <div class="flex flex-col justify-center gap-2 mb-10">
       <div class="mb-1">Theme 5.</div>
       <!-- fully customizable -->
       <AudioPlayer
@@ -82,14 +85,12 @@
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
 
-  const { alqatami } = useQuranReciters();
+  const { hosari } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
-  const recitation = alqatami(chapterNumber.value);
+  const recitation = hosari(chapterNumber.value);
   const audioUrl = recitation.url;
   const playing = ref(false);
   const togglePlaying = (status: boolean) => {
-    console.log(status);
-
     playing.value = status;
   };
   const foundAudio = (audio: any) => {

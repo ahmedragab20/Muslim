@@ -1,6 +1,9 @@
 <template>
   <div v-if="loaded" id="ragab-app">
     <!-- 🚧 - App Layouts -->
+    <div class="fixed bottom-0 right-0 p-5">
+      <UButton @click="toggleAudio"> toggle audio </UButton>
+    </div>
     <NuxtLayout></NuxtLayout>
 
     <!-- Footer -->
@@ -21,10 +24,10 @@
       <AuthLand :target="chosenAuthLand" />
     </UModal>
   </div>
-  <div v-else class="flex justify-center items-center flex-col h-screen gap-4">
+  <div v-else class="flex flex-col items-center justify-center h-screen gap-4">
     <div v-for="n in 4" :key="n">
       <div class="flex items-center space-x-4">
-        <USkeleton class="h-12 w-12 rounded-full" />
+        <USkeleton class="w-12 h-12 rounded-full" />
         <div class="space-y-2">
           <USkeleton class="h-4 w-[250px]" />
           <USkeleton class="h-4 w-[200px]" />
@@ -34,10 +37,12 @@
   </div>
 </template>
 <script setup lang="ts">
+  import { useAudioPlayerStore } from '~/stores/audio-player';
   import { useAuthStore } from '~/stores/auth';
 
   type AuthLand = 'login' | 'register' | 'forgot' | 'reset' | 'verify'; //TODO:: search why it fails to be imported if you added it in types/index.ts
   const authStore = useAuthStore();
+  const audioPlayerStore = useAudioPlayerStore();
   const { locale } = useI18n();
   const appConfig = useAppConfig();
   const appSettings = ref();
@@ -59,21 +64,11 @@
     }
   };
 
-  // Establish a connection with the same channel
-  const broadcastChannel = new BroadcastChannel('audio-control-channel');
-
-  // Listen for messages from other windows
-  broadcastChannel.onmessage = function (event) {
-    if (event.data.action === 'stopAudio') {
-      stopAllAudio(event);
-    }
+  const toggleAudio = () => {
+    const audio = audioPlayerStore.audio;
+    audio?.toggle();
+    console.log('audio', audio);
   };
-
-  // Function to stop all audio playback
-  function stopAllAudio(e: any) {
-    // Your logic to stop audio playback
-    console.log('stopAllAudio', e);
-  }
 
   onMounted(() => {
     initTheme();
