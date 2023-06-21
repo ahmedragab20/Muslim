@@ -158,12 +158,12 @@
             </div>
           </div>
           <div
-            class="absolute inset-0 bg-red-50 z-0 blur-3xl opacity-50 pointer-events-none select-none"
+            class="absolute inset-0 max-h-full overflow-hidden bg-red-50 z-0 blur-2xl opacity-50 pointer-events-none select-none"
           >
             <img
               :src="reciterPoster"
               :alt="`${reciterName} poster`"
-              class="pointer-events-none select-none"
+              class="pointer-events-none select-none w-full h-full object-fit scale-[1.2]"
             />
           </div>
         </div>
@@ -173,6 +173,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useAudioPlayerStore } from '~/stores/audio-player';
+
   interface AudioProp {
     [key: string]: any;
   }
@@ -203,6 +205,7 @@
     metaLogic?: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
     playerInfo?: any;
     reciterPoster?: string;
+    reinitPlayer?: boolean;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -227,6 +230,8 @@
   }>();
   const slots = useSlots();
 
+  const useAudioPlayer = useAudioPlayerStore();
+
   const isCdnUrl = computed(() => {
     return isCDNUrl(props.audioUrl);
   });
@@ -249,7 +254,7 @@
   const mediaProgressFormatted = ref('00:00/00:00'); // default value
   const audio = ref();
   const loadingAudio = ref(false);
-
+  const localAudioUrl = ref('');
   const playerInfo = computed<LocalPlayerInfo>(() => {
     let playerInfo: LocalPlayerInfo = {
       url: props.audioUrl,
@@ -265,8 +270,22 @@
     } else {
       playerInfo.info = [props.playerInfo];
     }
+
+    if (props.playInTheBackground) {
+      useAudioPlayer.setPlayerInfo(playerInfo);
+    }
+
     return playerInfo;
   });
+
+  const localPlayerInfo = computed(() => {
+    if (!props.playInTheBackground) return;
+
+    return useAudioPlayer.playerInfo;
+  });
+
+  // Establish a connection with a specific channel
+  const broadcastChannel = ref();
 
   const getAudio = async () => {
     if (!props.audioUrl) {
@@ -282,29 +301,56 @@
       loadingAudio.value = true;
 
       // check if the player info prop is with type of array
-      audio.value = new AudioPlayer(playerInfo.value.url, playerInfo.value.info);
+      audio.value = new AudioPlayer(
+        localAudioUrl.value || playerInfo.value.url,
+        localPlayerInfo.value || playerInfo.value.info
+      );
+
       audio.value?.play();
+      broadcastChannel.value = new BroadcastChannel('audio-player');
+      // listeners
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
         emit('audio-toggled', false);
+
+        if (props.playInTheBackground) {
+          useAudioPlayer.setStatus(false);
+        }
       });
       audio.value?.onBuffering(() => {
         loadingAudio.value = true;
 
         emit('audio-buffering', true);
         emit('audio-toggled', false);
+
+        if (props.playInTheBackground) {
+          useAudioPlayer.setStatus(false);
+        }
       });
       audio.value?.onPlaying(() => {
         loadingAudio.value = false;
 
         emit('audio-buffering', false);
         emit('audio-toggled', true);
+
+        if (props.playInTheBackground) {
+          useAudioPlayer.setStatus(true);
+        }
       });
-      let audioInherited = new AudioPlayer(playerInfo.value.url, playerInfo.value.info);
-      console.log('audio inherited: ', audioInherited);
+
+      let audioInherited = new AudioPlayer(
+        localAudioUrl.value || playerInfo.value.url,
+        localPlayerInfo.value || playerInfo.value.info
+      );
 
       emit('audio-found', audioInherited);
+
+      if (props.playInTheBackground) {
+        useAudioPlayer.setAudio(audioInherited);
+      }
     } catch (error) {
+      console.error(error);
+
       emit('audio-error', error);
       throw createError({
         statusCode: 500,
@@ -352,6 +398,10 @@
       );
     }
 
+    if (typeof e === 'number') {
+      audio.value.setCurrentTime(e);
+    }
+
     audio.value?.onTimeUpdate((currentTime: number) => {
       mediaProgressInSeconds.value = currentTime;
       mediaProgressPercentage.value = Generics.calculatePercentage(
@@ -363,6 +413,10 @@
         currentTime,
         audio.value?.duration
       );
+
+      if (props.playInTheBackground) {
+        useAudioPlayer.setCurrentTime(currentTime);
+      }
     });
 
     emit('audio-progress', {
@@ -410,6 +464,20 @@
     }
   };
 
+  const reInitiateTheAudio = async () => {
+    if (!props.playInTheBackground || !props.reinitPlayer) return;
+    console.log('reinitiating the audio', useAudioPlayer);
+    localAudioUrl.value = useAudioPlayer.audio?.info?.url || '';
+    audio.value = new AudioPlayer(localAudioUrl.value, localPlayerInfo.value);
+
+    audioProgressHandler(useAudioPlayer.currentTime);
+    audio.value?.setIsPlaying(true);
+    /**
+     * TODO: use the old way
+     * TODO: look for a better way to do this not matter effort or time it takes
+     */
+  };
+
   watch(showList, () => {
     listDivID.value = Generics.uuid() + '-list';
     nextTick(() => {
@@ -433,9 +501,43 @@
     }
   );
 
+  function stopAudioInAllWindows() {
+    if (process.client) {
+      const windows = Array.from(window.top!.frames);
+      windows.forEach((frame: Window) => {
+        console.log('🎉frame', frame);
+
+        frame.postMessage({ action: 'stopAudio' }, '*');
+      });
+    }
+  }
+
+  function stopAllAudio() {
+    const audioElements = document.querySelectorAll('audio');
+    console.log('🎉audioElements', audioElements);
+
+    for (let i = 0; i < audioElements.length; i++) {
+      console.log('🎉audioElements[i]', audioElements[i]);
+
+      const audio = audioElements[i] as HTMLAudioElement;
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
+
   onMounted(() => {
+    reInitiateTheAudio();
     if (props.expandable) {
       toggleList();
+    }
+
+    if (process.client) {
+      // Listen for messages from other windows
+      window.addEventListener('message', (event) => {
+        if (event.data.action === 'stopAudio') {
+          stopAllAudio();
+        }
+      });
     }
   });
   onUnmounted(() => {

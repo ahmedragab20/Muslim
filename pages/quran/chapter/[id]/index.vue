@@ -46,6 +46,10 @@
         :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
         :audio-url="audioUrl"
         :reciter-poster="recitation.poster"
+        :player-info="{
+          id: audioUrl,
+        }"
+        :reinit-player="reinitPlayer"
         play-in-the-background
         expandable
         @audio-toggled="togglePlaying"
@@ -74,10 +78,13 @@
 </template>
 
 <script setup lang="ts">
+  import { useAudioPlayerStore } from '~/stores/audio-player';
   const route = useRoute();
-  const { afasy } = useQuranReciters();
+  const useAudioPlayer = useAudioPlayerStore();
+
+  const { alqatami } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
-  const recitation = afasy(chapterNumber.value);
+  const recitation = alqatami(chapterNumber.value);
   const audioUrl = recitation.url;
   const playing = ref(false);
   const togglePlaying = (status: boolean) => {
@@ -88,6 +95,14 @@
   const foundAudio = (audio: any) => {
     console.log(audio);
   };
+  const reinitPlayer = ref(false);
+
+  onBeforeMount(() => {
+    if (useAudioPlayer.audio) {
+      Debug.log({}, '👀audio player is already playing');
+      reinitPlayer.value = true;
+    }
+  });
   /**
    * TODO: apply that in the quran index page
    */

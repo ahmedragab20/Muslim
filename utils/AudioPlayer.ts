@@ -61,6 +61,10 @@ export default class AudioPlayer {
     });
   }
 
+  setIsPlaying(isPlaying: boolean): void {
+    this.isPlaying = isPlaying;
+  }
+
   public setVolume(volume: number): void {
     this.audio.volume = volume;
   }

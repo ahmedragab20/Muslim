@@ -59,6 +59,22 @@
     }
   };
 
+  // Establish a connection with the same channel
+  const broadcastChannel = new BroadcastChannel('audio-control-channel');
+
+  // Listen for messages from other windows
+  broadcastChannel.onmessage = function (event) {
+    if (event.data.action === 'stopAudio') {
+      stopAllAudio(event);
+    }
+  };
+
+  // Function to stop all audio playback
+  function stopAllAudio(e: any) {
+    // Your logic to stop audio playback
+    console.log('stopAllAudio', e);
+  }
+
   onMounted(() => {
     initTheme();
     loaded.value = true;
