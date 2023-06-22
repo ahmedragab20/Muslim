@@ -1,18 +1,4 @@
 <template>
-  <div>
-    <pre>
-    {{
-        // print the time progress
-        {
-          mediaProgressFormatted,
-          mediaProgressInMinutes,
-          mediaProgressInSeconds,
-        }
-      }}
-  </pre
-    >
-  </div>
-
   <div
     :style="!btnOnly ? `${hasSlot ? '' : `height: ${containerheight}px`}` : ''"
     class="relative"
@@ -343,8 +329,6 @@
         }
       });
       audio.value?.onPlaying(() => {
-        console.log('playing');
-
         loadingAudio.value = false;
 
         emit('audio-buffering', false);
@@ -485,16 +469,6 @@
     // audio.value = useAudioPlayer.audio;
     // audioProgressHandler(useAudioPlayer.currentTime);
   };
-
-  watch(
-    () => audio.value,
-    (newValue, oldValue) => {
-      console.log({
-        newValue,
-        oldValue,
-      });
-    }
-  );
 
   watch(showList, () => {
     listDivID.value = Generics.uuid() + '-list';

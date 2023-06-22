@@ -11,8 +11,6 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
     playerInfo.value = newPlayerInfo;
   };
   const setStatus = (newStatus: boolean) => {
-    console.log('newStatus', newStatus);
-
     status.value = newStatus;
     audio.value.isPlaying = newStatus;
   };
@@ -21,8 +19,6 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
     audio.value.isPlaying = true;
   };
   const toggle = () => {
-    console.log('toggle', status.value);
-
     if (status.value) {
       audio.value.pause();
     } else {
@@ -33,20 +29,6 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
   const setPlayerProgress = (newPlayerProgress: any) => {
     playerProgress.value = newPlayerProgress;
   };
-
-  watch(
-    () => audio.value?.isPlaying,
-    (newStatus) => {
-      console.log('is playing: ', newStatus);
-    }
-  );
-  // watch current time
-  watch(
-    () => currentTime.value,
-    (newCurrentTime) => {
-      // console.log('current time: ', newCurrentTime);
-    }
-  );
 
   return {
     audio,

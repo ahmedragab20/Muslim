@@ -2,7 +2,25 @@
   <div v-if="loaded" id="ragab-app">
     <!-- 🚧 - App Layouts -->
     <div class="fixed bottom-0 right-0 p-5">
-      <UButton @click="toggleAudio"> toggle audio </UButton>
+      <UCard>
+        app.vue
+        <div>
+          <pre>
+            <code>{{ player?.url }}</code>
+            <code>
+              {{ mediaProgressInSeconds }}
+              {{ mediaProgressInMinutes }}
+              {{mediaProgressPercentage}}
+              {{ mediaProgressFormatted }}
+            </code>
+          </pre>
+        </div>
+        <template #footer>
+          <div v-if="player">
+            <UButton @click="player.toggle()"> toggle </UButton>
+          </div>
+        </template>
+      </UCard>
     </div>
     <NuxtLayout></NuxtLayout>
 
@@ -69,6 +87,16 @@
     audio.toggle();
     console.log('audio', audio);
   };
+
+  const player = useState('audio', () => null);
+  const mediaProgressPercentage = useState<any>('mediaProgressPercentage', () => 0);
+
+  const mediaProgressInSeconds = useState<any>('mediaProgressInSeconds', () => 0);
+
+  const mediaProgressInMinutes = useState<any>('mediaProgressInMinutes', () => 0);
+
+  const mediaProgressFormatted = useState<any>('mediaProgressFormatted', () => '00:00/00:00');
+
   onMounted(() => {
     initTheme();
     loaded.value = true;
