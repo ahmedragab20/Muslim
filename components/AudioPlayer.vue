@@ -108,7 +108,7 @@
         <div
           v-if="showList && expandable && !btnOnly"
           :id="listDivID"
-          class="w-full min-h-[55px] overflow-auto delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
+          class="w-full min-h-[55px] overflow-y-auto overflow-x-hidden delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
           :class="{ ' translate-y-5': showList }"
         >
           <div class="w-full absolute inset-0 z-10 min-h-[40px]">
@@ -478,12 +478,10 @@
   });
   watch(
     () => props.audioUrl,
-    () => {
-      if (audio.value) {
-        if (props.playInTheBackground) {
-          return;
-        }
+    (newValue) => {
+      console.log('audio url changed', newValue);
 
+      if (audio.value) {
         audio.value?.pause();
         audio.value = undefined;
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-[80svh] flex justify-center flex-col gap-3">
-    <div class="flex items-center gap-2">
+    <div class="flex justify-center gap-2 flex-col">
       <div class="mb-1">Theme 1.</div>
       <!-- only toggler -->
       <AudioPlayer
@@ -11,7 +11,7 @@
       >
       </AudioPlayer>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex justify-center gap-2 flex-col">
       <div class="mb-1">Theme 2.</div>
       <!-- one line audio player -->
       <AudioPlayer
@@ -23,8 +23,8 @@
       >
       </AudioPlayer>
     </div>
-    <div class="flex items-center gap-2 mt-4">
-      <div class="mb-1">Theme 3.</div>
+    <div class="flex justify-center gap-2 flex-col mt-4">
+      <div class="mb-5">Theme 3.</div>
       <!-- expandable audio player -->
       <AudioPlayer
         :audio-name="`Surah ${route.params.id}`"
@@ -37,10 +37,11 @@
       >
       </AudioPlayer>
     </div>
-    <div class="flex items-center gap-2 mt-4">
-      <div class="mb-1">Theme 4.</div>
+    <div class="flex justify-center gap-2 flex-col mt-4">
+      <div class="mb-5">Theme 4. [keeps playing in the background]</div>
       <!-- expandable audio player -->
       <AudioPlayer
+        :key="chapterNumber"
         :audio-name="`Surah ${route.params.id}`"
         :reciter-name="recitation.name.en"
         :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
