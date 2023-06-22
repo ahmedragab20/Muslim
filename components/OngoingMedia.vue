@@ -7,7 +7,9 @@
       <div class="container absolute inset-0 z-10 flex items-center justify-center mx-auto">
         <div class="flex flex-col items-center justify-center w-full sm:max-w-[400px]">
           <!-- poster -->
-          <div class="w-[150px] h-[150px] pointer-events-none select-none">
+          <div
+            class="sm:w-[210px] w-[170px] sm:h-[210px] h-[170px] pointer-events-none select-none"
+          >
             <img
               src="/reciters/Abdelbasset-abdessamad.jpeg"
               alt="poster"
