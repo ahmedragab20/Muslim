@@ -1,7 +1,8 @@
 <template>
   <div v-if="loaded" id="ragab-app">
     <!-- 🚧 - App Layouts -->
-    <div class="fixed bottom-0 right-0 p-5">
+    <!-- For Debugging the player -->
+    <div v-if="false" class="fixed bottom-0 right-0 p-5">
       <UCard>
         app.vue
         <div>

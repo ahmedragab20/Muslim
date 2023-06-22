@@ -1,0 +1,984 @@
+{
+  "chapters": [
+    {
+      "number": 1,
+      "arabic": "الفاتحة",
+      "arabicWithTashkeel": "الْفَاتِحَة",
+      "english": "Al-Fātiĥah",
+      "englishTranslated": "The Opening"
+    },
+    {
+      "number": 2,
+      "arabic": "البقرة",
+      "arabicWithTashkeel": "الْبَقَرَة",
+      "english": "Al-Baqarah",
+      "englishTranslated": "The Cow"
+    },
+    {
+      "number": 3,
+      "arabic": "آل عمران",
+      "arabicWithTashkeel": "آلِ عِمْرَان",
+      "english": "Āli Imrān",
+      "englishTranslated": "Family of Imran"
+    },
+    {
+      "number": 4,
+      "arabic": "النساء",
+      "arabicWithTashkeel": "النِّسَاء",
+      "english": "An-Nisā'",
+      "englishTranslated": "The Women"
+    },
+    {
+      "number": 5,
+      "arabic": "المائدة",
+      "arabicWithTashkeel": "الْمَائِدَة",
+      "english": "Al-Mā'idah",
+      "englishTranslated": "The Table Spread"
+    },
+    {
+      "number": 6,
+      "arabic": "الأنعام",
+      "arabicWithTashkeel": "الْأَنْعَام",
+      "english": "Al-'Anām",
+      "englishTranslated": "The Cattle"
+    },
+    {
+      "number": 7,
+      "arabic": "الأعراف",
+      "arabicWithTashkeel": "الْأَعْرَاف",
+      "english": "Al-'A`rāf",
+      "englishTranslated": "The Heights"
+    },
+    {
+      "number": 8,
+      "arabic": "الأنفال",
+      "arabicWithTashkeel": "الْأَنْفَال",
+      "english": "Al-'Anfāl",
+      "englishTranslated": "The Spoils of War"
+    },
+    {
+      "number": 9,
+      "arabic": "التوبة",
+      "arabicWithTashkeel": "التَّوْبَة",
+      "english": "At-Tawbah",
+      "englishTranslated": "The Repentance"
+    },
+    {
+      "number": 10,
+      "arabic": "يونس",
+      "arabicWithTashkeel": "يُونُس",
+      "english": "Yūnus",
+      "englishTranslated": "Jonah"
+    },
+    {
+      "number": 11,
+      "arabic": "هود",
+      "arabicWithTashkeel": "هُود",
+      "english": "Hūd",
+      "englishTranslated": "Hud"
+    },
+    {
+      "number": 12,
+      "arabic": "يوسف",
+      "arabicWithTashkeel": "يُوسُف",
+      "english": "Yūsuf",
+      "englishTranslated": "Joseph"
+    },
+    {
+      "number": 13,
+      "arabic": "الرعد",
+      "arabicWithTashkeel": "الرَّعْد",
+      "english": "Ar-Ra`d",
+      "englishTranslated": "The Thunder"
+    },
+    {
+      "number": 14,
+      "arabic": "ابراهيم",
+      "arabicWithTashkeel": "إِبْرَاهِيم",
+      "english": "Ibrāhīm",
+      "englishTranslated": "Abraham"
+    },
+    {
+      "number": 15,
+      "arabic": "الحجر",
+      "arabicWithTashkeel": "الْحِجْر",
+      "english": "Al-Ĥijr",
+      "englishTranslated": "The Rocky Tract"
+    },
+    {
+      "number": 16,
+      "arabic": "النحل",
+      "arabicWithTashkeel": "النَّحْل",
+      "english": "An-Naĥl",
+      "englishTranslated": "The Bee"
+    },
+    {
+      "number": 17,
+      "arabic": "الإسراء",
+      "arabicWithTashkeel": "الْإِسْرَاء",
+      "english": "Al-'Isrā'",
+      "englishTranslated": "The Night Journey"
+    },
+    {
+      "number": 18,
+      "arabic": "الكهف",
+      "arabicWithTashkeel": "الْكَهْف",
+      "english": "Al-Kahf",
+      "englishTranslated": "The Cave"
+    },
+    {
+      "number": 19,
+      "arabic": "مريم",
+      "arabicWithTashkeel": "مَرْيَم",
+      "english": "Maryam",
+      "englishTranslated": "Mary"
+    },
+    {
+      "number": 20,
+      "arabic": "طه",
+      "arabicWithTashkeel": "طه",
+      "english": "Ţāhā",
+      "englishTranslated": "Ta-Ha"
+    },
+    {
+      "number": 21,
+      "arabic": "الأنبياء",
+      "arabicWithTashkeel": "الْأَنْبِيَاء",
+      "english": "Al-'Anbiyā'",
+      "englishTranslated": "The Prophets"
+    },
+    {
+      "number": 22,
+      "arabic": "الحج",
+      "arabicWithTashkeel": "الْحَجّ",
+      "english": "Al-Ĥajj",
+      "englishTranslated": "The Pilgrimage"
+    },
+    {
+      "number": 23,
+      "arabic": "المؤمنون",
+      "arabicWithTashkeel": "الْمُؤْمِنُون",
+      "english": "Al-Mu'minūn",
+      "englishTranslated": "The Believers"
+    },
+    {
+      "number": 24,
+      "arabic": "النور",
+      "arabicWithTashkeel": "النُّور",
+      "english": "An-Nūr",
+      "englishTranslated": "The Light"
+    },
+    {
+      "number": 25,
+      "arabic": "الفرقان",
+      "arabicWithTashkeel": "الْفُرْقَان",
+      "english": "Al-Furqān",
+      "englishTranslated": "The Criterion"
+    },
+    {
+      "number": 26,
+      "arabic": "الشعراء",
+      "arabicWithTashkeel": "الشُّعَرَاء",
+      "english": "Ash-Shu`arā'",
+      "englishTranslated": "The Poets"
+    },
+    {
+      "number": 27,
+      "arabic": "النمل",
+      "arabicWithTashkeel": "النَّمْل",
+      "english": "An-Naml",
+      "englishTranslated": "The Ant"
+    },
+    {
+      "number": 28,
+      "arabic": "القصص",
+      "arabicWithTashkeel": "الْقَصَص",
+      "english": "Al-Qaşaş",
+      "englishTranslated": "The Stories"
+    },
+    {
+      "number": 29,
+      "arabic": "العنكبوت",
+      "arabicWithTashkeel": "الْعَنْكَبُوت",
+      "english": "Al-`Ankabūt",
+      "englishTranslated": "The Spider"
+    },
+    {
+      "number": 30,
+      "arabic": "الروم",
+      "arabicWithTashkeel": "الرُّوم",
+      "english": "Ar-Rūm",
+      "englishTranslated": "The Romans"
+    },
+    {
+      "number": 31,
+      "arabic": "لقمان",
+      "arabicWithTashkeel": "لُقْمَان",
+      "english": "Luqmān",
+      "englishTranslated": "Luqman"
+    },
+    {
+      "number": 32,
+      "arabic": "السجدة",
+      "arabicWithTashkeel": "السَّجْدَة",
+      "english": "As-Sajdah",
+      "englishTranslated": "The Prostration"
+    },
+    {
+      "number": 33,
+      "arabic": "الأحزاب",
+      "arabicWithTashkeel": "الْأَحْزَاب",
+      "english": "Al-'Aĥzāb",
+      "englishTranslated": "The Combined Forces"
+    },
+    {
+      "number": 34,
+      "arabic": "سبأ",
+      "arabicWithTashkeel": "سَبَإ",
+      "english": "Sabā'",
+      "englishTranslated": "Sheba"
+    },
+    {
+      "number": 35,
+      "arabic": "فاطر",
+      "arabicWithTashkeel": "فَاطِر",
+      "english": "Fāţir",
+      "englishTranslated": "The Originator"
+    },
+    {
+      "number": 36,
+      "arabic": "يس",
+      "arabicWithTashkeel": "يس",
+      "english": "Yā-Sīn",
+      "englishTranslated": "Ya Sin"
+    },
+    {
+      "number": 37,
+      "arabic": "الصافات",
+      "arabicWithTashkeel": "الصَّافَّات",
+      "english": "Aş-Şāffāt",
+      "englishTranslated": "Those who set the Ranks"
+    },
+    {
+      "number": 38,
+      "arabic": "ص",
+      "arabicWithTashkeel": "ص",
+      "english": "Şād",
+      "englishTranslated": "Sad"
+    },
+    {
+      "number": 39,
+      "arabic": "الزمر",
+      "arabicWithTashkeel": "الزُّمَر",
+      "english": "Az-Zumar",
+      "englishTranslated": "The Troops"
+    },
+    {
+      "number": 40,
+      "arabic": "غافر",
+      "arabicWithTashkeel": "غَافِر",
+      "english": "Ghāfir",
+      "englishTranslated": "The Forgiver"
+    },
+    {
+      "number": 41,
+      "arabic": "فصلت",
+      "arabicWithTashkeel": "فُصِّلَتْ",
+      "english": "Fuşşilat",
+      "englishTranslated": "Explained in Detail"
+    },
+    {
+      "number": 42,
+      "arabic": "الشورى",
+      "arabicWithTashkeel": "الشُّورَى",
+      "english": "Ash-Shūrā",
+      "englishTranslated": "The Consultation"
+    },
+    {
+      "number": 43,
+      "arabic": "الزخرف",
+      "arabicWithTashkeel": "الزُّخْرُف",
+      "english": "Az-Zukhruf",
+      "englishTranslated": "The Gold Adornments"
+    },
+    {
+      "number": 44,
+      "arabic": "الدخان",
+      "arabicWithTashkeel": "الدُّخَان",
+      "english": "Ad-Dukhān",
+      "englishTranslated": "The Smoke"
+    },
+    {
+      "number": 45,
+      "arabic": "الجاثية",
+      "arabicWithTashkeel": "الْجَاثِيَة",
+      "english": "Al-Jāthiyah",
+      "englishTranslated": "The Crouching"
+    },
+    {
+      "number": 46,
+      "arabic": "الأحقاف",
+      "arabicWithTashkeel": "الْأَحْقَاف",
+      "english": "Al-'Aĥqāf",
+      "englishTranslated": "The Wind-Curved Sandhills"
+    },
+    {
+      "number": 47,
+      "arabic": "محمد",
+      "arabicWithTashkeel": "مُحَمَّد",
+      "english": "Muĥammad",
+      "englishTranslated": "Muhammad"
+    },
+    {
+      "number": 48,
+      "arabic": "الفتح",
+      "arabicWithTashkeel": "الْفَتْح",
+      "english": "Al-Fatĥ",
+      "englishTranslated": "The Victory"
+    },
+    {
+      "number": 49,
+      "arabic": "الحجرات",
+      "arabicWithTashkeel": "الْحُجُرَات",
+      "english": "Al-Ĥujurāt",
+      "englishTranslated": "The Rooms"
+    },
+    {
+      "number": 50,
+      "arabic": "ق",
+      "arabicWithTashkeel": "ق",
+      "english": "Qāf",
+      "englishTranslated": "Qaf"
+    },
+    {
+      "number": 51,
+      "arabic": "الذاريات",
+      "arabicWithTashkeel": "الذَّارِيَات",
+      "english": "Adh-Dhāriyāt",
+      "englishTranslated": "The Winnowing Winds"
+    },
+    {
+      "number": 52,
+      "arabic": "الطور",
+      "arabicWithTashkeel": "الطُّور",
+      "english": "Aţ-Ţūr",
+      "englishTranslated": "The Mount"
+    },
+    {
+      "number": 53,
+      "arabic": "النجم",
+      "arabicWithTashkeel": "النَّجْم",
+      "english": "An-Najm",
+      "englishTranslated": "The Star"
+    },
+    {
+      "number": 54,
+      "arabic": "القمر",
+      "arabicWithTashkeel": "الْقَمَر",
+      "english": "Al-Qamar",
+      "englishTranslated": "The Moon"
+    },
+    {
+      "number": 55,
+      "arabic": "الرحمن",
+      "arabicWithTashkeel": "الرَّحْمَٰن",
+      "english": "Ar-Raĥmān",
+      "englishTranslated": "The Beneficent"
+    },
+    {
+      "number": 56,
+      "arabic": "الواقعة",
+      "arabicWithTashkeel": "الْوَاقِعَة",
+      "english": "Al-Wāqi`ah",
+      "englishTranslated": "The Inevitable"
+    },
+    {
+      "number": 57,
+      "arabic": "الحديد",
+      "arabicWithTashkeel": "الْحَدِيد",
+      "english": "Al-Ĥadīd",
+      "englishTranslated": "The Iron"
+    },
+    {
+      "number": 58,
+      "arabic": "المجادلة",
+      "arabicWithTashkeel": "الْمُجَادَلَة",
+      "english": "Al-Mujādila",
+      "englishTranslated": "The Pleading Woman"
+    },
+    {
+      "number": 59,
+      "arabic": "الحشر",
+      "arabicWithTashkeel": "الْحَشْر",
+      "english": "Al-Ĥashr",
+      "englishTranslated": "The Exile"
+    },
+    {
+      "number": 60,
+      "arabic": "الممتحنة",
+      "arabicWithTashkeel": "الْمُمْتَحَنَة",
+      "english": "Al-Mumtaĥanah",
+      "englishTranslated": "She that is to be examined"
+    },
+    {
+      "number": 61,
+      "arabic": "الصف",
+      "arabicWithTashkeel": "الصَّفّ",
+      "english": "Aş-Şaf",
+      "englishTranslated": "The Ranks"
+    },
+    {
+      "number": 62,
+      "arabic": "الجمعة",
+      "arabicWithTashkeel": "الْجُمُعَة",
+      "english": "Al-Jumu`ah",
+      "englishTranslated": "Friday"
+    },
+    {
+      "number": 63,
+      "arabic": "المنافقون",
+      "arabicWithTashkeel": "الْمُنَافِقُونَ",
+      "english": "Al-Munāfiqūn",
+      "englishTranslated": "The Hypocrites"
+    },
+    {
+      "number": 64,
+      "arabic": "التغابن",
+      "arabicWithTashkeel": "التَّغَابُن",
+      "english": "At-Taghābun",
+      "englishTranslated": "Mutual Disillusion"
+    },
+    {
+      "number": 65,
+      "arabic": "الطلاق",
+      "arabicWithTashkeel": "الطَّلَاق",
+      "english": "Aţ-Ţalāq",
+      "englishTranslated": "Divorce"
+    },
+    {
+      "number": 66,
+      "arabic": "التحريم",
+      "arabicWithTashkeel": "التَّحْرِيم",
+      "english": "At-Taĥrīm",
+      "englishTranslated": "The Prohibition"
+    },
+    {
+      "number": 67,
+      "arabic": "الملك",
+      "arabicWithTashkeel": "الْمُلْك",
+      "english": "Al-Mulk",
+      "englishTranslated": "The Sovereignty"
+    },
+    {
+      "number": 68,
+      "arabic": "القلم",
+      "arabicWithTashkeel": "الْقَلَم",
+      "english": "Al-Qalam",
+      "englishTranslated": "The Pen"
+    },
+    {
+      "number": 69,
+      "arabic": "الحاقة",
+      "arabicWithTashkeel": "الْحَاقَّة",
+      "english": "Al-Ĥāqqah",
+      "englishTranslated": "The Reality"
+    },
+    {
+      "number": 70,
+      "arabic": "المعارج",
+      "arabicWithTashkeel": "الْمَعَارِج",
+      "english": "Al-Ma`ārij",
+      "englishTranslated": "The Ascending Stairways"
+    },
+    {
+      "number": 71,
+      "arabic": "نوح",
+      "arabicWithTashkeel": "نُوح",
+      "english": "Nūĥ",
+      "englishTranslated": "Noah"
+    },
+    {
+      "number": 72,
+      "arabic": "الجن",
+      "arabicWithTashkeel": "الْجِنّ",
+      "english": "Al-Jinn",
+      "englishTranslated": "The Jinn"
+    },
+    {
+      "number": 73,
+      "arabic": "المزمل",
+      "arabicWithTashkeel": "الْمُزَّمِّل",
+      "english": "Al-Muzzammil",
+      "englishTranslated": "The Enshrouded One"
+    },
+    {
+      "number": 74,
+      "arabic": "المدثر",
+      "arabicWithTashkeel": "الْمُدَّثِّر",
+      "english": "Al-Muddathir",
+      "englishTranslated": "The Cloaked One"
+    },
+    {
+      "number": 75,
+      "arabic": "القيامة",
+      "arabicWithTashkeel": "الْقِيَامَة",
+      "english": "Al-Qiyāmah",
+      "englishTranslated": "The Resurrection"
+    },
+    {
+      "number": 76,
+      "arabic": "الإنسان",
+      "arabicWithTashkeel": "الْإِنسَان",
+      "english": "Al-'Insān",
+      "englishTranslated": "Man"
+    },
+    {
+      "number": 77,
+      "arabic": "المرسلات",
+      "arabicWithTashkeel": "الْمُرْسَلَات",
+      "english": "Al-Mursalāt",
+      "englishTranslated": "The Emissaries"
+    },
+    {
+      "number": 78,
+      "arabic": "النبإ",
+      "arabicWithTashkeel": "النَّبَأ",
+      "english": "An-Naba'",
+      "englishTranslated": "The Tidings"
+    },
+    {
+      "number": 79,
+      "arabic": "النازعات",
+      "arabicWithTashkeel": "النَّازِعَات",
+      "english": "An-Nāzi`āt",
+      "englishTranslated": "Those who drag forth"
+    },
+    {
+      "number": 80,
+      "arabic": "عبس",
+      "arabicWithTashkeel": "عَبَسَ",
+      "english": "Abasa",
+      "englishTranslated": "He frowned"
+    },
+    {
+      "number": 81,
+      "arabic": "التكوير",
+      "arabicWithTashkeel": "التَّكْوِير",
+      "english": "At-Takwīr",
+      "englishTranslated": "The Overthrowing"
+    },
+    {
+      "number": 82,
+      "arabic": "الإنفطار",
+      "arabicWithTashkeel": "الْإِنْفِطَار",
+      "english": "Al-'Infiţār",
+      "englishTranslated": "The Cleaving"
+    },
+    {
+      "number": 83,
+      "arabic": "المطففين",
+      "arabicWithTashkeel": "الْمُطَفِّفِين",
+      "english": "Al-Muţaffifīn",
+      "englishTranslated": "Defrauding"
+    },
+    {
+      "number": 84,
+      "arabic": "الإنشقاق",
+      "arabicWithTashkeel": "الْإِنْشِقَاق",
+      "english": "Al-'Inshiqāq",
+      "englishTranslated": "The Splitting Open"
+    },
+    {
+      "number": 85,
+      "arabic": "البروج",
+      "arabicWithTashkeel": "الْبُرُوج",
+      "english": "Al-Burūj",
+      "englishTranslated": "The Mansions of the Stars"
+    },
+    {
+      "number": 86,
+      "arabic": "الطارق",
+      "arabicWithTashkeel": "الطَّارِق",
+      "english": "Aţ-Ţāriq",
+      "englishTranslated": "The Morning Star"
+    },
+    {
+      "number": 87,
+      "arabic": "الأعلى",
+      "arabicWithTashkeel": "الْأَعْلى",
+      "english": "Al-'A`lá",
+      "englishTranslated": "The Most High"
+    },
+    {
+      "number": 88,
+      "arabic": "الغاشية",
+      "arabicWithTashkeel": "الْغَاشِيَة",
+      "english": "Al-Ghāshiyah",
+      "englishTranslated": "The Overwhelming"
+    },
+    {
+      "number": 89,
+      "arabic": "الفجر",
+      "arabicWithTashkeel": "الْفَجْر",
+      "english": "Al-Fajr",
+      "englishTranslated": "The Dawn"
+    },
+    {
+      "number": 90,
+      "arabic": "البلد",
+      "arabicWithTashkeel": "الْبَلَد",
+      "english": "Al-Balad",
+      "englishTranslated": "The City"
+    },
+    {
+      "number": 91,
+      "arabic": "الشمس",
+      "arabicWithTashkeel": "الشَّمْس",
+      "english": "Ash-Shams",
+      "englishTranslated": "The Sun"
+    },
+    {
+      "number": 92,
+      "arabic": "الليل",
+      "arabicWithTashkeel": "اللَّيْل",
+      "english": "Al-Layl",
+      "englishTranslated": "The Night"
+    },
+    {
+      "number": 93,
+      "arabic": "الضحى",
+      "arabicWithTashkeel": "الضُّحَىٰ",
+      "english": "Ađ-Đuĥaá",
+      "englishTranslated": "The Morning Hours"
+    },
+    {
+      "number": 94,
+      "arabic": "الشرح",
+      "arabicWithTashkeel": "الشَّرْح",
+      "english": "Ash-Sharĥ",
+      "englishTranslated": "The Relief"
+    },
+    {
+      "number": 95,
+      "arabic": "التين",
+      "arabicWithTashkeel": "التِّين",
+      "english": "At-Tīn",
+      "englishTranslated": "The Fig"
+    },
+    {
+      "number": 96,
+      "arabic": "العلق",
+      "arabicWithTashkeel": "الْعَلَق",
+      "english": "Al-`Alaq",
+      "englishTranslated": "The Clot"
+    },
+    {
+      "number": 97,
+      "arabic": "القدر",
+      "arabicWithTashkeel": "الْقَدْر",
+      "english": "Al-Qadr",
+      "englishTranslated": "The Power"
+    },
+    {
+      "number": 98,
+      "arabic": "البينة",
+      "arabicWithTashkeel": "الْبَيِّنَة",
+      "english": "Al-Bayyinah",
+      "englishTranslated": "The Clear Proof"
+    },
+    {
+      "number": 99,
+      "arabic": "الزلزلة",
+      "arabicWithTashkeel": "الزَّلْزَلَة",
+      "english": "Az-Zalzalah",
+      "englishTranslated": "The Earthquake"
+    },
+    {
+      "number": 100,
+      "arabic": "العاديات",
+      "arabicWithTashkeel": "الْعَادِيَات",
+      "english": "Al-`Ādiyāt",
+      "englishTranslated": "The Chargers"
+    },
+    {
+      "number": 101,
+      "arabic": "القارعة",
+      "arabicWithTashkeel": "الْقَارِعَة",
+      "english": "Al-Qāri`ah",
+      "englishTranslated": "The Calamity"
+    },
+    {
+      "number": 102,
+      "arabic": "التكاثر",
+      "arabicWithTashkeel": "التَّكَاثُر",
+      "english": "At-Takāthur",
+      "englishTranslated": "The Rivalry in worldly increase"
+    },
+    {
+      "number": 103,
+      "arabic": "العصر",
+      "arabicWithTashkeel": "الْعَصْر",
+      "english": "Al-`Aşr",
+      "englishTranslated": "The Declining Day"
+    },
+    {
+      "number": 104,
+      "arabic": "الهمزة",
+      "arabicWithTashkeel": "الْهُمَزَة",
+      "english": "Al-Humazah",
+      "englishTranslated": "The Traducer"
+    },
+    {
+      "number": 105,
+      "arabic": "الفيل",
+      "arabicWithTashkeel": "الْفِيل",
+      "english": "Al-Fīl",
+      "englishTranslated": "The Elephant"
+    },
+    {
+      "number": 106,
+      "arabic": "قريش",
+      "arabicWithTashkeel": "قُرَيْش",
+      "english": "Quraysh",
+      "englishTranslated": "Quraysh"
+    },
+    {
+      "number": 107,
+      "arabic": "الماعون",
+      "arabicWithTashkeel": "الْمَاعُونَ",
+      "english": "Al-Mā`ūn",
+      "englishTranslated": "The Small Kindnesses"
+    },
+    {
+      "number": 108,
+      "arabic": "الكوثر",
+      "arabicWithTashkeel": "الْكَوْثَر",
+      "english": "Al-Kawthar",
+      "englishTranslated": "The Abundance"
+    },
+    {
+      "number": 109,
+      "arabic": "الكافرون",
+      "arabicWithTashkeel": "الْكَافِرُونَ",
+      "english": "Al-Kāfirūn",
+      "englishTranslated": "The Disbelievers"
+    },
+    {
+      "number": 110,
+      "arabic": "النصر",
+      "arabicWithTashkeel": "النَّصْر",
+      "english": "An-Naşr",
+      "englishTranslated": "The Divine Support"
+    },
+    {
+      "number": 111,
+      "arabic": "المسد",
+      "arabicWithTashkeel": "الْمَسَد",
+      "english": "Al-Masad",
+      "englishTranslated": "The Palm Fiber"
+    },
+    {
+      "number": 112,
+      "arabic": "الإخلاص",
+      "arabicWithTashkeel": "الْإِخْلَاص",
+      "english": "Al-'Ikhlāş",
+      "englishTranslated": "Sincerity"
+    },
+    {
+      "number": 113,
+      "arabic": "الفلق",
+      "arabicWithTashkeel": "الْفَلَق",
+      "english": "Al-Falaq",
+      "englishTranslated": "The Daybreak"
+    },
+    {
+      "number": 114,
+      "arabic": "الناس",
+      "arabicWithTashkeel": "النَّاس",
+      "english": "An-Nās",
+      "englishTranslated": "Mankind"
+    }
+  ],
+  "juzs": [
+    {
+      "number": 1,
+      "arabic": "الجزء الأول",
+      "arabicWithTashkeel": "الْجُزْءُ الْأَوَّلُ",
+      "english": "Juz 1"
+    },
+    {
+      "number": 2,
+      "arabic": "الجزء الثاني",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّانِي",
+      "english": "Juz 2"
+    },
+    {
+      "number": 3,
+      "arabic": "الجزء الثالث",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّالِثُ",
+      "english": "Juz 3"
+    },
+    {
+      "number": 4,
+      "arabic": "الجزء الرابع",
+      "arabicWithTashkeel": "الْجُزْءُ الرَّابِعُ",
+      "english": "Juz 4"
+    },
+    {
+      "number": 5,
+      "arabic": "الجزء الخامس",
+      "arabicWithTashkeel": "الْجُزْءُ الْخَامِسُ",
+      "english": "Juz 5"
+    },
+    {
+      "number": 6,
+      "arabic": "الجزء السادس",
+      "arabicWithTashkeel": "الْجُزْءُ السَّادِسُ",
+      "english": "Juz 6"
+    },
+    {
+      "number": 7,
+      "arabic": "الجزء السابع",
+      "arabicWithTashkeel": "الْجُزْءُ السَّابِعُ",
+      "english": "Juz 7"
+    },
+    {
+      "number": 8,
+      "arabic": "الجزء الثامن",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّامِنُ",
+      "english": "Juz 8"
+    },
+    {
+      "number": 9,
+      "arabic": "الجزء التاسع",
+      "arabicWithTashkeel": "الْجُزْءُ التَّاسِعُ",
+      "english": "Juz 9"
+    },
+    {
+      "number": 10,
+      "arabic": "الجزء العاشر",
+      "arabicWithTashkeel": "الْجُزْءُ الْعَاشِرُ",
+      "english": "Juz 10"
+    },
+    {
+      "number": 11,
+      "arabic": "الجزء الحادي عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الْحَادِي عَشَرَ",
+      "english": "Juz 11"
+    },
+    {
+      "number": 12,
+      "arabic": "الجزء الثاني عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّانِي عَشَرَ",
+      "english": "Juz 12"
+    },
+    {
+      "number": 13,
+      "arabic": "الجزء الثالث عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّالِثُ عَشَرَ",
+      "english": "Juz 13"
+    },
+    {
+      "number": 14,
+      "arabic": "الجزء الرابع عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الرَّابِعُ عَشَرَ",
+      "english": "Juz 14"
+    },
+    {
+      "number": 15,
+      "arabic": "الجزء الخامس عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الْخَامِسُ عَشَرَ",
+      "english": "Juz 15"
+    },
+    {
+      "number": 16,
+      "arabic": "الجزء السادس عشر",
+      "arabicWithTashkeel": "الْجُزْءُ السَّادِسُ عَشَرَ",
+      "english": "Juz 16"
+    },
+    {
+      "number": 17,
+      "arabic": "الجزء السابع عشر",
+      "arabicWithTashkeel": "الْجُزْءُ السَّابِعُ عَشَرَ",
+      "english": "Juz 17"
+    },
+    {
+      "number": 18,
+      "arabic": "الجزء الثامن عشر",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّامِنُ عَشَرَ",
+      "english": "Juz 18"
+    },
+    {
+      "number": 19,
+      "arabic": "الجزء التاسع عشر",
+      "arabicWithTashkeel": "الْجُزْءُ التَّاسِعُ عَشَرَ",
+      "english": "Juz 19"
+    },
+    {
+      "number": 20,
+      "arabic": "الجزء العشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الْعِشْرُونَ",
+      "english": "Juz 20"
+    },
+    {
+      "number": 21,
+      "arabic": "الجزء الحادي والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الْحَادِي وَالْعِشْرُونَ",
+      "english": "Juz 21"
+    },
+    {
+      "number": 22,
+      "arabic": "الجزء الثاني والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّانِي وَالْعِشْرُونَ",
+      "english": "Juz 22"
+    },
+    {
+      "number": 23,
+      "arabic": "الجزء الثالث والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّالِثُ وَالْعِشْرُونَ",
+      "english": "Juz 23"
+    },
+    {
+      "number": 24,
+      "arabic": "الجزء الرابع والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الرَّابِعُ وَالْعِشْرُونَ",
+      "english": "Juz 24"
+    },
+    {
+      "number": 25,
+      "arabic": "الجزء الخامس والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الْخَامِسُ وَالْعِشْرُونَ",
+      "english": "Juz 25"
+    },
+    {
+      "number": 26,
+      "arabic": "الجزء السادس والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ السَّادِسُ وَالْعِشْرُونَ",
+      "english": "Juz 26"
+    },
+    {
+      "number": 27,
+      "arabic": "الجزء السابع والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ السَّابِعُ وَالْعِشْرُونَ",
+      "english": "Juz 27"
+    },
+    {
+      "number": 28,
+      "arabic": "الجزء الثامن والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّامِنُ وَالْعِشْرُونَ",
+      "english": "Juz 28"
+    },
+    {
+      "number": 29,
+      "arabic": "الجزء التاسع والعشرون",
+      "arabicWithTashkeel": "الْجُزْءُ التَّاسِعُ وَالْعِشْرُونَ",
+      "english": "Juz 29"
+    },
+    {
+      "number": 30,
+      "arabic": "الجزء الثلاثون",
+      "arabicWithTashkeel": "الْجُزْءُ الثَّلَاثُونَ",
+      "english": "Juz 30"
+    }
+  ]
+}

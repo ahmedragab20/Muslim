@@ -75,7 +75,6 @@
                   {{ reciterName }}
                 </div>
               </div>
-
               <!-- list -->
               <div
                 v-if="expandable"
@@ -261,6 +260,12 @@
     ? useState<any>('mediaProgressFormatted', () => '00:00/00:00')
     : ref('00:00/00:00'); // default value
   const audio = props.playInTheBackground ? useState<any>('audio', () => null) : ref<any>();
+  const localPlayerInfo = useState('player-info', () => {
+    if (!props.playInTheBackground) return;
+
+    return useAudioPlayer.playerInfo;
+  });
+
   const loadingAudio = ref(false);
   const localAudioUrl = ref('');
   const playerInfo = computed<LocalPlayerInfo>(() => {
@@ -284,12 +289,6 @@
     }
 
     return playerInfo;
-  });
-
-  const localPlayerInfo = computed(() => {
-    if (!props.playInTheBackground) return;
-
-    return useAudioPlayer.playerInfo;
   });
 
   const getAudio = async () => {

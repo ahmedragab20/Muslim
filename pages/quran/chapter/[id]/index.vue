@@ -48,6 +48,9 @@
         :reciter-poster="recitation.poster"
         :player-info="{
           id: audioUrl,
+          surah: route.params.id,
+          reciter: recitation.name.en,
+          reciterPoster: recitation.poster,
         }"
         :reinit-player="reinitPlayer"
         play-in-the-background

@@ -12,12 +12,13 @@
       </UTooltip>
     </div>
     <!-- Logo -->
-    <div class="w-[70%] flex justify-center items-center py-1">
+    <div class="w-[70%] flex justify-center flex-col items-center py-1">
       <NuxtLink to="/" class="text-2xl">
         <span class="text-primary-500 font-mono">
           {{ $t('base.appTitle') }}
         </span>
       </NuxtLink>
+      <div v-if="playerInfo" class="">{{ playerInfo?.reciter }} | {{ playerInfo?.surah }}</div>
     </div>
     <!-- menu -->
     <div class="w-[15%] flex justify-center items-center min-h-full py-1 px-1 sm:px-4">
@@ -49,6 +50,16 @@
 
     if (haveDataChanged) toast.add({ title: t('settings.updatedToast') });
   };
+  const player = useState<any>('audio', () => null);
+  const playerInfo = computed(() => player.value?.info?.[0]);
+  watch(
+    () => player.value,
+    (newVal) => {
+      if (newVal) {
+        console.log('player is ready', newVal);
+      }
+    }
+  );
 
   defineShortcuts({
     'meta_.': {
