@@ -47,8 +47,7 @@
         :audio-url="audioUrl"
         :reciter-poster="recitation.poster"
         :player-info="{
-          id: audioUrl,
-          surah: route.params.id,
+          chapterId: route.params.id,
           reciter: recitation.name.en,
           reciterPoster: recitation.poster,
         }"

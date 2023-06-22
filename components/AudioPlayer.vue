@@ -260,11 +260,6 @@
     ? useState<any>('mediaProgressFormatted', () => '00:00/00:00')
     : ref('00:00/00:00'); // default value
   const audio = props.playInTheBackground ? useState<any>('audio', () => null) : ref<any>();
-  const localPlayerInfo = useState('player-info', () => {
-    if (!props.playInTheBackground) return;
-
-    return useAudioPlayer.playerInfo;
-  });
 
   const loadingAudio = ref(false);
   const localAudioUrl = ref('');
@@ -288,6 +283,8 @@
       useAudioPlayer.setPlayerInfo(playerInfo);
     }
 
+    console.log('playerInfo', playerInfo);
+
     return playerInfo;
   });
 
@@ -305,7 +302,7 @@
       // check if the player info prop is with type of array
       audio.value = new AudioPlayer(
         localAudioUrl.value || playerInfo.value.url,
-        localPlayerInfo.value || playerInfo.value.info
+        playerInfo.value.info
       );
 
       // listeners
@@ -342,7 +339,7 @@
 
       let audioInherited = new AudioPlayer(
         localAudioUrl.value || playerInfo.value.url,
-        localPlayerInfo.value || playerInfo.value.info
+        playerInfo.value.info
       );
 
       emit('audio-found', audioInherited);

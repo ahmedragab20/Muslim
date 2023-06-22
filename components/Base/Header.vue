@@ -21,7 +21,7 @@
             {{ $t('base.appTitle') }}
           </span>
         </NuxtLink>
-        <div>
+        <div v-if="player">
           <UButton
             variant="soft"
             size="xs"
@@ -32,7 +32,7 @@
             @click="togglePlayerOpened"
           >
             <span class="max-w-[150px] sm:max-w-sm truncate">
-              Abdul Basit Abdul Samad | Al-Fātiĥah
+              Abdul Basit Abdul Samad <span v-if="!!chapter"> | {{ chapter.english }} </span>
             </span>
           </UButton>
         </div>
@@ -77,12 +77,32 @@
   };
   const player = useState<any>('audio', () => null);
   const playerInfo = computed(() => player.value?.info?.[0]);
+  const chapter = ref();
+  const getChapter = async () => {
+    Debug.log({
+      message: 'getChapter',
+      data: player.value,
+    });
+    try {
+      const chapterId = player.value?.info?.[0]?.chapterId;
+      if (!chapterId) return;
+
+      const { fetchChapter } = useFetchApis();
+      const res = await fetchChapter(playerInfo.value?.chapterId);
+
+      chapter.value = res.value;
+    } catch (error) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Chapter not found',
+      });
+    }
+  };
+
   watch(
-    () => player.value,
+    () => player.value?.url,
     (newVal) => {
-      if (newVal) {
-        console.log('player is ready', newVal);
-      }
+      getChapter();
     }
   );
 
