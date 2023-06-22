@@ -157,7 +157,7 @@
             </div>
           </div>
           <div
-            class="absolute inset-0 z-0 max-h-full overflow-hidden opacity-50 pointer-events-none select-none bg-red-50 blur-2xl"
+            class="absolute inset-0 z-0 max-h-full overflow-hidden opacity-50 pointer-events-none select-none blur-2xl"
           >
             <img
               :src="reciterPoster"

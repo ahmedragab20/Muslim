@@ -30,6 +30,18 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
     playerProgress.value = newPlayerProgress;
   };
 
+  const headerPlayerOpened = ref(false);
+  const setHeaderPlayerOpened = (newHeaderPlayerOpened?: boolean) => {
+    if (!newHeaderPlayerOpened) {
+      headerPlayerOpened.value = !headerPlayerOpened.value;
+
+      return;
+    }
+
+    headerPlayerOpened.value = newHeaderPlayerOpened;
+    console.log('🔥 fired', headerPlayerOpened.value);
+  };
+
   return {
     audio,
     playerInfo,
@@ -41,5 +53,7 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
     toggle,
     playerProgress,
     setPlayerProgress,
+    headerPlayerOpened,
+    setHeaderPlayerOpened,
   };
 });
