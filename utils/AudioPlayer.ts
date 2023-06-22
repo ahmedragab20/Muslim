@@ -62,7 +62,6 @@ export default class AudioPlayer {
       callback?.();
     });
   }
-
   setIsPlaying(isPlaying: boolean): void {
     this.isPlaying = isPlaying;
   }

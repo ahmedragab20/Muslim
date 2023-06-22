@@ -40,25 +40,22 @@
     <div class="flex items-center gap-2 mt-4">
       <div class="mb-1">Theme 4.</div>
       <!-- expandable audio player -->
-      <KeepAlive>
-        <AudioPlayer
-          :key="audioUrl"
-          :audio-name="`Surah ${route.params.id}`"
-          :reciter-name="recitation.name.en"
-          :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
-          :audio-url="audioUrl"
-          :reciter-poster="recitation.poster"
-          :player-info="{
-            id: audioUrl,
-          }"
-          :reinit-player="reinitPlayer"
-          play-in-the-background
-          expandable
-          @audio-toggled="togglePlaying"
-          @audio-found="foundAudio"
-        >
-        </AudioPlayer>
-      </KeepAlive>
+      <AudioPlayer
+        :audio-name="`Surah ${route.params.id}`"
+        :reciter-name="recitation.name.en"
+        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
+        :audio-url="audioUrl"
+        :reciter-poster="recitation.poster"
+        :player-info="{
+          id: audioUrl,
+        }"
+        :reinit-player="reinitPlayer"
+        play-in-the-background
+        expandable
+        @audio-toggled="togglePlaying"
+        @audio-found="foundAudio"
+      >
+      </AudioPlayer>
     </div>
     <div class="flex flex-col justify-center gap-2 mb-10">
       <div class="mb-1">Theme 5.</div>

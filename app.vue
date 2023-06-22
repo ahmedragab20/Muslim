@@ -66,10 +66,9 @@
 
   const toggleAudio = () => {
     const audio = audioPlayerStore.audio;
-    audio?.toggle();
+    audio.toggle();
     console.log('audio', audio);
   };
-
   onMounted(() => {
     initTheme();
     loaded.value = true;

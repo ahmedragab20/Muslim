@@ -262,11 +262,19 @@
   const listDivID = ref(Generics.uuid() + '-list');
   const listDiv = ref<HTMLElement | null>(null);
   const containerheight = ref(43); // default value
-  const mediaProgressPercentage = ref(0);
-  const mediaProgressInSeconds = ref(0);
-  const mediaProgressInMinutes = ref(0);
-  const mediaProgressFormatted = ref('00:00/00:00'); // default value
-  const audio = ref();
+  const mediaProgressPercentage = props.playInTheBackground
+    ? useState<any>('mediaProgressPercentage', () => 0)
+    : ref(0);
+  const mediaProgressInSeconds = props.playInTheBackground
+    ? useState<any>('mediaProgressInSeconds', () => 0)
+    : ref(0);
+  const mediaProgressInMinutes = props.playInTheBackground
+    ? useState<any>('mediaProgressInMinutes', () => 0)
+    : ref(0);
+  const mediaProgressFormatted = props.playInTheBackground
+    ? useState<any>('mediaProgressFormatted', () => '00:00/00:00')
+    : ref('00:00/00:00'); // default value
+  const audio = props.playInTheBackground ? useState<any>('audio', () => null) : ref<any>();
   const loadingAudio = ref(false);
   const localAudioUrl = ref('');
   const playerInfo = computed<LocalPlayerInfo>(() => {
@@ -298,13 +306,8 @@
     return useAudioPlayer.playerInfo;
   });
 
-  // Establish a connection with a specific channel
-  const broadcastChannel = ref();
-
   const getAudio = async () => {
     if (!props.audioUrl) {
-      console.log('audio: ', props.audioUrl, props.loading);
-
       throw createError({
         statusCode: 500,
         statusMessage: 'Audio url is required',
@@ -320,7 +323,6 @@
         localPlayerInfo.value || playerInfo.value.info
       );
 
-      audio.value?.play();
       // listeners
       audio.value?.onEnded(() => {
         emit('audio-ended', true);
@@ -341,6 +343,8 @@
         }
       });
       audio.value?.onPlaying(() => {
+        console.log('playing');
+
         loadingAudio.value = false;
 
         emit('audio-buffering', false);
@@ -350,6 +354,8 @@
           useAudioPlayer.setStatus(true);
         }
       });
+
+      audio.value?.play();
 
       let audioInherited = new AudioPlayer(
         localAudioUrl.value || playerInfo.value.url,
@@ -427,15 +433,6 @@
         currentTime,
         audio.value?.duration
       );
-
-      if (props.playInTheBackground) {
-        useAudioPlayer.setPlayerProgress({
-          mediaProgressInSeconds: mediaProgressInSeconds.value,
-          mediaProgressPercentage: mediaProgressPercentage.value,
-          mediaProgressFormatted: mediaProgressFormatted.value,
-        });
-        useAudioPlayer.setCurrentTime(currentTime);
-      }
     });
 
     emit('audio-progress', {
@@ -485,10 +482,19 @@
 
   const reInitiateTheAudio = async () => {
     if (!props.playInTheBackground || !props.reinitPlayer) return;
-
-    audio.value = useAudioPlayer.audio;
-    audioProgressHandler();
+    // audio.value = useAudioPlayer.audio;
+    // audioProgressHandler(useAudioPlayer.currentTime);
   };
+
+  watch(
+    () => audio.value,
+    (newValue, oldValue) => {
+      console.log({
+        newValue,
+        oldValue,
+      });
+    }
+  );
 
   watch(showList, () => {
     listDivID.value = Generics.uuid() + '-list';
@@ -510,13 +516,16 @@
         if (props.playInTheBackground) {
           return;
         }
+
         audio.value?.pause();
         audio.value = undefined;
       }
     }
   );
   onMounted(() => {
-    reInitiateTheAudio();
+    if (props.playInTheBackground) {
+      reInitiateTheAudio();
+    }
 
     if (props.expandable) {
       toggleList();
