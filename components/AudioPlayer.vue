@@ -282,9 +282,6 @@
     if (props.playInTheBackground) {
       useAudioPlayer.setPlayerInfo(playerInfo);
     }
-
-    console.log('playerInfo', playerInfo);
-
     return playerInfo;
   });
 

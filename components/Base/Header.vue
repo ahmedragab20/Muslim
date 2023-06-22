@@ -4,7 +4,12 @@
   >
     <div class="flex items-center justify-between w-full min-h-[8vh]">
       <!-- settings -->
-      <div class="w-[15%] min-h-full flex justify-center items-center px-1 py-1 sm:px-1">
+      <div
+        :class="{
+          'opacity-0 pointer-events-none select-none': headerPlayerOpened,
+        }"
+        class="w-[15%] min-h-full flex justify-center items-center px-1 py-1 sm:px-1"
+      >
         <UTooltip text="app settings" :shortcuts="[metaSymbol, '.']">
           <UButton
             @click="settingsToggler"
@@ -15,36 +20,47 @@
         </UTooltip>
       </div>
       <!-- Logo -->
-      <div class="w-[70%] flex justify-center flex-col items-center py-1">
+      <div class="w-[70%] flex justify-center flex-col items-center overflow-auto py-1">
         <NuxtLink to="/" class="text-2xl">
           <span class="font-mono text-primary-500">
             {{ $t('base.appTitle') }}
           </span>
         </NuxtLink>
-        <div v-if="player">
-          <UButton
-            variant="soft"
-            size="xs"
-            :ui="{
-              rounded: 'rounded-full',
-            }"
-            icon="i-heroicons-play"
-            @click="togglePlayerOpened"
-          >
-            <span class="max-w-[150px] sm:max-w-sm truncate">
-              Abdul Basit Abdul Samad <span v-if="!!chapter"> | {{ chapter.english }} </span>
-            </span>
-          </UButton>
-        </div>
+        <Transition name="island-pop-down">
+          <div v-if="player && chapter" class="flex max-w-full">
+            <UButton
+              variant="soft"
+              size="xs"
+              :ui="{
+                rounded: 'rounded-full',
+              }"
+              :icon="player.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
+              @click="togglePlayerOpened"
+            >
+              <div class="max-w-[150px] sm:max-w-sm truncate flex gap-1">
+                <div class="max-w-[70%] truncate">{{ reciterName }}</div>
+                <span>|</span>
+                <div class="max-w-[40%] truncate">
+                  {{ chapter.english }}
+                </div>
+              </div>
+            </UButton>
+          </div>
+        </Transition>
       </div>
       <!-- menu -->
-      <div class="w-[15%] flex justify-center items-center min-h-full py-1 px-1 sm:px-4">
+      <div
+        :class="{
+          'opacity-0 pointer-events-none select-none': headerPlayerOpened,
+        }"
+        class="w-[15%] flex justify-center items-center min-h-full py-1 px-1 sm:px-4"
+      >
         <BaseLinks />
       </div>
     </div>
     <!-- ongoing section -->
-    <Transition name="slide-down" appear>
-      <OngoingMedia v-show="headerPlayerOpened" />
+    <Transition name="island-pop">
+      <OngoingMedia v-if="headerPlayerOpened" :toggler="togglePlayerOpened" />
     </Transition>
   </div>
   <!-- settings modal -->
@@ -54,7 +70,7 @@
 </template>
 <script setup lang="ts">
   import { useAudioPlayerStore } from '~/stores/audio-player';
-
+  const route = useRoute();
   const { t } = useI18n();
   const { metaSymbol } = useShortcuts();
   const toast = useToast();
@@ -77,12 +93,9 @@
   };
   const player = useState<any>('audio', () => null);
   const playerInfo = computed(() => player.value?.info?.[0]);
-  const chapter = ref();
+  const chapter = useState<any>('ongoing-chapter', () => null);
+  const reciterName = computed(() => player.value?.info?.[0]?.reciterName);
   const getChapter = async () => {
-    Debug.log({
-      message: 'getChapter',
-      data: player.value,
-    });
     try {
       const chapterId = player.value?.info?.[0]?.chapterId;
       if (!chapterId) return;
@@ -110,6 +123,15 @@
   const togglePlayerOpened = () => {
     audioPlayerStore.setHeaderPlayerOpened();
   };
+
+  watch(
+    () => route.fullPath,
+    () => {
+      if (headerPlayerOpened.value) {
+        togglePlayerOpened();
+      }
+    }
+  );
 
   defineShortcuts({
     'meta_.': {

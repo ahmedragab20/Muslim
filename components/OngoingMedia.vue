@@ -1,17 +1,21 @@
 <template>
-  <div class="h-[100svh] w-full backdrop-blur-sm">
+  <div v-if="!!chapter" @click.self="toggler" class="h-[100svh] w-full backdrop-blur-sm">
     <div
+      @click.self="toggler"
       class="p-3 w-full rounded-b-3xl relative 2xl:min-h-[300px] min-h-[50svh] z-10 flex justify-center items-center"
     >
       <!-- Add overlay -->
-      <div class="container absolute inset-0 z-10 flex items-center justify-center mx-auto">
+      <div
+        @click.self="toggler"
+        class="container absolute inset-0 z-10 flex items-center justify-center mx-auto"
+      >
         <div class="flex flex-col items-center justify-center w-full sm:max-w-[400px]">
           <!-- poster -->
           <div
             class="sm:w-[210px] w-[170px] sm:h-[210px] h-[170px] pointer-events-none select-none"
           >
             <img
-              src="/reciters/Abdelbasset-abdessamad.jpeg"
+              :src="reciterPoster"
               alt="poster"
               class="object-cover w-full h-full pointer-events-none select-none rounded-3xl"
             />
@@ -23,22 +27,30 @@
               <h3
                 class="max-w-full font-mono text-2xl font-bold text-center text-gray-900 truncate opacity-70 dark:text-gray-50"
               >
-                Abdul Basit Abdul Samad
+                {{ reciterName }}
               </h3>
-              <div class="flex justify-center mb-2">
-                <p class="max-w-full text-gray-500 truncate">Al-Fātiĥah</p>
+              <div class="flex justify-center">
+                <p class="max-w-full text-gray-500 truncate">
+                  {{ chapter.english }}
+                </p>
               </div>
+            </div>
+            <!-- timer -->
+            <div class="flex justify-center items-center my-2">
+              {{ mediaProgressFormatted }}
             </div>
             <!-- toggler -->
             <div class="flex gap-2">
               <UButton
-                icon="i-heroicons-play"
+                @click="toggleAudio"
+                :icon="player.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
                 size="xl"
                 :ui="{
                   rounded: 'rounded-full',
                 }"
               ></UButton>
               <UButton
+                :to="`/quran/chapter/${chapter.number}`"
                 icon="i-heroicons-book-open"
                 size="xl"
                 variant="soft"
@@ -55,7 +67,7 @@
         class="absolute inset-0 z-0 max-h-full overflow-hidden duration-300 opacity-50 pointer-events-none select-none blur-3xl"
       >
         <img
-          src="/reciters/Abdelbasset-abdessamad.jpeg"
+          :src="reciterPoster"
           alt="poster"
           class="w-full h-full scale-125 pointer-events-none select-none object-fit"
         />
@@ -66,8 +78,21 @@
 </template>
 
 <script setup lang="ts">
-  /**
-   * @todo add audio player store
-   * @todo add toggler prop
-   */
+  const { toggler } = defineProps<{
+    toggler: () => void;
+  }>();
+
+  const player = useState<any>('audio', () => null);
+
+  const playerInfo = computed(() => player.value?.info?.[0]);
+  const chapter = useState<any>('ongoing-chapter', () => null);
+  const reciterName = computed(() => playerInfo.value?.reciterName);
+  const reciterPoster = computed(() => playerInfo.value?.reciterPoster);
+  const mediaProgressFormatted = useState<any>('mediaProgressFormatted', () => '00:00/00:00');
+
+  const toggleAudio = () => {
+    if (player.value) {
+      player.value.toggle();
+    }
+  };
 </script>

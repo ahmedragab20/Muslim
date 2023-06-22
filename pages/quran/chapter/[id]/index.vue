@@ -48,7 +48,7 @@
         :reciter-poster="recitation.poster"
         :player-info="{
           chapterId: route.params.id,
-          reciter: recitation.name.en,
+          reciterName: reciterName,
           reciterPoster: recitation.poster,
         }"
         :reinit-player="reinitPlayer"
@@ -81,14 +81,26 @@
 
 <script setup lang="ts">
   import { useAudioPlayerStore } from '~/stores/audio-player';
+  const { locale } = useI18n();
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
 
   const { hosari } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
   const recitation = hosari(chapterNumber.value);
+
+  const reciterName = computed<string>(() => {
+    //@ts-ignore
+    return recitation.name?.[lng.value] as string;
+  });
+
   const audioUrl = recitation.url;
   const playing = ref(false);
+
+  const lng = computed<string>(() => {
+    return locale.value as string;
+  });
+
   const togglePlaying = (status: boolean) => {
     playing.value = status;
   };

@@ -39,3 +39,43 @@
   opacity: 0;
   backdrop-filter: blur(100px);
 }
+
+.island-pop-enter-active,
+.island-pop-leave-active {
+  transition: all 0.3s ease;
+}
+
+.island-pop-enter-from {
+  transform: scale(0.5) translateY(-100vh);
+}
+.island-pop-leave-to {
+  z-index: 0;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.island-pop-down-enter-active,
+.island-pop-down-leave-active {
+  animation: heartbeat 1s infinite;
+}
+
+.island-pop-down-enter-from {
+  transform: scale(0.5) translateY(100%);
+}
+.island-pop-down-leave-to {
+  z-index: 0;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
