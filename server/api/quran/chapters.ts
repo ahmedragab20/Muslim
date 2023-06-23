@@ -1,9 +1,13 @@
-import useApis from '../../../composables/use-apis';
-
+import { useChapters } from './../../../composables/use-chapters';
 export default defineEventHandler(async (event) => {
-  const { CHAPTERS_API } = useApis();
-  const url = CHAPTERS_API();
-  const res: any = await $fetch(url);
+  const chapters = useChapters();
 
-  return res?.chapters;
+  if (!chapters) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Chapters not found',
+    });
+  } else {
+    return chapters;
+  }
 });

@@ -5,58 +5,33 @@
         class="flex gap-1 opacity-70 line-clamp-2 text-2xl rtl:text-3xl items-center justify-center flex-col"
         :class="locale === 'ar' ? 'font-quranic text-2xl' : 'font-mono'"
       >
-        <div class="text-center" v-if="locale === 'ar'">{{ chapter?.name_arabic }}</div>
+        <div class="text-center" v-if="locale === 'ar'">{{ chapter?.arabicWithTashkeel }}</div>
         <div class="text-center" v-else-if="locale === 'en'">
-          {{ chapter?.translated_name?.name }}
+          {{ chapter?.english }}
         </div>
-        <div class="text-sm">{{ chapter.name_simple }}</div>
-        <div class="text-sm opacity-50">[{{ chapter.id }}]</div>
+        <div class="text-sm">{{ chapter.englishTranslated }}</div>
+        <div class="text-sm opacity-50">[{{ chapter.number }}]</div>
       </div>
     </div>
-    <div class="flex justify-evenly gap-1 max-w-sm mx-auto py-4">
-      <div>
+    <div class="flex justify-between flex-col gap-1 max-w-sm mx-auto py-4">
+      <AudioPlayer
+        class="w-full"
+        :audio-name="locale === 'ar' ? chapter.arabic : chapter.english"
+        :reciter-name="reciterName"
+        :full-name="`${reciterName} - ${locale === 'ar' ? chapter.arabic : chapter.english}`"
+        :audio-url="audioUrl"
+        @audio-toggled="togglePlaying"
+      >
+      </AudioPlayer>
+      <div class="flex justify-center mt-4">
         <UButton
-          tabindex="-1"
-          variant="soft"
-          :color="reciting ? 'red' : 'primary'"
-          class="px-5"
+          :to="`/quran/chapter/${chapter.number}`"
+          icon="i-heroicons-book-open"
           :ui="{
             rounded: 'rounded-full',
           }"
-          :icon="reciting ? 'i-heroicons-pause-circle' : 'i-heroicons-play-circle'"
-          @click="emit('update:playing', !playing)"
-          :loading="loadingChapterRecitation"
+          class="px-6"
         >
-        </UButton>
-      </div>
-      <div>
-        <UButton
-          tabindex="-1"
-          variant="soft"
-          class="px-5"
-          :icon="downloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'"
-          :ui="{
-            rounded: 'rounded-full',
-          }"
-          :loading="downloading"
-          :disabled="downloaded"
-          @click="emit('clicked-download', true)"
-        >
-          {{ downloaded ? $t('downloaded') : $t('download') }}
-        </UButton>
-      </div>
-
-      <div>
-        <UButton
-          tabindex="-1"
-          variant="outline"
-          class="px-5 font-mono capitalize"
-          :ui="{
-            rounded: 'rounded-full',
-          }"
-          @click="emit('clicked-more', true)"
-        >
-          {{ $t('quraanSearch.more') }}...
         </UButton>
       </div>
     </div>
@@ -67,18 +42,24 @@
   import { Chapter } from '~/types/server-schemas/Chapter';
   const { chapter } = defineProps<{
     chapter: Chapter;
-    playing: boolean;
-    downloading: boolean;
-    downloaded: boolean;
-    reciting?: boolean;
-    loadingChapterRecitation: boolean;
   }>();
-  const emit = defineEmits<{
-    'clicked-download': [state: boolean];
-    'clicked-play': [state: boolean];
-    'clicked-more': [state: boolean];
-    'update:playing': [state: boolean];
-  }>();
-
   const { locale } = useI18n();
+
+  const { hosari } = useQuranReciters();
+  const recitation = hosari(chapter.number);
+
+  const reciterName = computed<string>(() => {
+    //@ts-ignore
+    return recitation.name?.[lng.value] as string;
+  });
+
+  const audioUrl = recitation.url;
+  const playing = ref(false);
+
+  const lng = computed<string>(() => {
+    return locale.value as string;
+  });
+  const togglePlaying = (status: boolean) => {
+    playing.value = status;
+  };
 </script>

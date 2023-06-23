@@ -150,6 +150,10 @@
   };
 
   const recite = async (verse: any) => {
+    if (audioPlayer.value?.playing) {
+      audioPlayer.value?.pause();
+    }
+
     loadingRecitation.value = true;
 
     const ayah_key = verse?.verse_key;

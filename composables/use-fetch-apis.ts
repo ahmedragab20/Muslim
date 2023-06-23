@@ -1,4 +1,4 @@
-import { chapterSchema } from '~/schemas/chapters';
+import { chapterSchema, chaptersSchema } from '~/schemas/chapters';
 import { dateSchema } from '~/schemas/hijir-date';
 import { juzsSchema } from '~/schemas/juzs';
 import { searchQuranSchema } from '~/schemas/search-quran';
@@ -54,7 +54,8 @@ export default () => {
   const fetchChapters = async () => {
     try {
       const { data } = await useFetch('/api/quran/chapters', {
-        transform: (data) => data,
+        key: 'chapters',
+        transform: (data) => chaptersSchema.parse(data),
       });
 
       return data.value;
@@ -65,9 +66,11 @@ export default () => {
       });
     }
   };
+
   const fetchChapter = async (chapter_id: number) => {
     try {
       const { data } = await useFetch(`/api/quran/chapter/${chapter_id}`, {
+        key: `chapter-${chapter_id}`,
         transform: (data) => chapterSchema.parse(data),
       });
 

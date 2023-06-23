@@ -27,7 +27,7 @@
           :no-voided-wrapper="!showList"
           :key="showList ? 'show-animation' : 'hide-animation'"
         >
-          <div class="flex items-center w-full h-full gap-1 duration-300 rounded-full">
+          <div class="flex items-center w-full h-full gap-1 duration-300 rounded-full text-start">
             <!-- toggle btn -->
             <div
               :class="[
@@ -83,11 +83,27 @@
               >
                 <i class="text-lg text-gray-500 i-heroicons-queue-list dark:text-gray-700"></i>
               </div>
+              <!-- download -->
+              <div v-else class="flex items-center justify-center w-10 h-10">
+                <UButton
+                  v-if="!isCdnUrl"
+                  class="px-0.5"
+                  variant="link"
+                  size="xs"
+                  :padded="false"
+                  :loading="downloading"
+                  :icon="
+                    audioDownloaded ? 'i-heroicons-check-badge' : 'i-heroicons-arrow-down-tray'
+                  "
+                  @click="downloadAudio"
+                >
+                </UButton>
+              </div>
             </div>
           </div>
           <div
             v-if="audio?.duration && !btnOnly"
-            class="absolute bottom-0 z-30 w-full shadow-inner"
+            class="absolute bottom-0 z-30 w-full shadow-inner text-start"
           >
             <div
               :style="`width: ${mediaProgressPercentage}%`"
@@ -108,7 +124,7 @@
         <div
           v-if="showList && expandable && !btnOnly"
           :id="listDivID"
-          class="w-full min-h-[55px] overflow-y-auto overflow-x-hidden delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
+          class="w-full min-h-[55px] overflow-y-auto text-start overflow-x-hidden delay-75 rounded-b-xl duration-300 bg-gray-100 dark:bg-gray-900 absolute z-10 top-0 left-0 right-0"
           :class="{ ' translate-y-5': showList }"
         >
           <div class="w-full absolute inset-0 z-10 min-h-[40px]">
@@ -227,6 +243,7 @@
     'audio-buffering': [status: boolean];
     'audio-error': [error: any];
     'audio-ended': [status: boolean];
+    controller: [audio: AudioProp];
   }>();
   const slots = useSlots();
 
