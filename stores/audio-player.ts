@@ -39,8 +39,42 @@ export const useAudioPlayerStore = defineStore('audio-player', () => {
     }
 
     headerPlayerOpened.value = newHeaderPlayerOpened;
-    console.log('🔥 fired', headerPlayerOpened.value);
   };
+
+  watch(
+    () => audio.value,
+    (newAudio, oldAudio) => {
+      if (!newAudio) return;
+      if (oldAudio) {
+        const oldAudioStateId = oldAudio?.info?.[0]?.chapterId;
+        const oldAudioState = useState<any>(`audio-${oldAudioStateId}`);
+        const mediaProgressFormatted = useState<any>(
+          `mediaProgressFormatted-${oldAudioStateId}`,
+          () => '00:00/00:00'
+        );
+        const mediaProgressPercentage = useState<any>(`mediaProgressPercentage-${oldAudioStateId}`);
+        const mediaProgressInSeconds = useState<any>(`mediaProgressInSeconds-${oldAudioStateId}`);
+
+        if (oldAudioState.value) {
+          oldAudioState.value?.stop();
+
+          oldAudioState.value = null;
+        }
+
+        if (mediaProgressFormatted.value) {
+          mediaProgressFormatted.value = '00:00/00:00';
+        }
+
+        if (mediaProgressPercentage.value) {
+          mediaProgressPercentage.value = 0;
+        }
+
+        if (mediaProgressInSeconds.value) {
+          mediaProgressInSeconds.value = 0;
+        }
+      }
+    }
+  );
 
   return {
     audio,

@@ -41,7 +41,7 @@
       <div class="mb-5">Theme 4. [keeps playing in the background]</div>
       <!-- expandable audio player -->
       <AudioPlayer
-        :key="chapterNumber"
+        :id="route.params.id?.toString()"
         :audio-name="`Surah ${route.params.id}`"
         :reciter-name="recitation.name.en"
         :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"

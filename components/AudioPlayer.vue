@@ -193,6 +193,7 @@
   }
 
   interface Props {
+    id?: string; // send it if you want to use the component in background mode
     audioUrl: string;
     audioName?: string;
     fullName?: string;
@@ -248,18 +249,20 @@
   const listDiv = ref<HTMLElement | null>(null);
   const containerheight = ref(43); // default value
   const mediaProgressPercentage = props.playInTheBackground
-    ? useState<any>('mediaProgressPercentage', () => 0)
+    ? useState<any>(`mediaProgressPercentage-${props.id}`, () => 0)
     : ref(0);
   const mediaProgressInSeconds = props.playInTheBackground
-    ? useState<any>('mediaProgressInSeconds', () => 0)
+    ? useState<any>(`mediaProgressInSeconds-${props.id}`, () => 0)
     : ref(0);
   const mediaProgressInMinutes = props.playInTheBackground
-    ? useState<any>('mediaProgressInMinutes', () => 0)
+    ? useState<any>(`mediaProgressInMinutes${props.id}`, () => 0)
     : ref(0);
   const mediaProgressFormatted = props.playInTheBackground
-    ? useState<any>('mediaProgressFormatted', () => '00:00/00:00')
+    ? useState<any>(`mediaProgressFormatted-${props.id}`, () => '00:00/00:00')
     : ref('00:00/00:00'); // default value
-  const audio = props.playInTheBackground ? useState<any>('audio', () => null) : ref<any>();
+  const audio = props.playInTheBackground
+    ? useState<any>(`audio-${props.id}`, () => null)
+    : ref<any>();
 
   const loadingAudio = ref(false);
   const localAudioUrl = ref('');
@@ -359,6 +362,9 @@
 
   const toggleAudio = async () => {
     if (!audio.value) {
+      if (props.playInTheBackground) {
+        useAudioPlayer.audio?.pause();
+      }
       // this code will run only once
       if (props.metaLogic?.length) {
         await Promise.all(
@@ -457,12 +463,6 @@
     }
   };
 
-  const reInitiateTheAudio = async () => {
-    if (!props.playInTheBackground || !props.reinitPlayer) return;
-    // audio.value = useAudioPlayer.audio;
-    // audioProgressHandler(useAudioPlayer.currentTime);
-  };
-
   watch(showList, () => {
     listDivID.value = Generics.uuid() + '-list';
     nextTick(() => {
@@ -476,20 +476,20 @@
       }
     });
   });
-  watch(
-    () => props.audioUrl,
-    (newValue) => {
-      console.log('audio url changed', newValue);
-
-      if (audio.value) {
-        audio.value?.pause();
-        audio.value = undefined;
-      }
-    }
-  );
   onMounted(() => {
-    if (props.playInTheBackground) {
-      reInitiateTheAudio();
+    if (props.playInTheBackground && !props.id) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'ID is required when playing in the background',
+      });
+
+      /**
+       * @attention
+       * to get the best practice out of the play in the background feature,
+       * you should provide an ID for the audio player as a prop,
+       * and in the player info, also provide chapterId
+       * @example: { chapterId: 1 }
+       */
     }
 
     if (props.expandable) {

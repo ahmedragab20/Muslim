@@ -91,8 +91,10 @@
 
     if (haveDataChanged) toast.add({ title: t('settings.updatedToast') });
   };
-  const player = useState<any>('audio', () => null);
+  const player = computed(() => audioPlayerStore.audio);
+  // const storedPlayer = computed(() => audioPlayerStore.audio);
   const playerInfo = computed(() => player.value?.info?.[0]);
+
   const chapter = useState<any>('ongoing-chapter', () => null);
   const reciterName = computed(() => player.value?.info?.[0]?.reciterName);
   const getChapter = async () => {

@@ -345,10 +345,10 @@ export class Generics {
     return timeInSeconds;
   }
   static formatTimeProgress(seconds: number, totalDuration: number): string {
-    const currentMinutes = Generics.convertToMinutes(seconds);
-    const totalMinutes = Generics.convertToMinutes(totalDuration);
-    const currentSeconds = seconds % 60;
-    const totalSeconds = totalDuration % 60;
+    const currentMinutes = Generics.convertToMinutes(seconds) || 0;
+    const totalMinutes = Generics.convertToMinutes(totalDuration) || 0;
+    const currentSeconds = seconds % 60 || 0;
+    const totalSeconds = totalDuration % 60 || 0;
 
     return `${currentMinutes}:${currentSeconds.toFixed(0)} / ${totalMinutes}:${totalSeconds.toFixed(
       0

@@ -91,14 +91,15 @@
   const { toggler } = defineProps<{
     toggler: () => void;
   }>();
-
-  const player = useState<any>('audio', () => null);
-
-  const playerInfo = computed(() => player.value?.info?.[0]);
   const chapter = useState<any>('ongoing-chapter', () => null);
+  const player = useState<any>(`audio-${chapter.value?.number}`, () => null);
+  const playerInfo = computed(() => player.value?.info?.[0]);
   const reciterName = computed(() => playerInfo.value?.reciterName);
   const reciterPoster = computed(() => playerInfo.value?.reciterPoster);
-  const mediaProgressFormatted = useState<any>('mediaProgressFormatted', () => '00:00/00:00');
+  const mediaProgressFormatted = useState<any>(
+    `mediaProgressFormatted-${chapter.value?.number}`,
+    () => '00:00/00:00'
+  );
   //   const mediaProgressPercentage = useState<any>('mediaProgressPercentage', () => 0);
   //
   //   const mediaProgressInSeconds = useState<any>('mediaProgressInSeconds', () => 0);
