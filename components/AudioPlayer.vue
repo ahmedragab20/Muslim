@@ -245,6 +245,8 @@
     'audio-ended': [status: boolean];
     controller: [audio: AudioProp];
   }>();
+  const nuxtApp = useNuxtApp();
+
   const slots = useSlots();
 
   const useAudioPlayer = useAudioPlayerStore();
@@ -265,21 +267,23 @@
   const listDivID = ref(Generics.uuid() + '-list');
   const listDiv = ref<HTMLElement | null>(null);
   const containerheight = ref(43); // default value
-  const mediaProgressPercentage = props.playInTheBackground
-    ? useState<any>(`mediaProgressPercentage-${props.id}`, () => 0)
-    : ref(0);
-  const mediaProgressInSeconds = props.playInTheBackground
-    ? useState<any>(`mediaProgressInSeconds-${props.id}`, () => 0)
-    : ref(0);
-  const mediaProgressInMinutes = props.playInTheBackground
-    ? useState<any>(`mediaProgressInMinutes${props.id}`, () => 0)
-    : ref(0);
-  const mediaProgressFormatted = props.playInTheBackground
-    ? useState<any>(`mediaProgressFormatted-${props.id}`, () => '00:00/00:00')
-    : ref('00:00/00:00'); // default value
-  const audio = props.playInTheBackground
-    ? useState<any>(`audio-${props.id}`, () => null)
-    : ref<any>();
+  const mediaProgressPercentage = useState<any>(
+    `mediaProgressPercentage-${props.id || props.audioUrl}`,
+    () => 0
+  );
+  const mediaProgressInSeconds = useState<any>(
+    `mediaProgressInSeconds-${props.id || props.audioUrl}`,
+    () => 0
+  );
+  const mediaProgressInMinutes = useState<any>(
+    `mediaProgressInMinutes-${props.id || props.audioUrl}`,
+    () => 0
+  );
+  const mediaProgressFormatted = useState<any>(
+    `mediaProgressFormatted-${props.id || props.audioUrl}`,
+    () => '00:00/00:00'
+  ); // default value
+  const audio = useState<any>(`audio-${props.id || props.audioUrl}`, () => null);
 
   const loadingAudio = ref(false);
   const localAudioUrl = ref('');
@@ -480,6 +484,28 @@
     }
   };
 
+  const cleanupPlayerStates = () => {
+    if (nuxtApp.payload?.state) {
+      Object.keys(nuxtApp.payload.state).forEach((state) => {
+        const includesAudio = state.includes('saudio');
+        const includesMediaP = state.includes('mediaP');
+        const checkAudioUrl = !state.includes(props.id || props.audioUrl);
+        const stateDeletable =
+          (includesAudio && checkAudioUrl) || (includesMediaP && checkAudioUrl);
+        if (stateDeletable) {
+          if (state.includes('saudio-')) {
+            // pause the player
+            nuxtApp.payload.state[state]?.pause();
+          } else if (state.includes('mediaP-')) {
+            nuxtApp.payload.state[state] = 0;
+          }
+
+          delete nuxtApp.payload.state[state];
+        }
+      });
+    }
+  };
+
   watch(showList, () => {
     listDivID.value = Generics.uuid() + '-list';
     nextTick(() => {
@@ -493,6 +519,14 @@
       }
     });
   });
+  watch(
+    () => audio.value,
+    (newV, oldV) => {
+      if (newV) {
+        cleanupPlayerStates();
+      }
+    }
+  );
   onMounted(() => {
     if (props.playInTheBackground && !props.id) {
       throw createError({

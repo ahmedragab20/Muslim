@@ -29,9 +29,14 @@
               </div>
               <div>
                 <AudioPlayer
+                  :key="result?.verse_key"
+                  :id="result?.verse_key"
                   :audio-url="audioUrl"
                   @audio-found="foundAudio"
                   @audio-toggled="togglePlaying"
+                  @audio-ended="audioEnded"
+                  @audio-error="audioError"
+                  @audio-progress="audioProgress"
                   :loading="loadingRecitation"
                   :meta-logic="[
                     {
@@ -140,6 +145,14 @@
   const foundAudio = (audio: any) => {
     audioPlayer.value = audio;
   };
+
+  watch(audioPlayer, (newValue, oldValue) => {
+    if (oldValue) {
+      console.log('oldValue', oldValue);
+
+      oldValue.pause();
+    }
+  });
   //watch audioPlayer
   const playerInfo = computed(() => {
     return audioPlayer.value?.info?.[0];
@@ -150,10 +163,6 @@
   };
 
   const recite = async (verse: any) => {
-    if (audioPlayer.value?.playing) {
-      audioPlayer.value?.pause();
-    }
-
     loadingRecitation.value = true;
 
     const ayah_key = verse?.verse_key;
@@ -187,6 +196,20 @@
     } finally {
       loadingRecitation.value = false;
     }
+  };
+
+  const audioEnded = () => {
+    loadingRecitation.value = false;
+    playingAyah.value = false;
+  };
+
+  const audioError = (error: any) => {
+    loadingRecitation.value = false;
+    playingAyah.value = false;
+  };
+  const audioProgress = (progress: any) => {
+    loadingRecitation.value = false;
+    playingAyah.value = true;
   };
 
   onUnmounted(() => {
