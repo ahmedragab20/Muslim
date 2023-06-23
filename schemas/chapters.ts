@@ -31,3 +31,11 @@ export const chapterInfoSchema = z.object({
   numberOfAyahs: z.number(),
   ayahs: z.array(Ayah),
 });
+
+export const verseSchema = z.object({
+  verse_key: z.string(),
+  verse_number: z.number(),
+  verse_arabic: z.string(),
+  verse_english: z.string(),
+  sajda: z.boolean(),
+});

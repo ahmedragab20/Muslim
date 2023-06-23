@@ -26,6 +26,10 @@ export default () => {
     //TODO: in the future, give the user ability to pick from list of reciters.
     return `https://api.quran.com/api/v4/chapter_recitations/${chapter}`;
   };
+  const CHAPTERS_INFO_API = (chapter: number, english?: boolean) => {
+    const baseUrl = `http://api.alquran.cloud/v1/surah/`;
+    return english ? `${baseUrl}${chapter}/en.asad` : `${baseUrl}${chapter}`;
+  };
 
   return {
     HIJRI_DATE_API,
@@ -34,5 +38,6 @@ export default () => {
     JUZS_API,
     CHAPTERS_API,
     CHAPTER_RECITATION_API,
+    CHAPTERS_INFO_API,
   };
 };

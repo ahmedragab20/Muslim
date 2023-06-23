@@ -66,10 +66,11 @@
               <div
                 class="text-gray-700 dark:text-gray-300 flex flex-col text-sm font-semibold max-w-[calc(100%-50px)]"
               >
-                <div class="max-w-full -mb-1 truncate">
+                <div :title="audioName" class="max-w-full -mb-1 truncate">
                   {{ audioName }}
                 </div>
                 <div
+                  :title="reciterName"
                   class="max-w-full text-xs font-normal text-gray-500 truncate dark:text-gray-400"
                 >
                   {{ reciterName }}
@@ -144,6 +145,7 @@
                 <div class="flex justify-between">
                   <div
                     class="w-3/4 text-sm font-semibold text-gray-700 truncate dark:text-gray-300"
+                    :title="fullName"
                   >
                     {{ fullName }}
                   </div>
@@ -164,8 +166,8 @@
                 <div
                   class="flex justify-between w-full font-normal text-gray-500 dark:text-gray-400"
                 >
-                  <small class="w-[50%] truncate"> {{ reciterName }} </small>
-                  <small class="w-[50%] flex justify-end truncate">
+                  <small class="w-[50%] truncate" :title="reciterName"> {{ reciterName }} </small>
+                  <small class="w-[50%] flex justify-end truncate" :title="mediaProgressFormatted">
                     {{ mediaProgressFormatted }}
                   </small>
                 </div>

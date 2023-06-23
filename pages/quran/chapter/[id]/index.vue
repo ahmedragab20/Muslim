@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-[80svh] flex justify-between">
     <!-- sidebar -->
-    <div class="w-1/3 min-h-full border border-red-500 flex-shrink-0 pt-5">
+    <div class="sm:w-1/3 w-full min-h-full flex-shrink-0 pt-5">
       <AudioPlayer
         class="w-full"
         :id="route.params.id?.toString()"
-        :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="recitation.name.en"
-        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
+        :audio-name="`${$t('chapter')} ${chapter?.number}`"
+        :reciter-name="reciterName"
+        :full-name="`${surahName}`"
         :audio-url="audioUrl"
         :reciter-poster="recitation.poster"
         :player-info="{
@@ -27,14 +27,15 @@
       3. show the tafsir of the ayah
     </div>
     <!-- content -->
-    <div class="w-3/4 min-h-full border-2 border-purple-300">
-      <div></div>
+    <div class="sm:w-3/4 w-full min-h-full sm:px-3">
+      <div>hello</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { useAudioPlayerStore } from '~/stores/audio-player';
+  import { Chapter, Verse } from '~/types/server-schemas/Chapter';
   const { locale } = useI18n();
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
@@ -44,24 +45,45 @@
   const recitation = hosari(chapterNumber.value);
 
   const reciterName = computed<string>(() => {
-    //@ts-ignore
+    // @ts-ignore
     return recitation.name?.[lng.value] as string;
   });
 
   const audioUrl = recitation.url;
-  const playing = ref(false);
 
   const lng = computed<string>(() => {
     return locale.value as string;
   });
 
-  const togglePlaying = (status: boolean) => {
-    playing.value = status;
-  };
-  const foundAudio = (audio: any) => {
-    console.log(audio);
-  };
+  const surahName = computed<string>(() => {
+    return lng.value === 'ar'
+      ? `${chapter.value?.arabic}`
+      : `${chapter.value?.english} - ${chapter.value?.englishTranslated}`;
+  });
   const reinitPlayer = ref(false);
+  const chapterVerses = ref<Verse[]>([]);
+  const fetchChapterInfo = async () => {
+    const { fetchChapterInfo } = useFetchApis();
+
+    const chapterInfo = await fetchChapterInfo(chapterNumber.value);
+
+    chapterVerses.value = chapterInfo as Verse[];
+  };
+  const chapter = ref<Chapter>();
+  const getChapter = async () => {
+    try {
+      const { fetchChapter } = useFetchApis();
+      const res = await fetchChapter(chapterNumber.value);
+
+      console.log(res.value);
+      chapter.value = res.value as Chapter;
+    } catch (error) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Chapter not found',
+      });
+    }
+  };
 
   onBeforeMount(() => {
     if (useAudioPlayer.audio) {
@@ -69,6 +91,9 @@
       reinitPlayer.value = true;
     }
   });
+
+  Promise.all([fetchChapterInfo(), getChapter()]);
+
   /**
    * TODO: apply that in the quran index page
    */
