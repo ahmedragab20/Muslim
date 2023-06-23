@@ -81,7 +81,7 @@
           alt="poster"
           class="w-full h-full scale-125 pointer-events-none select-none object-fit"
         />
-        <div class="absolute inset-0 bg-white opacity-50 dark:bg-black"></div>
+        <div class="absolute inset-0 bg-white opacity-70 dark:bg-black"></div>
       </div>
     </div>
   </div>

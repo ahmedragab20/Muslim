@@ -148,4 +148,10 @@
       handler: () => settingsToggler(),
     },
   });
+  defineShortcuts({
+    P: {
+      usingInput: true,
+      handler: () => (player.value ? togglePlayerOpened() : () => {}),
+    },
+  });
 </script>
