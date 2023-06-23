@@ -43,7 +43,7 @@
             <div class="flex gap-2">
               <UButton
                 @click="toggleAudio"
-                :icon="player.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
+                :icon="player?.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
                 size="xl"
                 :ui="{
                   rounded: 'rounded-full',

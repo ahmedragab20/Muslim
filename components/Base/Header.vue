@@ -34,7 +34,7 @@
               :ui="{
                 rounded: 'rounded-full',
               }"
-              :icon="playerState.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
+              :icon="playerState?.isPlaying ? 'i-heroicons-pause' : 'i-heroicons-play'"
               @click="togglePlayerOpened"
             >
               <div class="max-w-[150px] sm:max-w-sm truncate flex gap-1">
@@ -93,14 +93,14 @@
   };
   const chapter = useState<any>('ongoing-chapter', () => null);
   const player = computed(() => audioPlayerStore.audio);
-  const playerState = useState<any>(`audio-${chapter.value.number}`);
+  const playerState = useState<any>(`audio-${chapter.value?.number}`);
   // const storedPlayer = computed(() => audioPlayerStore.audio);
-  const playerInfo = computed(() => player.value?.info?.[0]);
+  const playerInfo = computed<any>(() => playerState.value?.info?.[0] || player.value?.info?.[0]);
 
-  const reciterName = computed(() => player.value?.info?.[0]?.reciterName);
+  const reciterName = computed(() => playerInfo.value?.reciterName);
   const getChapter = async () => {
     try {
-      const chapterId = player.value?.info?.[0]?.chapterId;
+      const chapterId = playerInfo.value?.chapterId;
       if (!chapterId) return;
 
       const { fetchChapter } = useFetchApis();
