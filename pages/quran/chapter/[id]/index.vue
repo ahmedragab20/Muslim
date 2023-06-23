@@ -86,9 +86,9 @@
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
 
-  const { hosari } = useQuranReciters();
+  const { alqatami } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
-  const recitation = hosari(chapterNumber.value);
+  const recitation = alqatami(chapterNumber.value);
 
   const reciterName = computed<string>(() => {
     //@ts-ignore
