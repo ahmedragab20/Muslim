@@ -221,7 +221,7 @@
     metaLogic?: MetaLogic[]; // meta logic is some logic that you wanna get executed right before the audio starts playing [mostly the player will depend on it to get the audio playing properly]
     playerInfo?: any;
     reciterPoster?: string;
-    reinitPlayer?: boolean;
+    fixed?: boolean;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -259,7 +259,7 @@
   });
   const showList = ref(false);
   const toggleList = () => {
-    if (!props.expandable || props.btnOnly) return;
+    if (!props.expandable || props.btnOnly || props.fixed) return;
 
     showList.value = !showList.value;
   };
@@ -544,7 +544,7 @@
     }
 
     if (props.expandable) {
-      toggleList();
+      showList.value = true;
     }
   });
   onUnmounted(() => {

@@ -49,16 +49,6 @@
                   rounded: 'rounded-full',
                 }"
               ></UButton>
-              <!--TODO: support aborting player later
-                 <UButton
-                @click="abortPlayer"
-                icon="i-heroicons-stop"
-                size="xl"
-                variant="outline"
-                :ui="{
-                  rounded: 'rounded-full',
-                }"
-              ></UButton> -->
               <UButton
                 :to="`/quran/chapter/${chapter.number}`"
                 icon="i-heroicons-book-open"
@@ -100,28 +90,10 @@
     `mediaProgressFormatted-${chapter.value?.number}`,
     () => '00:00/00:00'
   );
-  //   const mediaProgressPercentage = useState<any>('mediaProgressPercentage', () => 0);
-  //
-  //   const mediaProgressInSeconds = useState<any>('mediaProgressInSeconds', () => 0);
-  //
-  //   const mediaProgressInMinutes = useState<any>('mediaProgressInMinutes', () => 0);
+
   const toggleAudio = () => {
     if (player.value) {
       player.value.toggle();
     }
   };
-
-  /**
-   * @todo: it has a bug, will back to support it later
-   */
-  // const abortPlayer = () => {
-  //   if (player.value) {
-  //     player.value.stop();
-  //     toggleAudio();
-  //     mediaProgressFormatted.value = '00:00/00:00';
-  //     mediaProgressPercentage.value = 0;
-  //     mediaProgressInSeconds.value = 0;
-  //     mediaProgressInMinutes.value = 0;
-  //   }
-  // };
 </script>

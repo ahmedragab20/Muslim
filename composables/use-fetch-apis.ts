@@ -1,4 +1,5 @@
-import { chapterSchema, chaptersSchema } from '~/schemas/chapters';
+import { z } from 'zod';
+import { chapterInfoSchema, chapterSchema, chaptersSchema } from '~/schemas/chapters';
 import { dateSchema } from '~/schemas/hijir-date';
 import { juzsSchema } from '~/schemas/juzs';
 import { searchQuranSchema } from '~/schemas/search-quran';
@@ -71,7 +72,7 @@ export default () => {
     try {
       const { data } = await useFetch(`/api/quran/chapter/${chapter_id}`, {
         key: `chapter-${chapter_id}`,
-        transform: (data) => chapterSchema.parse(data),
+        transform: (data) => z.array(chapterInfoSchema).parse(data),
       });
 
       return data;
@@ -79,6 +80,38 @@ export default () => {
       throw createError({
         statusCode: 500,
         statusMessage: 'Count not fetch Chapter data',
+      });
+    }
+  };
+
+  const fetchChapterInfo = async (chapter_id: number) => {
+    try {
+      const { data } = await useFetch(`http://api.alquran.cloud/v1/surah/${chapter_id}`, {
+        key: `chapter-${chapter_id}`,
+        transform: (data) => chapterSchema.parse(data),
+      });
+
+      return data;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Count not fetch Chapter info',
+      });
+    }
+  };
+
+  const fetchChapterInfoInEnglish = async (chapter_id: number) => {
+    try {
+      const { data } = await useFetch(`http://api.alquran.cloud/v1/surah/${chapter_id}/en.asad`, {
+        key: `chapter-${chapter_id}`,
+        transform: (data) => chapterSchema.parse(data),
+      });
+
+      return data;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Count not fetch Chapter info',
       });
     }
   };

@@ -1,46 +1,9 @@
 <template>
-  <div class="min-h-[80svh] flex justify-center flex-col gap-3">
-    <div class="flex justify-center gap-2 flex-col">
-      <div class="mb-1">Theme 1.</div>
-      <!-- only toggler -->
+  <div class="min-h-[80svh] flex justify-between">
+    <!-- sidebar -->
+    <div class="w-1/3 min-h-full border border-red-500 flex-shrink-0 pt-5">
       <AudioPlayer
-        :audio-url="audioUrl"
-        btn-only
-        @audio-toggled="togglePlaying"
-        @audio-found="foundAudio"
-      >
-      </AudioPlayer>
-    </div>
-    <div class="flex justify-center gap-2 flex-col">
-      <div class="mb-1">Theme 2.</div>
-      <!-- one line audio player -->
-      <AudioPlayer
-        :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="recitation.name.en"
-        :audio-url="audioUrl"
-        @audio-toggled="togglePlaying"
-        @audio-found="foundAudio"
-      >
-      </AudioPlayer>
-    </div>
-    <div class="flex justify-center gap-2 flex-col mt-4">
-      <div class="mb-5">Theme 3.</div>
-      <!-- expandable audio player -->
-      <AudioPlayer
-        :audio-name="`Surah ${route.params.id}`"
-        :reciter-name="recitation.name.en"
-        :full-name="`Surah ${route.params.id} - ${recitation.name.en}`"
-        :audio-url="audioUrl"
-        expandable
-        @audio-toggled="togglePlaying"
-        @audio-found="foundAudio"
-      >
-      </AudioPlayer>
-    </div>
-    <div class="flex justify-center gap-2 flex-col mt-4">
-      <div class="mb-5">Theme 4. [keeps playing in the background]</div>
-      <!-- expandable audio player -->
-      <AudioPlayer
+        class="w-full"
         :id="route.params.id?.toString()"
         :audio-name="`Surah ${route.params.id}`"
         :reciter-name="recitation.name.en"
@@ -52,30 +15,20 @@
           reciterName: reciterName,
           reciterPoster: recitation.poster,
         }"
-        :reinit-player="reinitPlayer"
         play-in-the-background
         expandable
-        @audio-toggled="togglePlaying"
-        @audio-found="foundAudio"
+        fixed
       >
       </AudioPlayer>
+
+      0. settings <br />
+      1. play the whole chapter <br />
+      2. play ayah by ayah (or in tooltip on click) <br />
+      3. show the tafsir of the ayah
     </div>
-    <div class="flex flex-col justify-center gap-2 mb-10">
-      <div class="mb-1">Theme 5.</div>
-      <!-- fully customizable -->
-      <AudioPlayer
-        :audio-url="audioUrl"
-        @audio-found="foundAudio"
-        @audio-toggled="togglePlaying"
-        @audio-progress="() => {}"
-        @audio-ended="() => {}"
-        @audio-downloaded="() => {}"
-        @audio-downloading="() => {}"
-        @audio-error="() => {}"
-        @audio-buffering="() => {}"
-      >
-        <UButton :icon="playing ? 'i-heroicons-pause' : 'i-heroicons-play'"></UButton>
-      </AudioPlayer>
+    <!-- content -->
+    <div class="w-3/4 min-h-full border-2 border-purple-300">
+      <div></div>
     </div>
   </div>
 </template>
@@ -86,9 +39,9 @@
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
 
-  const { alqatami } = useQuranReciters();
+  const { hosari } = useQuranReciters();
   const chapterNumber = ref(+route.params.id);
-  const recitation = alqatami(chapterNumber.value);
+  const recitation = hosari(chapterNumber.value);
 
   const reciterName = computed<string>(() => {
     //@ts-ignore
