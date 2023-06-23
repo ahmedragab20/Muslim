@@ -220,6 +220,6 @@
 
 <style>
   em {
-    @apply bg-primary-200 dark:bg-primary-500;
+    @apply bg-primary-200 dark:bg-primary-900 px-1 rounded-md;
   }
 </style>
