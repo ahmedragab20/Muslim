@@ -31,7 +31,7 @@
               </h3>
               <div class="flex justify-center">
                 <p class="max-w-full text-gray-500 truncate">
-                  {{ chapter.english }}
+                  {{ chapter?.english }}
                 </p>
               </div>
             </div>

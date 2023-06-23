@@ -20,14 +20,16 @@
         </UTooltip>
       </div>
       <!-- Logo -->
-      <div class="w-[70%] flex justify-center flex-col items-center overflow-auto py-1">
-        <NuxtLink to="/" class="text-2xl">
+      <div
+        class="w-[70%] flex justify-center flex-col duration-300 items-center overflow-auto py-1"
+      >
+        <NuxtLink to="/" class="text-2xl duration-300">
           <span class="font-mono text-primary-500">
             {{ $t('base.appTitle') }}
           </span>
         </NuxtLink>
         <Transition name="island-pop-down">
-          <div v-if="player && chapter" class="flex max-w-full">
+          <div v-show="playerState && chapter" class="flex max-w-full">
             <UButton
               variant="soft"
               size="xs"
@@ -41,7 +43,7 @@
                 <div class="max-w-[70%] truncate">{{ reciterName }}</div>
                 <span>|</span>
                 <div class="max-w-[40%] truncate">
-                  {{ chapter.english }}
+                  {{ chapter?.english }}
                 </div>
               </div>
             </UButton>
@@ -93,9 +95,9 @@
   };
   const chapter = useState<any>('ongoing-chapter', () => null);
   const player = computed(() => audioPlayerStore.audio);
-  const playerState = useState<any>(`audio-${chapter.value?.number}`);
+  const playerState = computed(() => useState<any>(`audio-${chapter.value?.number}`).value);
   // const storedPlayer = computed(() => audioPlayerStore.audio);
-  const playerInfo = computed<any>(() => playerState.value?.info?.[0] || player.value?.info?.[0]);
+  const playerInfo = computed<any>(() => player.value?.info?.[0]);
 
   const reciterName = computed(() => playerInfo.value?.reciterName);
   const getChapter = async () => {
@@ -118,6 +120,10 @@
   watch(
     () => player.value?.url,
     (newVal) => {
+      console.log({
+        player: player.value,
+      });
+
       getChapter();
     }
   );
