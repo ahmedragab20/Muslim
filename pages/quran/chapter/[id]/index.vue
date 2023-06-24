@@ -23,9 +23,9 @@
           fixed
         >
           <template #side-icon>
-            <div @click="toggleRecitersModal" class="hidden md:flex items-center -translate-x-1.5">
+            <div @click="toggleRecitersModal" class="flex items-center -translate-x-1.5">
               <UIcon name="i-heroicons-microphone" />
-              <UKbd>L</UKbd>
+              <UKbd class="hidden sm:flex">L</UKbd>
             </div>
           </template>
         </AudioPlayer>
