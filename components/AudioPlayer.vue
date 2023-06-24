@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="!btnOnly ? `${hasSlot ? '' : `height: ${containerheight}px`}` : ''"
+    :style="!btnOnly ? `${hasSlot ? '' : `min-height: ${containerheight}px`}` : ''"
     class="relative"
     :class="[
       btnOnly ? `${hasSlot ? '' : 'initial:w-10'}` : `${hasSlot ? '' : 'initial:w-[280px]'}`,
@@ -77,12 +77,8 @@
                 </div>
               </div>
               <!-- list -->
-              <div
-                v-if="expandable"
-                @click.self="toggleList"
-                class="flex items-center justify-center w-10 h-10"
-              >
-                <i class="text-lg text-gray-500 i-heroicons-queue-list dark:text-gray-700"></i>
+              <div v-if="expandable" class="flex items-center justify-center w-10 h-10">
+                <slot name="side-icon" />
               </div>
               <!-- download -->
               <div v-else class="flex items-center justify-center w-10 h-10">

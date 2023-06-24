@@ -54,6 +54,16 @@
   "download": "Download",
   "downloaded": "Downloaded",
   "read": "Read",
+  "changeReciter": "Change Reciter",
+  "reciters": "Reciters",
+  "text-size": "Text Size",
+  "text-sizes": {
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "x-large": "X-Large",
+    "xx-large": "XX-Large"
+  },
   "footer": {
     "madeWith": "Made with",
     "by": "by"

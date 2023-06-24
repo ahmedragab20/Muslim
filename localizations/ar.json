@@ -54,6 +54,16 @@
   "download": "تحميل",
   "downloaded": "تم التحميل",
   "read": "قراءة",
+  "text-size": "حجم النص",
+  "changeReciter": "تغيير المقرئ",
+  "reciters": "القُرَّاء",
+  "text-sizes": {
+    "small": "صغير",
+    "medium": "متوسط",
+    "large": "كبير",
+    "x-large": "كبير جداً",
+    "xx-large": "كبير جداً جداً"
+  },
   "footer": {
     "madeWith": "صُنع بواسطة",
     "by": "بواسطة"

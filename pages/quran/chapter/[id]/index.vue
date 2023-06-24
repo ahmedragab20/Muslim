@@ -2,41 +2,100 @@
   <div class="min-h-[80svh] flex justify-between">
     <!-- sidebar -->
     <div class="sm:w-1/3 w-full min-h-full flex-shrink-0 pt-5">
-      <AudioPlayer
-        class="w-full"
-        :id="route.params.id?.toString()"
-        :audio-name="`${$t('chapter')} ${chapter?.number}`"
-        :reciter-name="reciterName"
-        :full-name="`${surahName}`"
-        :audio-url="audioUrl"
-        :reciter-poster="recitation.poster"
-        :player-info="{
-          chapterId: route.params.id,
-          reciterName: reciterName,
-          reciterPoster: recitation.poster,
-        }"
-        play-in-the-background
-        expandable
-        fixed
-      >
-      </AudioPlayer>
+      <div>
+        <AudioPlayer
+          class="w-full"
+          :id="route.params.id?.toString()"
+          :audio-name="`${$t('chapter')} ${chapter?.number}`"
+          :reciter-name="reciterName"
+          :full-name="`${surahName}`"
+          :audio-url="audioUrl"
+          :reciter-poster="recitation.poster"
+          :player-info="{
+            chapterId: route.params.id,
+            reciterName: reciterName,
+            reciterPoster: recitation.poster,
+          }"
+          play-in-the-background
+          expandable
+          fixed
+        >
+          <template #side-icon>
+            <UIcon @click="toggleRecitersModal" name="i-heroicons-microphone" />
+          </template>
+        </AudioPlayer>
+      </div>
 
-      0. settings <br />
-      1. play the whole chapter <br />
-      2. play ayah by ayah (or in tooltip on click) <br />
-      3. show the tafsir of the ayah
+      <div>
+        <div class="px-0.5">
+          {{ $t('text-size') }}
+        </div>
+        <USelectMenu v-model="selectedTextSize" :options="textSizes.map((i) => i.name)" />
+      </div>
     </div>
     <!-- content -->
-    <div class="sm:w-3/4 w-full min-h-full sm:px-3">
-      <div>hello</div>
+    <div class="sm:w-3/4 w-full min-h-full sm:px-5 rounded-xl">
+      <div class="flex gap-2 items-center pb-2">
+        <!-- title -->
+        <div class="font-bold text-gray-700 dark:text-gray-300">
+          <div v-if="locale === 'ar'" dir="rtl" class="font-quranic text-3xl">
+            {{ chapter?.arabicWithTashkeel }}
+          </div>
+          <div v-else-if="locale === 'en'" dir="ltr" class="font-mono flex items-end gap-1">
+            <div class="text-2xl">
+              {{ chapter?.english }}
+            </div>
+            <small class="pb-0.5">
+              {{ chapter?.englishTranslated }}
+            </small>
+          </div>
+        </div>
+      </div>
+      <div
+        v-for="verse in chapterVerses"
+        :key="verse.verse_key"
+        class="py-2 border-t border-gray-600 dark:border-gray-500 text-gray-700 dark:text-gray-300"
+        :class="menuSelectedTextSize?.value"
+      >
+        <div v-if="locale === 'en'" dir="ltr">
+          {{ verse.verse_english }}
+        </div>
+        <div dir="rtl" class="font-quranic">
+          {{ verse.verse_arabic }}
+        </div>
+        <div class="mt-1 flex justify-end">
+          <div class="bg-gray-100 text-sm dark:bg-gray-800 px-1 rounded-lg shadow-sm">
+            {{ verse.verse_key }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <UModal v-model="recitersModal">
+    <UCard>
+      <template #header>
+        <div class="text-lg">
+          {{ $t('reciters') }}
+        </div>
+      </template>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, perspiciatis, ipsum nihil
+      veritatis aliquam dolorem blanditiis id a sit dolorum inventore nostrum pariatur corporis iste
+      dolores! Exercitationem impedit corrupti architecto!
+      <template #footer>
+        <div>
+          <UButton @click="toggleRecitersModal" variant="soft" class="px-5">
+            {{ $t('settings.apply') }}
+          </UButton>
+        </div>
+      </template>
+    </UCard>
+  </UModal>
 </template>
 
 <script setup lang="ts">
   import { useAudioPlayerStore } from '~/stores/audio-player';
   import { Chapter, Verse } from '~/types/server-schemas/Chapter';
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const route = useRoute();
   const useAudioPlayer = useAudioPlayerStore();
 
@@ -75,7 +134,6 @@
       const { fetchChapter } = useFetchApis();
       const res = await fetchChapter(chapterNumber.value);
 
-      console.log(res.value);
       chapter.value = res.value as Chapter;
     } catch (error) {
       throw createError({
@@ -93,6 +151,39 @@
   });
 
   Promise.all([fetchChapterInfo(), getChapter()]);
+
+  const textSizes = ref([
+    {
+      name: t('text-sizes.small'),
+      value: 'text-sm',
+    },
+    {
+      name: t('text-sizes.medium'),
+      value: 'text-lg',
+    },
+    {
+      name: t('text-sizes.large'),
+      value: 'text-xl',
+    },
+    {
+      name: t('text-sizes.x-large'),
+      value: 'text-2xl',
+    },
+    {
+      name: t('text-sizes.xx-large'),
+      value: 'text-3xl',
+    },
+  ]);
+
+  const selectedTextSize = ref<string>(t('text-sizes.medium'));
+  const menuSelectedTextSize = computed(() => {
+    return textSizes.value.find((size) => size.name === selectedTextSize.value);
+  });
+
+  const recitersModal = ref(false);
+  const toggleRecitersModal = () => {
+    recitersModal.value = !recitersModal.value;
+  };
 
   /**
    * TODO: apply that in the quran index page
