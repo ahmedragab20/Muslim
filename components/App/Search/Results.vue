@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO:: add play on the background functionality - with the style you've seen on twitter - like dynamic island -->
   <div class="text-sm text-gray-700 dark:text-gray-200">
     <template v-if="results?.length">
       <div

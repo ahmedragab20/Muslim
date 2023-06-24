@@ -162,7 +162,9 @@
                 <div
                   class="flex justify-between w-full font-normal text-gray-500 dark:text-gray-400"
                 >
-                  <small class="w-[50%] truncate" :title="reciterName"> {{ reciterName }} </small>
+                  <small class="w-[50%] truncate" :title="details || reciterName">
+                    {{ details || reciterName }}
+                  </small>
                   <small class="w-[50%] flex justify-end truncate" :title="mediaProgressFormatted">
                     {{ mediaProgressFormatted }}
                   </small>
@@ -220,6 +222,7 @@
     playerInfo?: any;
     reciterPoster?: string;
     fixed?: boolean;
+    details?: string; // helps if you're using expandable mode
   }
 
   const props = withDefaults(defineProps<Props>(), {

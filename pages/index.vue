@@ -130,7 +130,7 @@
   // shortcuts
   defineShortcuts({
     s: {
-      usingInput: true,
+      usingInput: false,
       handler: () => toggleSectionsModal(),
     },
   });

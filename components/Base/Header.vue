@@ -150,7 +150,7 @@
   });
   defineShortcuts({
     P: {
-      usingInput: true,
+      usingInput: false,
       handler: () => (player.value ? togglePlayerOpened() : () => {}),
     },
   });

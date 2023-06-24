@@ -10,6 +10,7 @@ export default () => {
 
     // number format: 0
     return {
+      reciter_id: 'abdulbasit_mujawwad',
       name: {
         en: 'Abdul Basit Abdul Samad',
         ar: 'عبد الباسط عبد الصمد',
@@ -31,6 +32,7 @@ export default () => {
 
     // number format: 0
     return {
+      reciter_id: 'abdulbasit_murattal',
       name: {
         en: 'Abdul Basit Abdul Samad',
         ar: 'عبد الباسط عبد الصمد',
@@ -54,9 +56,14 @@ export default () => {
     // number format: 000
     const surahNumber = surah.toString().padStart(3, '0');
     return {
+      reciter_id: 'hosari_mujawwad',
       name: {
         en: 'Mahmoud Khaleel Al-Husary',
         ar: 'محمود خليل الحصري',
+      },
+      type: {
+        en: 'Mujawwad',
+        ar: 'مجود',
       },
       url: `https://download.quranicaudio.com/quran/mahmood_khaleel_al-husaree_iza3a/${surahNumber}.mp3`,
       poster: '/reciters/al-hosari.jpeg',
@@ -72,6 +79,7 @@ export default () => {
     // number format: 000
     const surahNumber = surah.toString().padStart(3, '0');
     return {
+      reciter_id: 'minshawi_murattal',
       name: {
         en: 'Muhammad Siddiq Al-Minshawi',
         ar: 'محمد صديق المنشاوي',
@@ -94,6 +102,7 @@ export default () => {
     // number format: 000
     const surahNumber = surah.toString().padStart(3, '0');
     return {
+      reciter_id: 'minshawi_mujawwad',
       name: {
         en: 'Muhammad Siddiq Al-Minshawi',
         ar: 'محمد صديق المنشاوي',
@@ -116,9 +125,14 @@ export default () => {
     // number format: 000
     const surahNumber = surah.toString().padStart(3, '0');
     return {
+      reciter_id: 'alqatami_murattal',
       name: {
         en: 'Nasser Alqatami',
         ar: 'ناصر القطامي',
+      },
+      type: {
+        en: 'Murattal',
+        ar: 'مرتل',
       },
       url: `https://download.quranicaudio.com/quran/nasser_bin_ali_alqatami/${surahNumber}.mp3`,
       poster: '/reciters/alqatami.jpeg',
@@ -134,9 +148,14 @@ export default () => {
     // number format: 000
     const surahNumber = surah.toString().padStart(3, '0');
     return {
+      reciter_id: 'afasy_murattal',
       name: {
         en: 'Mishary Alafasy',
         ar: 'مشاري العفاسي',
+      },
+      type: {
+        en: 'Murattal',
+        ar: 'مرتل',
       },
       url: `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${surahNumber}.mp3`,
       poster: '/reciters/afasy.jpeg',

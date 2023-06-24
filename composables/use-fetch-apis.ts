@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { chapterSchema, chaptersSchema, verseSchema } from '~/schemas/chapters';
+import {
+  chapterRecitationSchema,
+  chapterSchema,
+  chaptersSchema,
+  verseSchema,
+} from '~/schemas/chapters';
 import { dateSchema } from '~/schemas/hijir-date';
 import { juzsSchema } from '~/schemas/juzs';
 import { searchQuranSchema } from '~/schemas/search-quran';
@@ -68,6 +73,11 @@ export default () => {
     }
   };
 
+  /**
+   * @todo: play verse audio
+   * @todo: copy verse
+   */
+
   const fetchChapter = async (chapter_id: number) => {
     try {
       const { data } = await useFetch(`/api/quran/chapter/${chapter_id}`, {
@@ -90,7 +100,21 @@ export default () => {
         key: `chapter-info-${chapter_id}`,
         transform: (data) => z.array(verseSchema).parse(data),
       });
-      console.log(data);
+
+      return data.value;
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Count not fetch Chapter info',
+      });
+    }
+  };
+  const fetchQuranRecitations = async (chapter_id: number) => {
+    try {
+      const { data } = await useFetch(`/api/quran/chapter/recitations/${chapter_id}`, {
+        key: `recitation-${chapter_id}`,
+        transform: (data) => z.array(chapterRecitationSchema).parse(data),
+      });
 
       return data.value;
     } catch (error) {
@@ -108,5 +132,6 @@ export default () => {
     fetchChapters,
     fetchChapter,
     fetchChapterInfo,
+    fetchQuranRecitations,
   };
 };

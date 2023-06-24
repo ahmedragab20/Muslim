@@ -23,6 +23,7 @@ export const Ayah = z.object({
 });
 
 export const chapterInfoSchema = z.object({
+  reciter_id: z.string(),
   number: z.number(),
   name: z.string(),
   englishName: z.string(),
@@ -38,4 +39,18 @@ export const verseSchema = z.object({
   verse_arabic: z.string(),
   verse_english: z.string(),
   sajda: z.boolean(),
+});
+
+export const chapterRecitationSchema = z.object({
+  name: z.object({
+    en: z.string(),
+    ar: z.string(),
+  }),
+  type: z.object({
+    en: z.string(),
+    ar: z.string(),
+  }),
+  url: z.string(),
+  poster: z.string(),
+  reciter_id: z.string(),
 });

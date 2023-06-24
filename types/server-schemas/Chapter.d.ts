@@ -13,3 +13,18 @@ export interface Verse {
   verse_english: string;
   sajda: boolean;
 }
+
+export interface Reciter {
+  reciter_id: string;
+  name: {
+    en: string;
+    ar: string;
+  };
+  type: {
+    en: string;
+    ar: string;
+  };
+  url: string;
+  poster: string;
+  reciter: string;
+}
