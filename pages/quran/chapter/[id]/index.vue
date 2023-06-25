@@ -1,7 +1,7 @@
 <template>
   <div
-    class="min-h-[80svh] flex justify-between sm:flex-nowrap"
-    :class="{ '!flex-wrap': bookMode }"
+    class="min-h-[80svh] flex justify-between sm:initial:flex-nowrap initial:flex-col sm:initial:flex-row"
+    :class="{ 'flex-col': bookMode }"
   >
     <!-- sidebar -->
     <div
@@ -52,7 +52,7 @@
     <!-- content -->
     <div
       class="initial:sm:w-3/4 initial:w-full initial:min-h-full initial:sm:px-5 duration-300"
-      :class="{ 'w-full': bookMode }"
+      :class="{ 'sm:w-full': bookMode }"
     >
       <div class="flex gap-2 items-center pb-2">
         <!-- title -->
