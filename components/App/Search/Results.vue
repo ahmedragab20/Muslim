@@ -16,7 +16,7 @@
         <div :class="clickedAyah === result?.verse_key ? 'h-auto scale-100' : ' scale-y-0 h-0'">
           <div
             @click.self="setClickedAyah(result?.verse_key)"
-            class="flex justify-between items-center flex-wrap gap-1"
+            class="flex items-center flex-wrap gap-1"
           >
             <div class="flex gap-2">
               <div>
@@ -63,20 +63,7 @@
                   />
                 </AudioPlayer>
               </div>
-            </div>
-            <div>
-              <UButton
-                v-if="result.verse_id"
-                :to="`quran/verse/${result.verse_id}`"
-                variant="outline"
-                class="px-4 font-mono capitalize"
-                :ui="{
-                  rounded: 'rounded-full',
-                }"
-                size="xs"
-              >
-                {{ $t('quraanSearch.more') }}...
-              </UButton>
+              <!-- TODO:: get surah name by number -->
             </div>
           </div>
         </div>
