@@ -120,10 +120,6 @@
   watch(
     () => player.value?.url,
     (newVal) => {
-      console.log({
-        player: player.value,
-      });
-
       getChapter();
     }
   );

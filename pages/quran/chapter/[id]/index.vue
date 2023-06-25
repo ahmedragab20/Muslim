@@ -201,6 +201,20 @@
       recitations.value = res as Reciter[];
 
       if (recitations.value.length) {
+        const storedQuranSettings = quranSettings.value;
+
+        if (storedQuranSettings?.reciter_id) {
+          const reciter = recitations.value.find(
+            (reciter) => reciter.reciter_id === storedQuranSettings.reciter_id
+          );
+
+          if (reciter) {
+            selectedReciter.value = reciter;
+          }
+
+          return;
+        }
+
         selectReciter(recitations.value[0]);
       }
     } catch (error) {
@@ -236,9 +250,10 @@
   const selectedReciter = ref<Reciter>();
   const selectReciter = (reciter: Reciter) => {
     if (!reciter || selectedReciter.value?.reciter_id === reciter.reciter_id) return;
+    console.log('selectReciter -> reciter', reciter);
 
     selectedReciter.value = reciter;
-    audioUrl.value = reciter.url;
+    quranSettings.value.reciter_id = reciter.reciter_id;
     recitersModal.value = false;
     if (player.value) {
       player.value.stop();
@@ -248,7 +263,14 @@
       mediaProgressInMinutes.value = 0;
       mediaProgressFormatted.value = '00:00/00:00';
     }
+
+    setQuranSettings();
   };
+  watch(selectedReciter, () => {
+    if (selectedReciter.value) {
+      audioUrl.value = selectedReciter.value.url;
+    }
+  });
 
   const reciterName = computed<string>(() => {
     // @ts-ignore
@@ -260,38 +282,11 @@
   const getRecitationType = (reciter: Reciter) => {
     return lng.value === 'ar' ? `${reciter.type?.ar}` : `${reciter.type?.en}`;
   };
-  const playedAyat = ref<PlayedAyah[]>([]);
-  const reciteAyah = async (verse: any) => {
-    const ayah_key = verse?.verse_key;
-    const storedAyah = playedAyat.value.find((ayah) => ayah.ayah_key === ayah_key);
-    if (storedAyah) {
-      audioUrl.value = storedAyah.audioUrl;
-      return;
+  watch(selectedReciter, () => {
+    if (selectedReciter.value) {
+      quranSettings.value.reciter_id = selectedReciter.value.reciter_id;
     }
-
-    const baseURL = 'https://verses.quran.com/';
-    const { AYAH_RECITATION_API } = useApis();
-
-    try {
-      // Fetch the audio URL for the given ayah_key
-      const ayah: any = await $fetch(AYAH_RECITATION_API(ayah_key));
-
-      if (ayah) {
-        const key = ayah?.audio_files?.[0]?.url;
-        audioUrl.value = `${baseURL}${key}`;
-        playedAyat.value.push({
-          ayah_key,
-          audioUrl: `${baseURL}${key}`,
-        });
-      }
-    } catch (error) {
-      // Throw an error if there's an issue getting the audio URL
-      throw createError({
-        statusCode: 500,
-        statusMessage: 'error to get audio url',
-      });
-    }
-  };
+  });
 
   const textSizes = ref([
     {
@@ -321,9 +316,52 @@
     return textSizes.value.find((size) => size.name === selectedTextSize.value);
   });
 
+  watch(
+    () => selectedTextSize.value,
+    () => {
+      quranSettings.value.fontsize = selectedTextSize.value;
+      setQuranSettings();
+    }
+  );
+
   const recitersModal = ref(false);
   const toggleRecitersModal = () => {
     recitersModal.value = !recitersModal.value;
+  };
+
+  const quranSettings = ref({
+    reciter_id: '',
+    fontsize: '',
+    tafsir: '',
+  });
+
+  const getQuranSettings = () => {
+    const storedSettings = localStorage.getItem('quran-settings');
+    if (storedSettings) {
+      Debug.log({}, 'HELOOOO');
+      quranSettings.value = JSON.parse(storedSettings);
+      selectedTextSize.value = quranSettings.value.fontsize;
+      const reciter = recitations.value?.find(
+        (reciter) => reciter.reciter_id === quranSettings.value.reciter_id
+      );
+      if (reciter) {
+        console.log('reciter', reciter);
+
+        selectReciter(reciter);
+      }
+      /**
+       * @todo: support tafsir
+       */
+    } else {
+      quranSettings.value = {
+        reciter_id: 'abdulbasit_mujawwad',
+        fontsize: 'text-lg',
+        tafsir: '',
+      };
+    }
+  };
+  const setQuranSettings = () => {
+    localStorage.setItem('quran-settings', JSON.stringify(quranSettings.value));
   };
 
   Promise.all([fetchChapterInfo(), getChapter(), fetchQuranRecitations()]);
@@ -333,6 +371,10 @@
       usingInput: false,
       handler: () => toggleRecitersModal(),
     },
+  });
+
+  onMounted(() => {
+    getQuranSettings();
   });
   // TODO: make the timer with with minus sign (-12m)
 
