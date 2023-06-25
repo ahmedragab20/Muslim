@@ -10,7 +10,7 @@
     >
       <div class="mb-7 hidden sm:flex border-b border-gray-600 dark:border-gray-500 pb-2">
         <UButton @click="toggleBookMode" icon="i-heroicons-book-open" variant="soft">
-          Book Mode
+          {{ $t('bookMode') }}
         </UButton>
       </div>
       <div v-if="selectedReciter">

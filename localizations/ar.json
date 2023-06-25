@@ -57,6 +57,7 @@
   "text-size": "حجم النص",
   "changeReciter": "تغيير المقرئ",
   "reciters": "القُرَّاء",
+  "bookMode": "عرض ككتاب",
   "text-sizes": {
     "small": "صغير",
     "medium": "متوسط",
