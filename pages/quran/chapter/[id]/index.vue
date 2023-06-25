@@ -1,7 +1,18 @@
 <template>
-  <div class="min-h-[80svh] flex justify-between flex-wrap sm:flex-nowrap">
+  <div
+    class="min-h-[80svh] flex justify-between sm:flex-nowrap"
+    :class="{ '!flex-wrap': bookMode }"
+  >
     <!-- sidebar -->
-    <div class="sm:w-1/3 w-full min-h-full flex-shrink-0 pt-5">
+    <div
+      class="initial:sm:w-1/3 pt-2 sm:pt-0 initial:w-full duration-300 initial:min-h-full initial:flex-shrink-0 initial:sm:mb-0 initial:mb-5"
+      :class="{ 'w-full mb-5 sm:px-5': bookMode }"
+    >
+      <div class="mb-7 hidden sm:flex border-b border-gray-600 dark:border-gray-500 pb-2">
+        <UButton @click="toggleBookMode" icon="i-heroicons-book-open" variant="soft">
+          Book Mode
+        </UButton>
+      </div>
       <div v-if="selectedReciter">
         <AudioPlayer
           :key="audioUrl"
@@ -14,16 +25,16 @@
           :audio-url="audioUrl"
           :reciter-poster="selectedReciter!.poster"
           :player-info="{
-            chapterId: route.params.id,
-            reciterName: reciterName,
-            reciterPoster: selectedReciter!.poster,
-          }"
+          chapterId: route.params.id,
+          reciterName: reciterName,
+          reciterPoster: selectedReciter!.poster,
+        }"
           play-in-the-background
           expandable
           fixed
         >
           <template #side-icon>
-            <div @click="toggleRecitersModal" class="flex items-center -translate-x-1.5">
+            <div @click="toggleRecitersModal" class="flex items-center sm:-translate-x-1.5">
               <UIcon name="i-heroicons-microphone" />
               <UKbd class="hidden sm:flex">L</UKbd>
             </div>
@@ -39,7 +50,10 @@
       </div>
     </div>
     <!-- content -->
-    <div class="sm:w-3/4 w-full min-h-full sm:px-5 rounded-xl">
+    <div
+      class="initial:sm:w-3/4 initial:w-full initial:min-h-full initial:sm:px-5 duration-300"
+      :class="{ 'w-full': bookMode }"
+    >
       <div class="flex gap-2 items-center pb-2">
         <!-- title -->
         <div class="font-bold text-gray-700 dark:text-gray-300">
@@ -70,30 +84,6 @@
             {{ verse.verse_arabic }}
           </div>
           <div class="mt-1 flex justify-end">
-            <!--? I have to roll this back as the both apis (search & chapter verses) don't match. -->
-            <!--
-            <div>
-              <AudioPlayer
-                class="w-8 h-8"
-                :key="verse?.verse_key"
-                :id="verse?.verse_key"
-                :audio-url="audioUrl"
-                :meta-logic="[
-                  {
-                    fn: reciteAyah,
-                    args: [verse],
-                  },
-                ]"
-                :player-info="[
-                  {
-                    verse_key: verse?.verse_key,
-                  },
-                ]"
-                btn-only
-              >
-              </AudioPlayer>
-            </div>
-            -->
             <div class="flex items-end">
               <div class="bg-gray-100 text-sm dark:bg-gray-800 px-1 rounded-lg shadow-sm">
                 {{ verse.verse_key }}
@@ -333,14 +323,15 @@
     reciter_id: '',
     fontsize: '',
     tafsir: '',
+    bookMode: false,
   });
 
   const getQuranSettings = () => {
     const storedSettings = localStorage.getItem('quran-settings');
     if (storedSettings) {
-      Debug.log({}, 'HELOOOO');
       quranSettings.value = JSON.parse(storedSettings);
       selectedTextSize.value = quranSettings.value.fontsize;
+      bookMode.value = quranSettings.value?.bookMode ?? false;
       const reciter = recitations.value?.find(
         (reciter) => reciter.reciter_id === quranSettings.value.reciter_id
       );
@@ -357,11 +348,19 @@
         reciter_id: 'abdulbasit_mujawwad',
         fontsize: 'text-lg',
         tafsir: '',
+        bookMode: false,
       };
     }
   };
   const setQuranSettings = () => {
     localStorage.setItem('quran-settings', JSON.stringify(quranSettings.value));
+  };
+
+  const bookMode = ref(false);
+  const toggleBookMode = () => {
+    bookMode.value = !bookMode.value;
+    quranSettings.value.bookMode = bookMode.value;
+    setQuranSettings();
   };
 
   Promise.all([fetchChapterInfo(), getChapter(), fetchQuranRecitations()]);
