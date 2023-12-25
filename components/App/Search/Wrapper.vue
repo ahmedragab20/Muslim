@@ -89,6 +89,8 @@
   const searchModal = ref(false);
 
   const toggleSearchModal = () => {
+    console.log('clicked');
+
     searchModal.value = !searchModal.value;
 
     nextTick(() => {

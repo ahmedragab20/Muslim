@@ -1,5 +1,5 @@
 <template>
-  <div @click.capture="onClick">
+  <div class="relative overflow-hidden">
     <UInput
       class="!cursor-pointer hover:!opacity-90 font-mono text-center duration-300"
       icon="i-heroicons-magnifying-glass-20-solid"
@@ -16,6 +16,7 @@
         </div>
       </template>
     </UInput>
+    <div class="absolute inset-0 cursor-pointer" @click="onClick"></div>
   </div>
 </template>
 
