@@ -1,0 +1,6 @@
+1.. updating packages
+2.. updating the UX
+3.. refactoring the infrastructure
+4.. updating the database to rely more on consistent local data (islamic_app_database) - optional for quran
+5.. fixing the localizations bug - replace i18n with kalemah
+6.. using consistent well-known fonts
