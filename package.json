@@ -1,28 +1,42 @@
 {
-  "name": "muslim",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@pinia/nuxt": "^0.4.11",
-    "axios": "^1.4.0",
-    "firebase": "^9.22.2",
-    "gsap": "^3.11.5",
-    "nuxt-vuefire": "^0.1.6",
-    "zod": "^3.21.4"
-  },
-  "devDependencies": {
-    "@nuxt/devtools": "^0.6.1",
-    "@nuxthq/ui": "^2.4.0",
-    "@nuxtjs/google-fonts": "^3.0.1",
-    "@nuxtjs/i18n": "8.0.0-beta.12",
-    "@types/node": "^20.3.1",
-    "firebase-admin": "^11.8.0",
-    "nuxt": "^3.5.3"
-  }
+    "name": "muslim",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "npx nuxthub preview",
+        "deploy": "npx nuxthub deploy",
+        "postinstall": "nuxt prepare",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@nuxt/eslint": "^1.4.1",
+        "@nuxt/scripts": "0.11.10",
+        "@nuxt/test-utils": "3.19.2",
+        "@nuxt/ui": "3.3.0",
+        "@nuxthub/core": "^0.9.0",
+        "@unhead/vue": "^2.0.14",
+        "nuxt": "^4",
+        "vue": "^3.5.16",
+        "vue-router": "^4.5.1"
+    },
+    "devDependencies": {
+        "@nuxt/eslint-config": "^1.4.1",
+        "eslint": "^9.29.0",
+        "typescript": "^5.8.3",
+        "vue-tsc": "^2.2.10",
+        "wrangler": "^4.20.1"
+    },
+    "packageManager": "pnpm@10.12.1",
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@parcel/watcher",
+            "esbuild",
+            "sharp",
+            "unrs-resolver",
+            "workerd"
+        ]
+    }
 }
