@@ -1,8 +1,10 @@
 # Nuxt dev/build outputs
 .output
+.data
 .nuxt
 .nitro
 .cache
+.wrangler
 dist
 
 # Node dependencies
@@ -21,6 +23,3 @@ logs
 .env
 .env.*
 !.env.example
-
-
-service-account.json
