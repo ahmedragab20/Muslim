@@ -1,33 +1,48 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    // https://nuxt.com/modules
-    modules: [
-        '@nuxthub/core',
-        '@nuxt/eslint',
-        '@nuxt/scripts',
-        '@nuxt/test-utils',
-        '@nuxt/ui',
+  css: ['@/assets/css/core.css', '@/assets/css/main.css', '@/assets/css/animation.css'],
+  modules: ['@pinia/nuxt', '@nuxthq/ui', '@nuxtjs/i18n'],
+  i18n: {
+    vueI18n: 'i18n.config',
+    detectBrowserLanguage: {
+      useCookie: true,
+      fallbackLocale: 'en',
+    },
+    strategy: 'no_prefix',
+    locales: [
+      {
+        code: 'en',
+        file: 'en.json',
+      },
+      {
+        code: 'ar',
+        file: 'ar.json',
+      },
     ],
-
-    // https://devtools.nuxt.com
-    devtools: { enabled: true },
-
-    // Env variables - https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens
-    runtimeConfig: {
-        public: {
-            // Can be overridden by NUXT_PUBLIC_HELLO_TEXT environment variable
-            helloText: 'Hello from the Edge 👋',
-        },
-    },
-    // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-    future: { compatibilityVersion: 4 },
-    compatibilityDate: '2025-03-01',
-
-    // https://hub.nuxt.com/docs/getting-started/installation#options
-    hub: {
-        database: true,
-        kv: true,
-        blob: true,
-        cache: true,
-    },
+    langDir: 'localizations',
+    defaultLocale: 'en',
+  },
+  // vuefire: {
+  //   /*  We're gonna pause the authentication work until we finish the important parts in the aoo  */
+  //   auth: true,
+  //   // admin: {
+  //   //   serviceAccount: './service-account.json',
+  //   // },
+  //   config: {
+  //     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  //     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  //     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  //     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  //     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  //     appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  //     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  //   },
+  // },
+  colorMode: {
+    preference: 'dark',
+    fallback: 'dark',
+  },
+  pinia: {
+    autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
+  },
+  devtools: { enabled: true },
 });

@@ -1,0 +1,12 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.font-quranic {
+  font-family: 'KFGQPC Uthman Taha Naskh', sans-serif;
+}
+
+body {
+  @apply font-sans;
+}

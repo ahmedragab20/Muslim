@@ -1,0 +1,17 @@
+[1]: localizations (i18n/nuxt) ✅
+[2]: ZOD ✅
+[3]: Time Hijry ✅
+[4]: Also make the cursor affect the circle shadow anywhere from the screen ✅
+[5]: authentication system
+[6]: islamic radio [arabic + english]
+[7]: verse of the day
+[8]: prayers time + next pray counter
+[9]: hadith
+[10]: popular youtube channels to help the muslims through the path
+[11]: islamic resources (books, articles, libraries, ...etc)
+[12]: play the whole
+
+//-> i18n:extend-messages is deprecated. That hook will be removed feature at the time of the v8 official release.                                                                                                                                 @nuxtjs/i18n 8:06:31 PM
+If you're using it, please use i18n:registerModule instead.
+
+// https://alquran.cloud/tajweed-guide
